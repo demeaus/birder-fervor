@@ -1,9 +1,13 @@
+import SelectRegion from "./SelectRegion";
+import Header from "./ui/Header";
+
 function App() {
-
   return (
-      <div>Birder Fervor</div>
-
-  )
+    <div>
+      <Header />
+      <SelectRegion />
+    </div>
+  );
 }
 
-export default App
+export default App;
