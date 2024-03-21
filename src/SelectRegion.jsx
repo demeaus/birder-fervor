@@ -7,7 +7,7 @@ import {
 import "@geoapify/geocoder-autocomplete/styles/minimal.css";
 import { GEOAPIFY_API_KEY } from "../secrets";
 import { getRegionCode } from "./utils/helpers";
-import { getSpeciesByRegion } from "./services/apiEBird";
+import { getSpeciesByRegion, getSpeciesCommonNames } from "./services/apiEBird";
 
 function SelectRegion() {
   const [species, setSpecies] = useState([]);
@@ -32,10 +32,10 @@ function SelectRegion() {
     );
 
     if (typeof region != "string") {
-      console.log(region);
+      //   console.log(region);
       region = region[0];
     }
-    console.log("region", region);
+    // console.log("region", region);
 
     setRegionCode(region);
   }
@@ -47,9 +47,13 @@ function SelectRegion() {
   // Syncs species list with selected location
   useEffect(() => {
     async function fetchSpecies() {
+      // List of species codes
       const speciesValues = await getSpeciesByRegion(regionCode);
-      // TODO: species labels should use common species name
-      setSpecies(speciesValues.map((val) => ({ value: val, label: val })));
+
+      // List of species options for Select (value, label)
+      const speciesList = await getSpeciesCommonNames(speciesValues);
+
+      setSpecies(speciesList.map((obj) => ({ value: obj[0], label: obj[1] })));
     }
     fetchSpecies();
   }, [regionCode]);
