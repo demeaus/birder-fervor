@@ -64,3 +64,24 @@ export async function getSpeciesCommonNames(speciesCodes) {
     const df = new DataFrame(arr.slice(1, -1), arr[0])
     return df.select('SPECIES_CODE', 'COMMON_NAME').toArray();
 }
+
+export async function getObservationsBySpecies(regionCode, speciesCode) {
+    var headers = new Headers();
+    headers.append("X-eBirdApiToken", EBIRD_API_KEY);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: headers,
+        redirect: 'follow'
+    };
+    const res = await fetch(`${API_URL}data/obs/${regionCode}/recent/${speciesCode}`, requestOptions);
+
+    if (!res.ok) {
+        throw new Error(
+            `Something went wrong while attempting to fetch recent observations for speciesCode: ${speciesCode} in regionCode: ${regionCode}.`
+        );
+    }
+    const data = await res.json();
+    console.log(data)
+    return data;
+}

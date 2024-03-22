@@ -1,11 +1,23 @@
 import SelectMode from "./SelectMode";
 import SelectRegion from "./SelectRegion";
 import SelectSpecies from "./SelectSpecies";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getObservationsBySpecies } from "./services/apiEBird";
 
-function Controls() {
+function Controls({ setObservations }) {
   const [species, setSpecies] = useState([]);
   const [regionCode, setRegionCode] = useState(null);
+  const [selectedSpecies, setSelectedSpecies] = useState(null);
+
+  useEffect(() => {
+    async function fetchObservations() {
+      if (!regionCode || !selectedSpecies) return;
+      const obs = await getObservationsBySpecies(regionCode, selectedSpecies);
+      setObservations(obs);
+    }
+
+    fetchObservations();
+  }, [selectedSpecies, regionCode, setObservations]);
 
   return (
     <div className="">
@@ -19,9 +31,13 @@ function Controls() {
       />
       {/* Display species in regioncode */}
       {/* TODO: Clear selected species when species list changes (region code changes) */}
-      {/* TODO: group by species group */}
-      {regionCode && species.length && <SelectSpecies species={species} />}
-      {/* <Map /> */}
+
+      {regionCode && species.length && (
+        <SelectSpecies
+          species={species}
+          setSelectedSpecies={setSelectedSpecies}
+        />
+      )}
     </div>
   );
 }
