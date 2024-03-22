@@ -1,5 +1,4 @@
-import Select from "react-select";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   GeoapifyGeocoderAutocomplete,
   GeoapifyContext,
@@ -9,10 +8,8 @@ import { GEOAPIFY_API_KEY } from "../secrets";
 import { getRegionCode } from "./utils/helpers";
 import { getSpeciesByRegion, getSpeciesCommonNames } from "./services/apiEBird";
 
-function SelectRegion() {
-  const [species, setSpecies] = useState([]);
-  const [regionCode, setRegionCode] = useState(null);
-
+// User can select a state/province to get relevant species for that region
+function SelectRegion({ regionCode, setRegionCode, setSpecies }) {
   function onPlaceSelect(value) {
     console.log("onPlaceSelect", value);
 
@@ -32,10 +29,8 @@ function SelectRegion() {
     );
 
     if (typeof region != "string") {
-      //   console.log(region);
       region = region[0];
     }
-    // console.log("region", region);
 
     setRegionCode(region);
   }
@@ -56,7 +51,7 @@ function SelectRegion() {
       setSpecies(speciesList.map((obj) => ({ value: obj[0], label: obj[1] })));
     }
     fetchSpecies();
-  }, [regionCode]);
+  }, [regionCode, setSpecies]);
 
   return (
     <div>
@@ -64,14 +59,11 @@ function SelectRegion() {
       <GeoapifyContext apiKey={GEOAPIFY_API_KEY}>
         <GeoapifyGeocoderAutocomplete
           type="state"
-          placeholder="Enter address here"
+          placeholder="Enter state/province here"
           placeSelect={onPlaceSelect}
           suggestionsChange={onSuggestionChange}
         />
       </GeoapifyContext>
-      {/* Display species in regioncode */}
-      {/* TODO: Clear selected species when species list changes (region code changes) */}
-      {regionCode && species.length && <Select options={species} />}
     </div>
   );
 }

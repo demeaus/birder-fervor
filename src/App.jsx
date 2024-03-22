@@ -1,11 +1,11 @@
-import SelectRegion from "./SelectRegion";
+import Controls from "./Controls";
 import Header from "./ui/Header";
 
 function App() {
   return (
     <div>
       <Header />
-      <SelectRegion />
+      <Controls />
     </div>
   );
 }
