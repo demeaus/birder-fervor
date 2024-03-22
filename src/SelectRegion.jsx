@@ -62,6 +62,7 @@ function SelectRegion({ regionCode, setRegionCode, setSpecies }) {
           placeholder="Enter state/province here"
           placeSelect={onPlaceSelect}
           suggestionsChange={onSuggestionChange}
+          skipIcons={true}
         />
       </GeoapifyContext>
     </div>

@@ -20,7 +20,7 @@ function Controls({ setObservations }) {
   }, [selectedSpecies, regionCode, setObservations]);
 
   return (
-    <div className="">
+    <div className="px-2">
       {/* <SelectMode /> */}
       <h1>TODO: Search for species by address</h1>
       <h1>Search for species by region</h1>

@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
+
+/*
+Override geoapify autocomplete styles
+*/
+/* TODO: Consolidate duplicate styling for geoapify and react-select components */
+
+.geocoder-container {
+  @apply flex items-center mb-1;
+}
+
+.geoapify-autocomplete-input {
+  @apply px-4 py-2 rounded-3xl border-2 border-zinc-300;
+}
+
+.geoapify-autocomplete-input::placeholder {
+  @apply text-zinc-400;
+}
+
+.geoapify-autocomplete-items {
+  @apply absolute bg-zinc-100 border-0 z-50 top-full left-0 right-0 text-sm divide-y-2;
+}
+
+.geoapify-close-button {
+  @apply h-full w-5 absolute right-3;
+}
+
 @tailwind utilities;
