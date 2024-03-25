@@ -1,8 +1,8 @@
 import { LuBird, LuTimer, LuMapPin } from "react-icons/lu";
-import { calcObsAge, copyToClipboard } from "./utils/helpers";
+import { calcObsAge, copyToClipboard } from "../utils/helpers";
 import { useEffect, useState } from "react";
-import { getAddressbyCoordinates } from "./services/apiGeoapify";
-import ButtonCopy from "./ButtonCopy";
+import { getAddressbyCoordinates } from "../services/apiGeoapify";
+import ButtonCopy from "../ui/ButtonCopy";
 
 function ObervationItem({ obs }) {
   // distance from user's current/entered locations, if chosen

@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getRegionCode } from "./utils/helpers";
-import { getSpeciesByRegion, getSpeciesCommonNames } from "./services/apiEBird";
-import { getAutocompleteSuggestions } from "./services/apiGeoapify";
+import { getRegionCode } from "../utils/helpers";
+import {
+  getSpeciesCodesByRegion,
+  getSpeciesCommonNames,
+} from "../services/apiEBird";
+import { getAutocompleteSuggestions } from "../services/apiGeoapify";
 import Select from "react-select";
+import { useNavigate, useParams } from "react-router-dom";
 
 const controlStyles =
   "rounded-full border-2 border-zinc-300 text-sm px-4 py-2 bg-zinc-50";
@@ -11,24 +15,27 @@ const optionStyles = "border-b py-1";
 const placeholderStyles = "text-zinc-400";
 
 // User can select a state/province to get relevant species for that region
-function SelectRegion({ regionCode, setRegionCode, setSpecies }) {
+function SelectRegion({ setSpecies }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const { regionCode } = useParams();
+  const navigate = useNavigate();
 
-  // Handle region selected by user
-  function handleSelect(e) {
-    console.log("handleSelect", e.value);
+  // Handle clearing or selection of input from dropdown
+  function handleChange(e, { action }) {
+    console.log("handleChange", e, action);
 
-    // Clear species list if region is cleared
-    if (!e.value) {
-      setRegionCode(null);
+    // Clear region and species list if region is cleared
+    if (action === "clear") {
+      navigate("/");
       return;
     }
-
+    console.log("here");
     // TODO: Consider try-catch block instead?
     // Get region code for selected state/province for API call
     const selectedEntry = e.value;
 
+    // Convert option value to ISO standaradized code
     let region = getRegionCode(
       selectedEntry?.country_code,
       selectedEntry?.state
@@ -38,17 +45,19 @@ function SelectRegion({ regionCode, setRegionCode, setSpecies }) {
       region = region[0];
     }
 
-    setRegionCode(region);
+    if (!regionCode || regionCode !== region) {
+      navigate(`/${region}`);
+    }
   }
 
   // Syncs species list with selected location
   useEffect(() => {
     async function fetchSpecies() {
       // List of species codes
-      const speciesValues = await getSpeciesByRegion(regionCode);
+      const speciesCodes = await getSpeciesCodesByRegion(regionCode);
 
       // List of species options for Select (value, label)
-      const speciesList = await getSpeciesCommonNames(speciesValues);
+      const speciesList = await getSpeciesCommonNames(speciesCodes);
 
       setSpecies(speciesList.map((obj) => ({ value: obj[0], label: obj[1] })));
     }
@@ -92,8 +101,10 @@ function SelectRegion({ regionCode, setRegionCode, setSpecies }) {
         }}
         options={suggestions}
         onInputChange={handleOnInputChange}
-        onChange={handleSelect}
+        onChange={handleChange}
         unstyled={true}
+        backspaceRemovesValue={true}
+        isClearable={true}
       />
     </div>
   );

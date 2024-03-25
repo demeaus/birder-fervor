@@ -1,11 +1,6 @@
-import { useState } from "react";
-
-import Header from "./ui/Header";
-import Controls from "./Controls";
-import Map from "./Map";
-import List from "./List";
-import ObservationItem from "./ObservationItem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import AppLayout from "./ui/AppLayout";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,23 +12,14 @@ const queryClient = new QueryClient({
 });
 
 function App() {
-  const [observations, setObservations] = useState([]);
-
   return (
     <QueryClientProvider client={queryClient}>
-      <Header />
-      <Controls setObservations={setObservations} />
-      {observations.length && (
-        <>
-          {/* <Map /> */}
-          <List
-            items={observations}
-            render={(obs) => (
-              <ObservationItem key={`${obs.obsDt}-${obs.locId}`} obs={obs} />
-            )}
-          />
-        </>
-      )}
+      <BrowserRouter basename="app">
+        <Routes>
+          <Route index element={<AppLayout />} path="/" />
+          <Route element={<AppLayout />} path="/:regionCode" />
+        </Routes>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }

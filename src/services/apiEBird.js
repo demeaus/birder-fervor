@@ -9,7 +9,7 @@ import { EBIRD_API_URL } from "../utils/constants";
 /**
  * Retrieves species in a region
  */
-export async function getSpeciesByRegion(regionCode) {
+export async function getSpeciesCodesByRegion(regionCode) {
     var headers = new Headers();
     headers.append("X-eBirdApiToken", EBIRD_API_KEY);
 
@@ -26,8 +26,8 @@ export async function getSpeciesByRegion(regionCode) {
         );
     }
 
-    const data = await res.json();
-    return data;
+    const speciesCodes = await res.json();
+    return speciesCodes;
 }
 
 export async function getSpeciesCommonNames(speciesCodes) {
@@ -82,7 +82,7 @@ export async function getObservationsBySpecies(regionCode, speciesCode) {
             `Something went wrong while attempting to fetch recent observations for speciesCode: ${speciesCode} in regionCode: ${regionCode}.`
         );
     }
-    const data = await res.json();
-    console.log(data)
-    return data;
+    const observations = await res.json();
+    console.log(observations)
+    return observations;
 }

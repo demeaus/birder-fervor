@@ -2,12 +2,15 @@ import SelectMode from "./SelectMode";
 import SelectRegion from "./SelectRegion";
 import SelectSpecies from "./SelectSpecies";
 import { useEffect, useState } from "react";
-import { getObservationsBySpecies } from "./services/apiEBird";
+import { getObservationsBySpecies } from "../services/apiEBird";
+import { useParams } from "react-router-dom";
 
 function Controls({ setObservations }) {
   const [species, setSpecies] = useState([]);
-  const [regionCode, setRegionCode] = useState(null);
+  // const [regionCode, setRegionCode] = useState(null);
   const [selectedSpecies, setSelectedSpecies] = useState(null);
+  const { regionCode } = useParams();
+  console.log(regionCode);
 
   useEffect(() => {
     async function fetchObservations() {
@@ -24,11 +27,7 @@ function Controls({ setObservations }) {
       <div className="">
         {/* <SelectMode /> */}
         {/* TODO: Search for species by address*/}
-        <SelectRegion
-          regionCode={regionCode}
-          setRegionCode={setRegionCode}
-          setSpecies={setSpecies}
-        />
+        <SelectRegion setSpecies={setSpecies} />
         {/* Display species in regioncode */}
         {/* TODO: Clear selected species when species list changes (region code changes) */}
 
