@@ -1,7 +1,7 @@
 import DataFrame from "dataframe-js";
 
 import { EBIRD_API_KEY } from "../../secrets";
-import { API_URL } from "../utils/constants";
+import { EBIRD_API_URL } from "../utils/constants";
 
 // TODO: Consider combining functions to get species list and species common names
 // TODO: Consider optimizing dataframe usage and getting list of speciesCodes from two queries
@@ -18,7 +18,7 @@ export async function getSpeciesByRegion(regionCode) {
         headers: headers,
         redirect: 'follow'
     };
-    const res = await fetch(`${API_URL}product/spplist/${regionCode}`, requestOptions);
+    const res = await fetch(`${EBIRD_API_URL}product/spplist/${regionCode}`, requestOptions);
 
     if (!res.ok) {
         throw new Error(
@@ -44,7 +44,7 @@ export async function getSpeciesCommonNames(speciesCodes) {
         headers: headers,
         redirect: 'follow'
     };
-    const res = await fetch(`${API_URL}ref/taxonomy/ebird?species=${speciesCodeList}`, requestOptions);
+    const res = await fetch(`${EBIRD_API_URL}ref/taxonomy/ebird?species=${speciesCodeList}`, requestOptions);
 
     if (!res.ok) {
         throw new Error(
@@ -74,7 +74,7 @@ export async function getObservationsBySpecies(regionCode, speciesCode) {
         headers: headers,
         redirect: 'follow'
     };
-    const res = await fetch(`${API_URL}data/obs/${regionCode}/recent/${speciesCode}`, requestOptions);
+    const res = await fetch(`${EBIRD_API_URL}data/obs/${regionCode}/recent/${speciesCode}`, requestOptions);
 
     if (!res.ok) {
         throw new Error(

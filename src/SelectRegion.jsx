@@ -55,6 +55,7 @@ function SelectRegion({ regionCode, setRegionCode, setSpecies }) {
 
   return (
     <div>
+      <h1>Search for species by region</h1>
       {/* Select location (regionCode) by state/province */}
       <GeoapifyContext apiKey={GEOAPIFY_API_KEY}>
         <GeoapifyGeocoderAutocomplete

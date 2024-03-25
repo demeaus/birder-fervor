@@ -24,3 +24,23 @@ export function getRegionCode(parent, name) {
     const regionCode = filteredRegions.filter((obj) => obj.name.toUpperCase() === closestName)[0].code
     return regionCode
 }
+
+export function copyToClipboard(text) {
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(text);
+
+    // Alert the copied text
+    alert("Copied the text: " + text);
+}
+
+export function calcObsAge(dateStr) {
+    const millisecondsPerDay = 1000 * 60 * 60 * 24;
+    const pastDate = new Date(dateStr);
+    const nowDate = new Date();
+
+    const difference = nowDate - pastDate;
+    const daysDifference = Math.floor(difference / millisecondsPerDay);
+    const hoursDifference = Math.floor((difference % millisecondsPerDay) / (1000 * 60 * 60));
+
+    return { days: daysDifference, hours: hoursDifference };
+}

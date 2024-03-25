@@ -15,10 +15,12 @@ function App() {
       <Controls setObservations={setObservations} />
       {observations.length && (
         <>
-          <Map />
+          {/* <Map /> */}
           <List
             items={observations}
-            render={(obs) => <ObservationItem obs={obs} />}
+            render={(obs) => (
+              <ObservationItem key={`${obs.obsDt}-${obs.locId}`} obs={obs} />
+            )}
           />
         </>
       )}

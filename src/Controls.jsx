@@ -20,24 +20,25 @@ function Controls({ setObservations }) {
   }, [selectedSpecies, regionCode, setObservations]);
 
   return (
-    <div className="px-2">
-      {/* <SelectMode /> */}
-      <h1>TODO: Search for species by address</h1>
-      <h1>Search for species by region</h1>
-      <SelectRegion
-        regionCode={regionCode}
-        setRegionCode={setRegionCode}
-        setSpecies={setSpecies}
-      />
-      {/* Display species in regioncode */}
-      {/* TODO: Clear selected species when species list changes (region code changes) */}
-
-      {regionCode && species.length && (
-        <SelectSpecies
-          species={species}
-          setSelectedSpecies={setSelectedSpecies}
+    <div className="bg-zinc-100 px-4 py-4 ">
+      <div className="">
+        {/* <SelectMode /> */}
+        {/* TODO: Search for species by address*/}
+        <SelectRegion
+          regionCode={regionCode}
+          setRegionCode={setRegionCode}
+          setSpecies={setSpecies}
         />
-      )}
+        {/* Display species in regioncode */}
+        {/* TODO: Clear selected species when species list changes (region code changes) */}
+
+        {regionCode && species.length && (
+          <SelectSpecies
+            species={species}
+            setSelectedSpecies={setSelectedSpecies}
+          />
+        )}
+      </div>
     </div>
   );
 }

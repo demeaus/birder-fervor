@@ -1,6 +1,7 @@
 import Select from "react-select";
 
-const controlStyles = "rounded-full border-2 border-zinc-300 text-sm px-4 py-2";
+const controlStyles =
+  "rounded-full border-2 border-zinc-300 text-sm px-4 py-2 bg-zinc-50";
 const menuStyles = "bg-zinc-100 text-sm px-2 py-1";
 const optionStyles = "border-b py-1";
 const placeholderStyles = "text-zinc-400";
@@ -11,18 +12,21 @@ function SelectSpecies({ species, setSelectedSpecies }) {
     setSelectedSpecies(e.value);
   }
   return (
-    <Select
-      classNames={{
-        placeholder: () => placeholderStyles,
-        control: () => controlStyles,
-        menu: () => menuStyles,
-        option: () => optionStyles,
-      }}
-      className="select"
-      options={species}
-      onChange={handleSelect}
-      unstyled={true}
-    />
+    <div className="max-w-96">
+      <h1>Search for species by region</h1>
+      <Select
+        classNames={{
+          placeholder: () => placeholderStyles,
+          control: () => controlStyles,
+          menu: () => menuStyles,
+          option: () => optionStyles,
+        }}
+        className="select"
+        options={species}
+        onChange={handleSelect}
+        unstyled={true}
+      />
+    </div>
   );
 }
 
