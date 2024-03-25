@@ -14,7 +14,6 @@ function ObervationItem({ obs }) {
     copyToClipboard(text);
   }
 
-  console.log(obs);
   const obsAge = calcObsAge(obs.obsDt);
 
   // useEffect(() => {
@@ -29,7 +28,6 @@ function ObervationItem({ obs }) {
   //   fetchAddress();
   // }, [obs.lat, obs.lng]);
 
-  console.log(address);
   // TODO: Handle localization of address format
   const displayAddressA = address?.address_line1 ?? obs.locName;
   const displayAddressB = address?.address_line1 ? (

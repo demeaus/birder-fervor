@@ -22,7 +22,6 @@ export async function getAddressbyCoordinates({ lat, lon }) {
 
     const data = await res.json();
     const address = data.results[0]
-    console.log(address)
     return address;
 }
 
@@ -46,6 +45,5 @@ export async function getAutocompleteSuggestions(query) {
 
     const data = await res.json();
     const suggestions = data.results
-    console.log(suggestions)
     return suggestions;
 }

@@ -8,7 +8,14 @@ const placeholderStyles = "text-zinc-400";
 
 // TODO: group by species group
 function SelectSpecies({ species, setSelectedSpecies }) {
-  function handleSelect(e) {
+  function handleChange(e, { action }) {
+    console.log("handleChange", e, action);
+
+    // Clear region and species list if region is cleared
+    if (action === "clear") {
+      setSelectedSpecies(null);
+      return;
+    }
     setSelectedSpecies(e.value);
   }
 
@@ -24,8 +31,10 @@ function SelectSpecies({ species, setSelectedSpecies }) {
         }}
         className="select"
         options={species}
-        onChange={handleSelect}
+        onChange={handleChange}
         unstyled={true}
+        backspaceRemovesValue={true}
+        isClearable={true}
       />
     </div>
   );

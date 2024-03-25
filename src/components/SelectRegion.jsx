@@ -7,6 +7,7 @@ import {
 import { getAutocompleteSuggestions } from "../services/apiGeoapify";
 import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
+// import { useSpeciesCodes } from "../hooks/useSpeciesCodes";
 
 const controlStyles =
   "rounded-full border-2 border-zinc-300 text-sm px-4 py-2 bg-zinc-50";
@@ -18,19 +19,17 @@ const placeholderStyles = "text-zinc-400";
 function SelectRegion({ setSpecies }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  // const { isLoading, error, speciesCodes } = useSpeciesCodes();
   const { regionCode } = useParams();
   const navigate = useNavigate();
 
   // Handle clearing or selection of input from dropdown
   function handleChange(e, { action }) {
-    console.log("handleChange", e, action);
-
     // Clear region and species list if region is cleared
     if (action === "clear") {
       navigate("/");
       return;
     }
-    console.log("here");
     // TODO: Consider try-catch block instead?
     // Get region code for selected state/province for API call
     const selectedEntry = e.value;
@@ -55,6 +54,7 @@ function SelectRegion({ setSpecies }) {
     async function fetchSpecies() {
       // List of species codes
       const speciesCodes = await getSpeciesCodesByRegion(regionCode);
+      console.log(speciesCodes.length);
 
       // List of species options for Select (value, label)
       const speciesList = await getSpeciesCommonNames(speciesCodes);

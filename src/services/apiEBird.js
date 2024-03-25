@@ -10,6 +10,7 @@ import { EBIRD_API_URL } from "../utils/constants";
  * Retrieves species in a region
  */
 export async function getSpeciesCodesByRegion(regionCode) {
+    console.log(regionCode)
     var headers = new Headers();
     headers.append("X-eBirdApiToken", EBIRD_API_KEY);
 
@@ -30,19 +31,15 @@ export async function getSpeciesCodesByRegion(regionCode) {
     return speciesCodes;
 }
 
-export async function getSpeciesCommonNames(speciesCodes) {
+export async function getSpeciesCommonNames(speciesCodes = []) {
     const speciesCodeList = speciesCodes.join(",");
-    // console.log(speciesCodeList)
 
     var headers = new Headers();
     headers.append("X-eBirdApiToken", EBIRD_API_KEY);
-    // eBird API blocks Content-Type header
-    // headers.append('Content-Type', 'text/csv; charset=UTF-8')
 
     var requestOptions = {
         method: 'GET',
         headers: headers,
-        redirect: 'follow'
     };
     const res = await fetch(`${EBIRD_API_URL}ref/taxonomy/ebird?species=${speciesCodeList}`, requestOptions);
 
@@ -72,7 +69,6 @@ export async function getObservationsBySpecies(regionCode, speciesCode) {
     var requestOptions = {
         method: 'GET',
         headers: headers,
-        redirect: 'follow'
     };
     // TODO: Increase number of results or make customizable in production
     const res = await fetch(`${EBIRD_API_URL}data/obs/${regionCode}/recent/${speciesCode}?maxResults=3`, requestOptions);
@@ -83,6 +79,5 @@ export async function getObservationsBySpecies(regionCode, speciesCode) {
         );
     }
     const observations = await res.json();
-    console.log(observations)
     return observations;
 }
