@@ -11,9 +11,10 @@ function SelectSpecies({ species, setSelectedSpecies }) {
   function handleSelect(e) {
     setSelectedSpecies(e.value);
   }
+
   return (
     <div className="max-w-96">
-      <h1>Search for species by region</h1>
+      <h1>Select species</h1>
       <Select
         classNames={{
           placeholder: () => placeholderStyles,

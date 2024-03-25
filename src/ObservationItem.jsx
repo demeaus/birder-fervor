@@ -6,7 +6,6 @@ import ButtonCopy from "./ButtonCopy";
 
 function ObervationItem({ obs }) {
   // distance from user's current/entered locations, if chosen
-  // type of location (from geoapify and obs.locationPrivate)
   // starred for user for sorting and export
 
   const [address, setAddress] = useState();
@@ -18,17 +17,17 @@ function ObervationItem({ obs }) {
   console.log(obs);
   const obsAge = calcObsAge(obs.obsDt);
 
-  useEffect(() => {
-    async function fetchAddress() {
-      const addressFromCoordinates = await getAddressbyCoordinates({
-        lat: obs.lat,
-        lon: obs.lng,
-      });
-      if (addressFromCoordinates) setAddress(addressFromCoordinates);
-    }
+  // useEffect(() => {
+  //   async function fetchAddress() {
+  //     const addressFromCoordinates = await getAddressbyCoordinates({
+  //       lat: obs.lat,
+  //       lon: obs.lng,
+  //     });
+  //     if (addressFromCoordinates) setAddress(addressFromCoordinates);
+  //   }
 
-    fetchAddress();
-  }, [obs.lat, obs.lng]);
+  //   fetchAddress();
+  // }, [obs.lat, obs.lng]);
 
   console.log(address);
   // TODO: Handle localization of address format
@@ -54,7 +53,7 @@ function ObervationItem({ obs }) {
       : "now";
 
   return (
-    <li className="p-2 flex flex-col">
+    <li className="p-2 flex flex-col bg-zinc-200">
       <div className="md:flex md:items-center md:gap-4">
         <div className="flex items-center justify-start gap-2 text-sm">
           <LuTimer />

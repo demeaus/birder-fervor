@@ -7,8 +7,6 @@ import { GEOAPIFY_API_URL } from "../utils/constants";
 // TODO: How to hide apiKey?
 export async function getAddressbyCoordinates({ lat, lon }) {
     var headers = new Headers();
-    // headers.append("X-eBirdApiToken", EBIRD_API_KEY);
-
     var requestOptions = {
         method: 'GET',
         headers: headers,
@@ -26,4 +24,28 @@ export async function getAddressbyCoordinates({ lat, lon }) {
     const address = data.results[0]
     console.log(address)
     return address;
+}
+
+/**
+ * Gets autocomplete suggestions for given location query
+ */
+export async function getAutocompleteSuggestions(query) {
+    var headers = new Headers();
+    var requestOptions = {
+        method: 'GET',
+        headers: headers,
+        redirect: 'follow'
+    };
+    const res = await fetch(`${GEOAPIFY_API_URL}autocomplete?text=${query}&type=state&format=json&apiKey=${GEOAPIFY_API_KEY}`, requestOptions);
+
+    if (!res.ok) {
+        throw new Error(
+            `Something went wrong while attempting to autocomplete the address.`
+        );
+    }
+
+    const data = await res.json();
+    const suggestions = data.results
+    console.log(suggestions)
+    return suggestions;
 }

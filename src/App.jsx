@@ -5,12 +5,22 @@ import Controls from "./Controls";
 import Map from "./Map";
 import List from "./List";
 import ObservationItem from "./ObservationItem";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000,
+      // staleTime: 0,
+    },
+  },
+});
 
 function App() {
   const [observations, setObservations] = useState([]);
 
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
       <Header />
       <Controls setObservations={setObservations} />
       {observations.length && (
@@ -24,7 +34,7 @@ function App() {
           />
         </>
       )}
-    </div>
+    </QueryClientProvider>
   );
 }
 
