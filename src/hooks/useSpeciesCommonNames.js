@@ -5,10 +5,10 @@ import { getSpeciesCommonNames } from "../services/apiEBird";
 export function useSpeciesCommonNames(speciesCodes) {
   const { regionCode: regionCodeURL } = useParams();
   const {
-    isLoading,
+    status,
     data: speciesCommonNames,
     error,
   } = useQuery({ queryKey: ["speciesCommonNames", regionCodeURL], queryFn: () => getSpeciesCommonNames(speciesCodes), enabled: !!speciesCodes.length });
 
-  return { isLoading, error, speciesCommonNames };
+  return { status, error, speciesCommonNames };
 }

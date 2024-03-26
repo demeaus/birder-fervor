@@ -7,8 +7,12 @@ const optionStyles = "border-b py-1";
 const placeholderStyles = "text-zinc-400";
 
 // TODO: group by species group
-function SelectSpecies({ regionSpecies, setSelectedSpecies }) {
+function SelectSpecies({ regionSpeciesList, setSelectedSpecies }) {
   console.log("rendering SelectSpecies");
+
+  if (!regionSpeciesList.length)
+    return <div>TODO: Empty Message; no species for selected region</div>;
+
   function handleChange(e, { action }) {
     console.log("handleChange", e, action);
 
@@ -31,7 +35,7 @@ function SelectSpecies({ regionSpecies, setSelectedSpecies }) {
           option: () => optionStyles,
         }}
         className="select"
-        options={regionSpecies}
+        options={regionSpeciesList}
         onChange={handleChange}
         unstyled={true}
         backspaceRemovesValue={true}

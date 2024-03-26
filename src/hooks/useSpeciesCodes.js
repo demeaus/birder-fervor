@@ -5,10 +5,10 @@ import { getSpeciesCodesByRegion } from "../services/apiEBird";
 export function useSpeciesCodes() {
   const { regionCode: regionCodeURL } = useParams();
   const {
-    isLoading,
+    status,
     data: speciesCodes,
     error,
   } = useQuery({ queryKey: ["speciesCodes", regionCodeURL], queryFn: () => getSpeciesCodesByRegion(regionCodeURL), enabled: !!regionCodeURL });
 
-  return { isLoading, error, speciesCodes };
+  return { status, error, speciesCodes };
 }

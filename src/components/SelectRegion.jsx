@@ -3,8 +3,6 @@ import { getRegionCode } from "../utils/helpers";
 import { getAutocompleteSuggestions } from "../services/apiGeoapify";
 import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSpeciesCodes } from "../hooks/useSpeciesCodes";
-import { useSpeciesCommonNames } from "../hooks/useSpeciesCommonNames";
 
 const controlStyles =
   "rounded-full border-2 border-zinc-300 text-sm px-4 py-2 bg-zinc-50";
@@ -13,24 +11,11 @@ const optionStyles = "border-b py-1";
 const placeholderStyles = "text-zinc-400";
 
 // User can select a state/province to get relevant species for that region
-function SelectRegion({
-  setRegionSpecies,
-  selectedRegionCode,
-  setSelectedRegionCode,
-}) {
+function SelectRegion({ selectedRegionCode, setSelectedRegionCode }) {
   console.log("rendering SelectRegion");
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const {
-    isLoading: isLoadingSpeciesCodes,
-    error: errorSpeciesCodes,
-    speciesCodes = [],
-  } = useSpeciesCodes();
-  const {
-    isLoading: isLoadingSpeciesCommonNames,
-    error: errorSpeciesCommonNames,
-    speciesCommonNames = [],
-  } = useSpeciesCommonNames(speciesCodes);
+
   const { regionCode: regionCodeURL } = useParams();
   const navigate = useNavigate();
 
@@ -40,9 +25,13 @@ function SelectRegion({
     if (action === "clear") {
       // TODO: Display history or recent searches
       setSelectedRegionCode("");
-      navigate("/");
+
+      if (regionCodeURL) {
+        navigate("/");
+      }
       return;
     }
+
     // TODO: Consider try-catch block instead?
     // Convert option value to ISO standardized code to get region code for eBird API
     const selectedEntry = e.value;
@@ -60,40 +49,17 @@ function SelectRegion({
     if (!regionCodeURL || regionCodeURL !== regionCode) {
       navigate(`/${regionCode}`);
     }
-    // else {
-    //   navigate(`/`);
-    // }
   }
 
+  // Handle typing in input of dropdown
   function handleOnInputChange(input) {
     if (input.length > 1) setQuery(input);
 
-    // If there is no selected region and region being searched
-    if (!selectedRegionCode && !input.length) {
+    // Reset the URL if there is no selected region and no region being searched
+    if (regionCodeURL && !selectedRegionCode && !input.length) {
       navigate(`/`);
     }
   }
-
-  // Syncs species list with selected location
-  useEffect(() => {
-    async function fetchSpecies() {
-      // List of species codes
-      // const speciesCodes = await getSpeciesCodesByRegion(regionCodeURL);
-      console.log("len", speciesCodes.length);
-
-      // List of species options for Select (value, label)
-      // const speciesList = await getSpeciesCommonNames(speciesCodes);
-      console.log("speciesCommonNames len: ", speciesCommonNames.length);
-
-      setRegionSpecies(
-        speciesCommonNames.map((obj) => ({ value: obj[0], label: obj[1] }))
-      );
-    }
-    if (regionCodeURL) {
-      console.log("fetching species");
-      fetchSpecies();
-    }
-  }, [regionCodeURL, setRegionSpecies, speciesCodes, speciesCommonNames]);
 
   // Fetches list of autocomplete suggestions for search input
   useEffect(() => {
@@ -108,7 +74,7 @@ function SelectRegion({
         );
       }
     }
-    if (!query) {
+    if (regionCodeURL && !query) {
       navigate(`/`);
       return;
     }
@@ -121,7 +87,7 @@ function SelectRegion({
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [query, navigate]);
+  }, [query]);
 
   return (
     <div className="max-w-96">
