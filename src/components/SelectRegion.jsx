@@ -4,18 +4,19 @@ import { getAutocompleteSuggestions } from "../services/apiGeoapify";
 import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
 
-const controlStyles =
-  "rounded-full border-2 border-zinc-300 text-sm px-4 py-2 bg-zinc-50";
-const menuStyles = "bg-zinc-100 text-sm px-2 py-1";
-const optionStyles = "border-b py-1";
-const placeholderStyles = "text-zinc-400";
+import {
+  controlStyles,
+  menuStyles,
+  optionStyles,
+  placeholderStyles,
+} from "../utils/constants";
 
 // User can select a state/province to get relevant species for that region
-function SelectRegion({ selectedRegionCode, setSelectedRegionCode }) {
-  console.log("rendering SelectRegion");
+function SelectRegion() {
+  // console.log("rendering SelectRegion");
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-
+  const [selectedRegionCode, setSelectedRegionCode] = useState("");
   const { regionCode: regionCodeURL } = useParams();
   const navigate = useNavigate();
 
@@ -81,7 +82,7 @@ function SelectRegion({ selectedRegionCode, setSelectedRegionCode }) {
     // Reduce amount of fetching by introducing delay while user enters query
     let timer = setTimeout(() => {
       if (query) {
-        console.log("fetching autocomplete suggestions");
+        // console.log("fetching autocomplete suggestions");
         fetchAutocompleteSuggestions();
       }
     }, 1500);

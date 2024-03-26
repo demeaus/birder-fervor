@@ -4,15 +4,16 @@ import { useSpeciesCommonNames } from "../hooks/useSpeciesCommonNames";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const controlStyles =
-  "rounded-full border-2 border-zinc-300 text-sm px-4 py-2 bg-zinc-50";
-const menuStyles = "bg-zinc-100 text-sm px-2 py-1";
-const optionStyles = "border-b py-1";
-const placeholderStyles = "text-zinc-400";
+import {
+  controlStyles,
+  menuStyles,
+  optionStyles,
+  placeholderStyles,
+} from "../utils/constants";
 
 // TODO: group by species group
 function SelectSpecies() {
-  console.log("rendering SelectSpecies");
+  // console.log("rendering SelectSpecies");
   const [regionSpeciesList, setRegionSpeciesList] = useState([]);
   const { regionCode: regionCodeURL } = useParams();
   const navigate = useNavigate();
@@ -40,8 +41,9 @@ function SelectSpecies() {
   if (!regionSpeciesList.length)
     return <div>TODO: Empty Message; no species for selected region</div>;
 
+  // TODO: Clear selected species when region is cleared or changed
   function handleChange(e, { action }) {
-    console.log("handleChange", e, action);
+    // console.log("handleChange", e, action);
 
     // Clear region and species list if region is cleared
     // TODO: handle differently for if just the selected species is cleared

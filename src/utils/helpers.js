@@ -1,7 +1,7 @@
 import { iso31662 } from "iso-3166";
 import { closestMatch } from "closest-match";
 
-// Function to filter ISO 3166-2 subdivision codes by parent/country and name/state/province
+// Filter ISO 3166-2 subdivision codes by parent/country and name/state/province
 export function getRegionCode(parent, name) {
     const sanitizedParent = parent.toUpperCase();
     const sanitizedName = name.toUpperCase();
@@ -17,7 +17,7 @@ export function getRegionCode(parent, name) {
 
     // Get closest matching subdivision
     const closestName = closestMatch(sanitizedName, subdivisions)
-    console.log("closest: ", closestName)
+    // console.log("closest: ", closestName)
 
     // Get regionCode by closest matching name/state/province from filteredRegions
 
@@ -30,7 +30,8 @@ export function copyToClipboard(text) {
     navigator.clipboard.writeText(text);
 
     // Alert the copied text
-    alert("Copied the text: " + text);
+    // TODO: use tool tip instead of alert
+    // alert("Copied the text: " + text);
 }
 
 export function calcObsAge(dateStr) {

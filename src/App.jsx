@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AppLayout from "./ui/AppLayout";
 import Observations from "./ui/Observations";
-import Home from "./ui/Home";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,7 +20,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Observations />} />
             <Route path=":regionCode" element={<Observations />}>
               <Route path=":speciesCode" element={<Observations />} />
             </Route>
