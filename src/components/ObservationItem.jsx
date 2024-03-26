@@ -16,6 +16,7 @@ function ObervationItem({ obs }) {
 
   const obsAge = calcObsAge(obs.obsDt);
 
+  // TODO: getAddressByCoordinates is responsible for many API calls
   // useEffect(() => {
   //   async function fetchAddress() {
   //     const addressFromCoordinates = await getAddressbyCoordinates({

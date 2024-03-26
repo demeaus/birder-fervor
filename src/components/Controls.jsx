@@ -6,34 +6,53 @@ import { useParams } from "react-router-dom";
 import { useObservations } from "../context/ObservationsContext";
 
 function Controls() {
-  const [species, setSpecies] = useState([]);
+  console.log("rendering Controls");
+  const [regionSpecies, setRegionSpecies] = useState([]);
   const [selectedSpecies, setSelectedSpecies] = useState(null);
-  const { regionCode } = useParams();
-  const { setObservations } = useObservations();
-  console.log(regionCode);
+  const [selectedRegionCode, setSelectedRegionCode] = useState("");
+  const { regionCode: regionCodeURL } = useParams();
+  const { observations, setObservations } = useObservations();
 
   // useEffect(() => {
   //   async function fetchObservations() {
-  //     if (!regionCode || !selectedSpecies) {
-  //       setObservations([]);
-  //       return;
-  //     }
-
-  //     const obs = await getObservationsBySpecies(regionCode, selectedSpecies);
+  //     const obs = await getObservationsBySpecies(
+  //       regionCodeURL,
+  //       selectedSpecies
+  //     );
   //     setObservations(obs);
   //   }
 
-  //   fetchObservations();
-  // }, [selectedSpecies, regionCode, setObservations]);
+  //   if (!regionCodeURL || !selectedSpecies) {
+  //     if (observations.length) {
+  //       setObservations([]);
+  //     }
+  //     return;
+  //   }
+
+  //   if (selectedSpecies && regionCodeURL === selectedRegionCode) {
+  //     console.log("fetching observations");
+  //     fetchObservations();
+  //   }
+  // }, [
+  //   selectedSpecies,
+  //   selectedRegionCode,
+  //   regionCodeURL,
+  //   observations,
+  //   setObservations,
+  // ]);
 
   return (
     <div className="bg-zinc-100 px-4 py-4 ">
       {/* TODO: Search for species by address*/}
-      <SelectRegion setSpecies={setSpecies} />
+      <SelectRegion
+        setRegionSpecies={setRegionSpecies}
+        selectedRegionCode={selectedRegionCode}
+        setSelectedRegionCode={setSelectedRegionCode}
+      />
       {/* Display species in regioncode */}
-      {regionCode && species.length && (
+      {regionCodeURL && regionSpecies.length && (
         <SelectSpecies
-          species={species}
+          regionSpecies={regionSpecies}
           setSelectedSpecies={setSelectedSpecies}
         />
       )}

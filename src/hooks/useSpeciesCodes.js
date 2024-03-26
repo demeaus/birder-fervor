@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 import { getSpeciesCodesByRegion } from "../services/apiEBird";
 
 export function useSpeciesCodes() {
-  const { regionCode } = useParams();
+  const { regionCode: regionCodeURL } = useParams();
   const {
     isLoading,
     data: speciesCodes,
     error,
-  } = useQuery({ queryKey: ["speciesCodes", regionCode], queryFn: () => getSpeciesCodesByRegion(regionCode), enabled: !!regionCode });
+  } = useQuery({ queryKey: ["speciesCodes", regionCodeURL], queryFn: () => getSpeciesCodesByRegion(regionCodeURL), enabled: !!regionCodeURL });
 
   return { isLoading, error, speciesCodes };
 }
