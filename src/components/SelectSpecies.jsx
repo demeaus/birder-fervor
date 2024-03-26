@@ -40,6 +40,7 @@ function SelectSpecies() {
   if (!regionSpeciesList.length)
     return <div>TODO: Empty Message; no species for selected region</div>;
 
+  // TODO: Clear selected species when region is cleared or changed
   function handleChange(e, { action }) {
     console.log("handleChange", e, action);
 

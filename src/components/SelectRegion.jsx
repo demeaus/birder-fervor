@@ -11,11 +11,11 @@ const optionStyles = "border-b py-1";
 const placeholderStyles = "text-zinc-400";
 
 // User can select a state/province to get relevant species for that region
-function SelectRegion({ selectedRegionCode, setSelectedRegionCode }) {
+function SelectRegion() {
   console.log("rendering SelectRegion");
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-
+  const [selectedRegionCode, setSelectedRegionCode] = useState("");
   const { regionCode: regionCodeURL } = useParams();
   const navigate = useNavigate();
 

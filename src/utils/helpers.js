@@ -17,7 +17,7 @@ export function getRegionCode(parent, name) {
 
     // Get closest matching subdivision
     const closestName = closestMatch(sanitizedName, subdivisions)
-    console.log("closest: ", closestName)
+    // console.log("closest: ", closestName)
 
     // Get regionCode by closest matching name/state/province from filteredRegions
 
