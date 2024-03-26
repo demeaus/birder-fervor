@@ -10,7 +10,6 @@ import { EBIRD_API_URL } from "../utils/constants";
  * Retrieves species in a region
  */
 export async function getSpeciesCodesByRegion(regionCode) {
-    console.log(regionCode)
     var headers = new Headers();
     headers.append("X-eBirdApiToken", EBIRD_API_KEY);
 

@@ -3,13 +3,14 @@ import Header from "./Header";
 import List from "./List";
 import Controls from "../components/Controls";
 import ObservationItem from "../components/ObservationItem";
+import { useObservations } from "../context/ObservationsContext";
 
 function AppLayout() {
-  const [observations, setObservations] = useState([]);
+  const { observations } = useObservations();
   return (
     <div>
       <Header />
-      <Controls setObservations={setObservations} />
+      <Controls />
       {observations.length && (
         <>
           {/* <Map /> */}

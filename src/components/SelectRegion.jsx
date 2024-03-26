@@ -17,9 +17,11 @@ const placeholderStyles = "text-zinc-400";
 
 // User can select a state/province to get relevant species for that region
 function SelectRegion({ setSpecies }) {
+  console.log("rendering", "SelectRegion");
   const [query, setQuery] = useState("");
+  const [inputRegion, setInputRegion] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  // const { isLoading, error, speciesCodes } = useSpeciesCodes();
+  // const { isLoading, error, speciesCodes = [] } = useSpeciesCodes();
   const { regionCode } = useParams();
   const navigate = useNavigate();
 
@@ -27,6 +29,7 @@ function SelectRegion({ setSpecies }) {
   function handleChange(e, { action }) {
     // Clear region and species list if region is cleared
     if (action === "clear") {
+      // TODO: Display history or recent searches
       navigate("/");
       return;
     }
@@ -43,9 +46,12 @@ function SelectRegion({ setSpecies }) {
     if (typeof region != "string") {
       region = region[0];
     }
+    setInputRegion(region);
 
     if (!regionCode || regionCode !== region) {
       navigate(`/${region}`);
+    } else {
+      navigate(`/`);
     }
   }
 
@@ -54,15 +60,18 @@ function SelectRegion({ setSpecies }) {
     async function fetchSpecies() {
       // List of species codes
       const speciesCodes = await getSpeciesCodesByRegion(regionCode);
-      console.log(speciesCodes.length);
+      console.log("len", speciesCodes.length);
 
       // List of species options for Select (value, label)
       const speciesList = await getSpeciesCommonNames(speciesCodes);
 
       setSpecies(speciesList.map((obj) => ({ value: obj[0], label: obj[1] })));
     }
-    fetchSpecies();
-  }, [regionCode, setSpecies]);
+    console.log("check regionCode, ", regionCode);
+    if (regionCode && regionCode === inputRegion) {
+      fetchSpecies();
+    }
+  }, [regionCode, setSpecies, inputRegion]);
 
   // Fetches list of autocomplete suggestions for search input
   useEffect(() => {
@@ -77,12 +86,19 @@ function SelectRegion({ setSpecies }) {
         );
       }
     }
+    if (!query) {
+      navigate(`/`);
+      return;
+    }
+    // Reduce amount of fetching by introducing delay while user enters query
     let timer = setTimeout(() => {
-      if (query) fetchAutocompleteSuggestions();
-    }, 1500);
+      if (query) {
+        fetchAutocompleteSuggestions();
+      }
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, [query]);
+  }, [query, navigate]);
 
   function handleOnInputChange(input) {
     if (input.length > 1) setQuery(input);
