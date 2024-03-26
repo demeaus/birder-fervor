@@ -22,12 +22,14 @@ function Observations() {
         {regionCodeURL && <SelectSpecies />}
       </Controls>
       <Map pins={observations} />
-      <List
-        items={observations}
-        render={(obs) => (
-          <ObservationItem key={`${obs.obsDt}-${obs.locId}`} obs={obs} />
-        )}
-      />
+      {observations.length && (
+        <List
+          items={observations}
+          render={(obs) => (
+            <ObservationItem key={`${obs.obsDt}-${obs.locId}`} obs={obs} />
+          )}
+        />
+      )}
     </>
   );
 }

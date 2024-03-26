@@ -9,17 +9,17 @@ function Map({ pins }) {
     <MapContainer
       center={initalPosition}
       zoom={13}
-      className="h-full w-full z-0 fixed top-0"
+      className="fixed top-0 z-0 h-full w-full"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={initalPosition}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      {pins.map((pin) => (
+        <Marker key={`${pin.obsDt}-${pin.locId}`} position={[pin.lat, pin.lng]}>
+          <Popup>{pin.obsDt}</Popup>
+        </Marker>
+      ))}
     </MapContainer>
   );
 }
