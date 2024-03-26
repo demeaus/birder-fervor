@@ -1,7 +1,7 @@
 function Header() {
   return (
-    <header>
-      <h1 className="text-2xl bg-slate-800 text-zinc-300 p-2 uppercase tracking-widest">
+    <header className="relative z-20 w-full bg-slate-800 p-2">
+      <h1 className="text-2xl uppercase tracking-widest text-zinc-300 ">
         Birder Fervor
       </h1>
     </header>

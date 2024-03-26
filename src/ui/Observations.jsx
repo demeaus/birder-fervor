@@ -3,6 +3,7 @@ import { useObservations } from "../hooks/useObservations";
 import ObservationItem from "../components/ObservationItem";
 import SelectRegion from "../components/SelectRegion";
 import SelectSpecies from "../components/SelectSpecies";
+import Map from "../components/Map";
 import Controls from "./Controls";
 import List from "./List";
 
@@ -15,19 +16,19 @@ function Observations() {
   //   return <div>TODO: Empty Message; no observations for selected species</div>;
 
   return (
-    <div>
+    <>
       <Controls>
         <SelectRegion />
         {regionCodeURL && <SelectSpecies />}
       </Controls>
-      {/* <Map /> */}
+      <Map pins={observations} />
       <List
         items={observations}
         render={(obs) => (
           <ObservationItem key={`${obs.obsDt}-${obs.locId}`} obs={obs} />
         )}
       />
-    </div>
+    </>
   );
 }
 
