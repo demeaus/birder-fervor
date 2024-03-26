@@ -1,4 +1,7 @@
 import Select from "react-select";
+import { useSpeciesCodes } from "../hooks/useSpeciesCodes";
+import { useSpeciesCommonNames } from "../hooks/useSpeciesCommonNames";
+import { useEffect, useState } from "react";
 
 const controlStyles =
   "rounded-full border-2 border-zinc-300 text-sm px-4 py-2 bg-zinc-50";
@@ -7,8 +10,29 @@ const optionStyles = "border-b py-1";
 const placeholderStyles = "text-zinc-400";
 
 // TODO: group by species group
-function SelectSpecies({ regionSpeciesList, setSelectedSpecies }) {
+function SelectSpecies({ setSelectedSpecies }) {
   console.log("rendering SelectSpecies");
+  const [regionSpeciesList, setRegionSpeciesList] = useState([]);
+
+  const {
+    status: statusSpeciesCodes,
+    error: errorSpeciesCodes,
+    speciesCodes = [],
+  } = useSpeciesCodes();
+  const {
+    status: statusSpeciesCommonNames,
+    error: errorSpeciesCommonNames,
+    speciesCommonNames = [],
+  } = useSpeciesCommonNames(speciesCodes);
+
+  // Syncs list of species in the selected region with loaded species codes and species common names
+  useEffect(() => {
+    if (statusSpeciesCommonNames === "success") {
+      setRegionSpeciesList(
+        speciesCommonNames.map((obj) => ({ value: obj[0], label: obj[1] }))
+      );
+    }
+  }, [speciesCommonNames, statusSpeciesCommonNames]);
 
   if (!regionSpeciesList.length)
     return <div>TODO: Empty Message; no species for selected region</div>;
