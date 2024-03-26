@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ObservationsProvider } from "./context/ObservationsContext";
 import AppLayout from "./ui/AppLayout";
 import Observations from "./ui/Observations";
 import Home from "./ui/Home";
@@ -19,16 +18,16 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <ObservationsProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<AppLayout />}>
-              <Route index element={<Home />} />
-              <Route path=":regionCode" element={<Observations />} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<AppLayout />}>
+            <Route index element={<Home />} />
+            <Route path=":regionCode" element={<Observations />}>
+              <Route path=":speciesCode" element={<Observations />} />
             </Route>
-          </Routes>
-        </BrowserRouter>
-      </ObservationsProvider>
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }

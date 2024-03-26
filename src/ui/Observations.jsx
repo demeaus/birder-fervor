@@ -1,22 +1,23 @@
 import List from "./List";
 import ObservationItem from "../components/ObservationItem";
-import { useObservations } from "../context/ObservationsContext";
+import { useObservations } from "../hooks/useObservations";
+import { useParams } from "react-router-dom";
 
 function Observations() {
-  const { observations } = useObservations();
+  const { status, error, observations = [] } = useObservations();
+
+  if (!observations.length)
+    return <div>TODO: Empty Message; no observations for selected species</div>;
+
   return (
     <div>
-      {observations.length && (
-        <>
-          {/* <Map /> */}
-          <List
-            items={observations}
-            render={(obs) => (
-              <ObservationItem key={`${obs.obsDt}-${obs.locId}`} obs={obs} />
-            )}
-          />
-        </>
-      )}
+      {/* <Map /> */}
+      <List
+        items={observations}
+        render={(obs) => (
+          <ObservationItem key={`${obs.obsDt}-${obs.locId}`} obs={obs} />
+        )}
+      />
     </div>
   );
 }

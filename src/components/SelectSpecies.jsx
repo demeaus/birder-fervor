@@ -2,6 +2,7 @@ import Select from "react-select";
 import { useSpeciesCodes } from "../hooks/useSpeciesCodes";
 import { useSpeciesCommonNames } from "../hooks/useSpeciesCommonNames";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const controlStyles =
   "rounded-full border-2 border-zinc-300 text-sm px-4 py-2 bg-zinc-50";
@@ -10,9 +11,11 @@ const optionStyles = "border-b py-1";
 const placeholderStyles = "text-zinc-400";
 
 // TODO: group by species group
-function SelectSpecies({ setSelectedSpecies }) {
+function SelectSpecies() {
   console.log("rendering SelectSpecies");
   const [regionSpeciesList, setRegionSpeciesList] = useState([]);
+  const { regionCode: regionCodeURL } = useParams();
+  const navigate = useNavigate();
 
   const {
     status: statusSpeciesCodes,
@@ -41,11 +44,12 @@ function SelectSpecies({ setSelectedSpecies }) {
     console.log("handleChange", e, action);
 
     // Clear region and species list if region is cleared
+    // TODO: handle differently for if just the selected species is cleared
     if (action === "clear") {
-      setSelectedSpecies(null);
+      navigate("..");
       return;
     }
-    setSelectedSpecies(e.value);
+    navigate(`/${regionCodeURL}/${e.value}`);
   }
 
   return (
