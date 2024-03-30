@@ -2,7 +2,6 @@ import { LuBird, LuTimer, LuMapPin } from "react-icons/lu";
 import { calcObsAge, copyToClipboard } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { getAddressbyCoordinates } from "../services/apiGeoapify";
-import ButtonCopy from "../ui/ButtonCopy";
 
 function ObervationItem({ obs }) {
   // distance from user's current/entered locations, if chosen
@@ -17,17 +16,17 @@ function ObervationItem({ obs }) {
   const obsAge = calcObsAge(obs.obsDt);
 
   // TODO: getAddressByCoordinates is responsible for many API calls
-  // useEffect(() => {
-  //   async function fetchAddress() {
-  //     const addressFromCoordinates = await getAddressbyCoordinates({
-  //       lat: obs.lat,
-  //       lon: obs.lng,
-  //     });
-  //     if (addressFromCoordinates) setAddress(addressFromCoordinates);
-  //   }
+  useEffect(() => {
+    async function fetchAddress() {
+      const addressFromCoordinates = await getAddressbyCoordinates({
+        lat: obs.lat,
+        lon: obs.lng,
+      });
+      if (addressFromCoordinates) setAddress(addressFromCoordinates);
+    }
 
-  //   fetchAddress();
-  // }, [obs.lat, obs.lng]);
+    fetchAddress();
+  }, [obs.lat, obs.lng]);
 
   // TODO: Handle localization of address format
   const displayAddressA = address?.address_line1 ?? obs.locName;
@@ -48,36 +47,43 @@ function ObervationItem({ obs }) {
           : ""
       }`
       : obsAge.hours > 0
-      ? `${obsAge.hours} ${obsAge.hours === 1 ? "hour" : "hours"} ago`
-      : "now";
+        ? `${obsAge.hours} ${obsAge.hours === 1 ? "hour" : "hours"} ago`
+        : "now";
 
   return (
-    <li className="p-2 flex flex-col bg-zinc-200">
-      <div className="md:flex md:items-center md:gap-4">
-        <div className="flex items-center justify-start gap-2 text-sm">
-          <LuTimer />
-          <span className="text-xs">Last seen: </span>
-          {displayLastSeen}
-        </div>
-        <div className="flex items-center gap-2">
-          <LuMapPin />
-          <div className="flex flex-col">
-            <span className="text-sm">{displayAddressA}</span>
-            {address?.address_line1 && displayAddressB}
+    <li className="flex flex-col justify-normal gap-2 bg-zinc-200 p-3">
+      <div className="sm:flex sm:items-center sm:gap-4">
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-start gap-2">
+            <LuTimer />
+            <span className="text-xs">Last seen: </span>
+            <span className="text-sm">{displayLastSeen}</span>
           </div>
-          {address?.address_line1 && (
-            <ButtonCopy handleClick={() => handleClick(address.formatted)} />
-          )}
+          <div className="flex items-center justify-start gap-2">
+            <LuBird />
+            {obs.howMany}
+          </div>
         </div>
       </div>
-      <div className="flex items-center justify-start gap-2">
-        <LuBird />
-        {obs.howMany}
+      <div
+        className="flex max-w-fit items-center justify-start gap-2 rounded bg-zinc-300 px-2 py-1 text-xs"
+        role="button"
+        onClick={() => handleClick(address.formatted)}
+      >
+        <LuMapPin />
+        <div className=" flex flex-col ">
+          <span className="text-sm">{displayAddressA}</span>
+          {address?.address_line1 && displayAddressB}
+        </div>
       </div>
-      <div className="flex items-center justify-start gap-2">
+
+      <div
+        className="flex max-w-fit items-center justify-start gap-2 rounded bg-zinc-300 px-2 py-1 text-xs"
+        role="button"
+        onClick={() => handleClick(`${obs.lat}, ${obs.lng}`)}
+      >
         <LuMapPin />
         <span className="text-sm">{`${obs.lat}, ${obs.lng}`}</span>
-        <ButtonCopy handleClick={() => handleClick(`${obs.lat}, ${obs.lng}`)} />
       </div>
     </li>
   );
