@@ -3,7 +3,7 @@ import { calcObsAge, copyToClipboard } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { getAddressbyCoordinates } from "../services/apiGeoapify";
 
-function ObervationItem({ obs }) {
+function ObervationItem({ obs, onSelectPin }) {
   // distance from user's current/entered locations, if chosen
   // starred for user for sorting and export
 
@@ -51,7 +51,10 @@ function ObervationItem({ obs }) {
         : "now";
 
   return (
-    <li className="flex flex-col justify-normal gap-2 bg-zinc-200 p-3">
+    <li
+      className="flex flex-col justify-normal gap-2 bg-zinc-200 p-3"
+      onClick={() => onSelectPin({ lat: obs.lat, lng: obs.lng })}
+    >
       <div className="sm:flex sm:items-center sm:gap-4">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center justify-start gap-2">

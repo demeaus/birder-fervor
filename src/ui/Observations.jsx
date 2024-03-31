@@ -6,14 +6,21 @@ import SelectSpecies from "../components/SelectSpecies";
 import Map from "../components/Map";
 import Controls from "./Controls";
 import List from "./List";
+import { useState } from "react";
 
 function Observations() {
   // console.log("rendering Observations");
   const { status, error, observations = [] } = useObservations();
   const { regionCode: regionCodeURL } = useParams();
+  const [selectedPin, setSelectedPin] = useState(null);
 
   // if (!observations.length)
   //   return <div>TODO: Empty Message; no observations for selected species</div>;
+
+  function handleSelectPin(pin) {
+    if (pin.lat === selectedPin.lat && pin.lng === selectedPin.lng) return;
+    setSelectedPin(pin);
+  }
 
   return (
     <>
@@ -21,12 +28,17 @@ function Observations() {
         <SelectRegion />
         {regionCodeURL && <SelectSpecies />}
       </Controls>
-      <Map pins={observations} />
+      <Map pins={observations} selectedPin={selectedPin} />
       {observations.length && (
         <List
           items={observations}
           render={(obs) => (
-            <ObservationItem key={`${obs.obsDt}-${obs.locId}`} obs={obs} />
+            <ObservationItem
+              key={`${obs.obsDt}-${obs.locId}`}
+              obs={obs}
+              selectedPin={selectedPin}
+              onSelectPin={handleSelectPin}
+            />
           )}
         />
       )}
