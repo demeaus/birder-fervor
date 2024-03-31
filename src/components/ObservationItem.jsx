@@ -53,7 +53,10 @@ function ObervationItem({ obs, onSelectPin }) {
   return (
     <li
       className="flex flex-col justify-normal gap-2 bg-zinc-200 p-3"
-      onClick={() => onSelectPin({ lat: obs.lat, lng: obs.lng })}
+      onClick={(e) => {
+        onSelectPin({ lat: obs.lat, lng: obs.lng });
+        e.stopPropagation();
+      }}
     >
       <div className="sm:flex sm:items-center sm:gap-4">
         <div className="flex items-center justify-between gap-2">
@@ -83,7 +86,10 @@ function ObervationItem({ obs, onSelectPin }) {
       <div
         className="flex max-w-fit items-center justify-start gap-2 rounded bg-zinc-300 px-2 py-1 text-xs"
         role="button"
-        onClick={() => handleClick(`${obs.lat}, ${obs.lng}`)}
+        onClick={(e) => {
+          handleClick(`${obs.lat}, ${obs.lng}`);
+          e.stopPropagation();
+        }}
       >
         <LuMapPin />
         <span className="text-sm">{`${obs.lat}, ${obs.lng}`}</span>
