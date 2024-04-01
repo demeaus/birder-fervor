@@ -9,6 +9,7 @@ import {
   menuStyles,
   optionStyles,
   placeholderStyles,
+  indicatorStyles,
 } from "../utils/constants";
 
 // User can select a state/province to get relevant species for that region
@@ -113,6 +114,9 @@ function SelectRegion() {
           control: () => controlStyles,
           menu: () => menuStyles,
           option: () => optionStyles,
+          dropdownIndicator: () => indicatorStyles,
+          loadingIndicator: () => indicatorStyles,
+          clearIndicator: () => indicatorStyles,
         }}
         options={suggestions}
         onInputChange={handleOnInputChange}

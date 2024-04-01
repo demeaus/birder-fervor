@@ -16,29 +16,4 @@
   }
 }
 
-/*
-Override geoapify autocomplete styles
-*/
-/* TODO: Consolidate duplicate styling for geoapify and react-select components */
-
-.geocoder-container {
-  @apply mb-1 flex max-w-96 items-center;
-}
-
-.geoapify-autocomplete-input {
-  @apply rounded-3xl border-2 border-zinc-300 bg-zinc-50 px-4 py-2;
-}
-
-.geoapify-autocomplete-input::placeholder {
-  @apply text-zinc-400;
-}
-
-.geoapify-autocomplete-items {
-  @apply absolute left-0 right-0 top-full z-50 divide-y-2 border-0 bg-zinc-100 text-sm;
-}
-
-.geoapify-close-button {
-  @apply absolute right-3 h-full w-5;
-}
-
 @tailwind utilities;

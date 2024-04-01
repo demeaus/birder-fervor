@@ -9,6 +9,7 @@ import {
   menuStyles,
   optionStyles,
   placeholderStyles,
+  indicatorStyles,
 } from "../utils/constants";
 
 // TODO: group by species group
@@ -67,6 +68,9 @@ function SelectSpecies() {
           control: () => controlStyles,
           menu: () => menuStyles,
           option: () => optionStyles,
+          dropdownIndicator: () => indicatorStyles,
+          loadingIndicator: () => indicatorStyles,
+          clearIndicator: () => indicatorStyles,
         }}
         className="select"
         options={regionSpeciesList}
