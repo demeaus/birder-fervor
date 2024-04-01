@@ -13,7 +13,6 @@ export function getRegionCode(parent, name) {
 
     // Get list of name/subdivisions, uppercase
     const subdivisions = filteredRegions.map((obj) => obj.name.toUpperCase())
-    // console.log(subdivisions)
 
     // Get closest matching subdivision
     const closestName = closestMatch(sanitizedName, subdivisions)

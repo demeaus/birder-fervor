@@ -13,7 +13,6 @@ import {
 
 // User can select a state/province to get relevant species for that region
 function SelectRegion() {
-  // console.log("rendering SelectRegion");
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [isLoadingAutocomplete, setIsLoadingAutocomplete] = useState(false);
@@ -62,6 +61,15 @@ function SelectRegion() {
     }
   }
 
+  // Syncs URL with region selector
+  useEffect(() => {
+    // Handle reset of region state
+    if (regionCodeURL && !query) {
+      navigate(`/`);
+      return;
+    }
+  }, [query, regionCodeURL, navigate]);
+
   // Fetches list of autocomplete suggestions for search input
   useEffect(() => {
     async function fetchAutocompleteSuggestions() {
@@ -85,22 +93,15 @@ function SelectRegion() {
       }
     }
 
-    // Handle reset of region state
-    if (regionCodeURL && !query) {
-      navigate(`/`);
-      return;
-    }
-
     // Reduce amount of fetching by introducing delay while user enters query
     let timer = setTimeout(() => {
       if (query) {
-        // console.log("fetching autocomplete suggestions");
         fetchAutocompleteSuggestions();
       }
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [query, navigate, regionCodeURL]);
+  }, [query]);
 
   return (
     <div className="max-w-96">

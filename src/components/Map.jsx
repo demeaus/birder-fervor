@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { useObservations } from "../hooks/useObservations";
 
 const initalPosition = { lat: 39.75, lng: -104.95 };
 
-function MapComponent({ pins, selectedPin }) {
+function MapComponent({ observations, selectedPin }) {
   const map = useMap();
 
   // Sync map view with selected pin
@@ -13,18 +14,20 @@ function MapComponent({ pins, selectedPin }) {
       map.setView([selectedPin.lat, selectedPin.lng]);
 
       // Set view to first pin, if no pin is selected yet
-    } else if (pins?.length > 0) {
-      map.setView([pins[0].lat, pins[0].lng]);
+    } else if (observations?.length > 0) {
+      map.setView([observations[0].lat, observations[0].lng]);
 
-      // If there are no pins, default to initial position
+      // If there are no observations, default to initial position
     } else {
       map.setView([initalPosition.lat, initalPosition.lng]);
     }
-  }, [map, pins, selectedPin]);
+  }, [map, observations, selectedPin]);
 }
 
-function Map({ pins, selectedPin }) {
+function Map({ selectedPin, handleSelectPin }) {
   // TODO: Use user's current positon, or first pin or random hotspot?
+  const { observations = [] } = useObservations();
+
   return (
     <MapContainer
       center={initalPosition}
@@ -35,14 +38,14 @@ function Map({ pins, selectedPin }) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {pins.map((pin) => (
-        <Marker key={`${pin.obsDt}-${pin.locId}`} position={[pin.lat, pin.lng]}>
+      {observations.map((obs) => (
+        <Marker key={`${obs.obsDt}-${obs.locId}`} position={[obs.lat, obs.lng]}>
           <Popup>
-            {pin.obsDt} {pin.locName}
+            {obs.obsDt} {obs.locName}
           </Popup>
         </Marker>
       ))}
-      <MapComponent pins={pins} selectedPin={selectedPin} />
+      <MapComponent observations={observations} selectedPin={selectedPin} />
     </MapContainer>
   );
 }

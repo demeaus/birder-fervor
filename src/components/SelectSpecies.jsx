@@ -13,7 +13,6 @@ import {
 
 // TODO: group by species group
 function SelectSpecies() {
-  // console.log("rendering SelectSpecies");
   const [regionSpeciesList, setRegionSpeciesList] = useState([]);
   const [isLoadingSpecies, setIsLoadingSpecies] = useState(false);
   const { regionCode: regionCodeURL } = useParams();
@@ -50,8 +49,6 @@ function SelectSpecies() {
 
   // TODO: Clear selected species when region is cleared or changed
   function handleChange(e, { action }) {
-    // console.log("handleChange", e, action);
-
     // Clear region and species list if region is cleared
     // TODO: handle differently for if just the selected species is cleared
     if (action === "clear") {

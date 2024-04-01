@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AppLayout from "./ui/AppLayout";
-import Observations from "./ui/Observations";
+import Main from "./components/Main";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,9 +20,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<Observations />} />
-            <Route path=":regionCode" element={<Observations />}>
-              <Route path=":speciesCode" element={<Observations />} />
+            <Route index element={<Main />} />
+            <Route path=":regionCode" element={<Main />}>
+              <Route path=":speciesCode" element={<Main />} />
             </Route>
           </Route>
         </Routes>

@@ -6,10 +6,10 @@ export function useObservations() {
   const { speciesCode: speciesCodeURL, regionCode: regionCodeURL } =
     useParams();
   const {
-    status,
+    isLoading,
     data: observations,
     error,
   } = useQuery({ queryKey: ["observations", regionCodeURL, speciesCodeURL], queryFn: () => getObservationsBySpecies(regionCodeURL, speciesCodeURL), enabled: !!(regionCodeURL && speciesCodeURL) });
 
-  return { status, error, observations };
+  return { isLoading, error, observations };
 }
