@@ -36,7 +36,7 @@ function Observations({ selectedPin, handleSelectPin }) {
 
   return (
     <div className="fixed bottom-0 z-20 w-full ">
-      <div className="flex w-full justify-center">
+      <div className="flex justify-center">
         <PanelToggle type="down" onClick={handleToggle} isOpen={isOpen} />
       </div>
 

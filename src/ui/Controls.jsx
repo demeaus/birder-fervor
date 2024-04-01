@@ -9,15 +9,15 @@ function Controls({ children }) {
   }
 
   return (
-    <div>
+    <div className="absolute z-20 w-full">
       <div
-        className={`absolute z-20 w-full bg-zinc-100 px-4 py-2 text-sm${isOpen ? "" : " hidden"}`}
+        className={`bg-zinc-100 px-4 pb-3 pt-2 text-sm${isOpen ? "" : " hidden"}`}
       >
         {/* TODO: Search for species by address*/}
         {children}
       </div>
 
-      <div className="absolute flex w-full justify-center">
+      <div className="flex justify-center">
         <PanelToggle type="up" onClick={handleToggle} isOpen={isOpen} />
       </div>
     </div>
