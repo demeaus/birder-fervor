@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getRegionCode } from "../utils/helpers";
 import { getAutocompleteSuggestions } from "../services/apiGeoapify";
 import Select from "react-select";
@@ -16,6 +16,7 @@ function SelectRegion() {
   // console.log("rendering SelectRegion");
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [isLoadingAutocomplete, setIsLoadingAutocomplete] = useState(false);
   const [selectedRegionCode, setSelectedRegionCode] = useState("");
   const { regionCode: regionCodeURL } = useParams();
   const navigate = useNavigate();
@@ -33,12 +34,11 @@ function SelectRegion() {
       return;
     }
 
-    // TODO: Consider try-catch block instead?
     // Convert option value to ISO standardized code to get region code for eBird API
     const selectedEntry = e.value;
     let regionCode = getRegionCode(
       selectedEntry?.country_code,
-      selectedEntry?.state
+      selectedEntry?.state,
     );
     if (typeof regionCode != "string") {
       regionCode = regionCode[0];
@@ -65,30 +65,42 @@ function SelectRegion() {
   // Fetches list of autocomplete suggestions for search input
   useEffect(() => {
     async function fetchAutocompleteSuggestions() {
-      const suggestionsList = await getAutocompleteSuggestions(query);
-      if (suggestionsList) {
-        setSuggestions(
-          suggestionsList.map((obj) => ({
-            value: obj,
-            label: obj.formatted,
-          }))
-        );
+      try {
+        setIsLoadingAutocomplete(true);
+        const suggestionsList = await getAutocompleteSuggestions(query);
+
+        // Format suggestions for React Select component
+        if (suggestionsList) {
+          setSuggestions(
+            suggestionsList.map((obj) => ({
+              value: obj,
+              label: obj.formatted,
+            })),
+          );
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsLoadingAutocomplete(false);
       }
     }
+
+    // Handle reset of region state
     if (regionCodeURL && !query) {
       navigate(`/`);
       return;
     }
+
     // Reduce amount of fetching by introducing delay while user enters query
     let timer = setTimeout(() => {
       if (query) {
         // console.log("fetching autocomplete suggestions");
         fetchAutocompleteSuggestions();
       }
-    }, 1500);
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, [query]);
+  }, [query, navigate, regionCodeURL]);
 
   return (
     <div className="max-w-96">
@@ -107,6 +119,7 @@ function SelectRegion() {
         unstyled={true}
         backspaceRemovesValue={true}
         isClearable={true}
+        isLoading={isLoadingAutocomplete}
       />
     </div>
   );
