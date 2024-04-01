@@ -15,6 +15,7 @@ import {
 function SelectSpecies() {
   // console.log("rendering SelectSpecies");
   const [regionSpeciesList, setRegionSpeciesList] = useState([]);
+  const [isLoadingSpecies, setIsLoadingSpecies] = useState(false);
   const { regionCode: regionCodeURL } = useParams();
   const navigate = useNavigate();
 
@@ -31,15 +32,21 @@ function SelectSpecies() {
 
   // Syncs list of species in the selected region with loaded species codes and species common names
   useEffect(() => {
+    if (
+      statusSpeciesCodes === "pending" ||
+      statusSpeciesCommonNames === "pending"
+    ) {
+      setIsLoadingSpecies(true);
+    } else {
+      setIsLoadingSpecies(false);
+    }
+
     if (statusSpeciesCommonNames === "success") {
       setRegionSpeciesList(
-        speciesCommonNames.map((obj) => ({ value: obj[0], label: obj[1] }))
+        speciesCommonNames.map((obj) => ({ value: obj[0], label: obj[1] })),
       );
     }
-  }, [speciesCommonNames, statusSpeciesCommonNames]);
-
-  if (!regionSpeciesList.length)
-    return <div>TODO: Empty Message; no species for selected region</div>;
+  }, [speciesCommonNames, statusSpeciesCommonNames, statusSpeciesCodes]);
 
   // TODO: Clear selected species when region is cleared or changed
   function handleChange(e, { action }) {
@@ -70,6 +77,7 @@ function SelectSpecies() {
         unstyled={true}
         backspaceRemovesValue={true}
         isClearable={true}
+        isLoading={isLoadingSpecies}
       />
     </div>
   );
