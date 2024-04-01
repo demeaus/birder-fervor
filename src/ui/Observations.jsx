@@ -18,8 +18,13 @@ function Observations() {
   //   return <div>TODO: Empty Message; no observations for selected species</div>;
 
   function handleSelectPin(pin) {
-    if (pin.lat === selectedPin.lat && pin.lng === selectedPin.lng) return;
-    setSelectedPin(pin);
+    if (!selectedPin) {
+      setSelectedPin(pin);
+    } else if (pin.lat === selectedPin.lat && pin.lng === selectedPin.lng) {
+      return;
+    } else {
+      setSelectedPin(pin);
+    }
   }
 
   return (

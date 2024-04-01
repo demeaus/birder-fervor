@@ -59,7 +59,7 @@ function ObervationItem({ obs, onSelectPin }) {
       }}
     >
       <div className="sm:flex sm:items-center sm:gap-4">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center justify-between gap-2 rounded border border-solid border-zinc-400 px-3 py-1">
           <div className="flex items-center justify-start gap-2">
             <LuTimer />
             <span className="text-xs">Last seen: </span>
