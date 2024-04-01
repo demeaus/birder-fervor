@@ -40,23 +40,23 @@ function Observations({ selectedPin, handleSelectPin }) {
         <PanelToggle type="down" onClick={handleToggle} isOpen={isOpen} />
       </div>
 
-      {isOpen && (
-        <div className="h-64 overflow-auto bg-zinc-50">
-          <h1 className="bg-zinc-200 px-4 pt-3 text-sm">
-            TODO: Recent observations of {speciesCodeURL} in {regionCodeURL}
-          </h1>
-          <ul className="divide-y-4">
-            {observations.map((obs) => (
-              <ObservationItem
-                key={`${obs.obsDt}-${obs.locId}`}
-                obs={obs}
-                selectedPin={selectedPin}
-                onSelectPin={handleSelectPin}
-              />
-            ))}
-          </ul>
-        </div>
-      )}
+      <div
+        className={`h-64 overflow-auto bg-zinc-50${isOpen ? "" : " hidden"}`}
+      >
+        <h1 className="bg-zinc-200 px-4 pt-3 text-sm">
+          TODO: Recent observations of {speciesCodeURL} in {regionCodeURL}
+        </h1>
+        <ul className="divide-y-4">
+          {observations.map((obs) => (
+            <ObservationItem
+              key={`${obs.obsDt}-${obs.locId}`}
+              obs={obs}
+              selectedPin={selectedPin}
+              onSelectPin={handleSelectPin}
+            />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

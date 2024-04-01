@@ -32,7 +32,7 @@ function Map({ selectedPin, handleSelectPin }) {
     <MapContainer
       center={initalPosition}
       zoom={13}
-      className="fixed top-0 z-0 h-full w-full"
+      className="relative z-0 h-screen w-screen"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

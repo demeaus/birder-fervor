@@ -6,6 +6,7 @@ import { GEOAPIFY_API_URL } from "../utils/constants";
  */
 // TODO: How to hide apiKey?
 export async function getAddressbyCoordinates({ lat, lon }) {
+    console.log("getAddressbyCoordinates")
     var headers = new Headers();
     var requestOptions = {
         method: 'GET',

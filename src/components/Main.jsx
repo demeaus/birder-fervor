@@ -6,6 +6,7 @@ import Controls from "../ui/Controls";
 import Observations from "./Observations";
 import { useObservations } from "../hooks/useObservations";
 import { useState } from "react";
+import Header from "../ui/Header";
 
 function Main() {
   const { regionCode: regionCodeURL } = useParams();
@@ -25,6 +26,7 @@ function Main() {
   }
   return (
     <>
+      <Header />
       <Controls>
         <SelectRegion />
         {regionCodeURL && <SelectSpecies />}
