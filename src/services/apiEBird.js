@@ -81,5 +81,6 @@ export async function getObservationsBySpecies(regionCode, speciesCode) {
         );
     }
     const observations = await res.json();
+    console.log(observations)
     return observations;
 }

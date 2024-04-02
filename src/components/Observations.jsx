@@ -44,7 +44,7 @@ function Observations({ selectedPin, handleSelectPin }) {
   return (
     <div className="fixed bottom-0 z-10 flex w-full flex-col items-center lg:flex-row lg:justify-end">
       <div
-        className={`mb-1 flex justify-center ${isOpen ? "lg:mb-0 lg:mr-1 " : "lg:fixed lg:top-1/2"}`}
+        className={`mb-1 flex justify-center ${isOpen ? "lg:mb-0 lg:mr-1" : "lg:fixed lg:top-1/2"}`}
       >
         <PanelToggle
           type={`${width >= 1024 ? "right" : "down"}`}
@@ -54,7 +54,7 @@ function Observations({ selectedPin, handleSelectPin }) {
       </div>
 
       <div
-        className={`relative h-64 overflow-auto rounded-t-lg border-l-4 border-t-4 border-solid border-gray-400 lg:h-fit lg:max-h-[70vh] lg:rounded-l-lg ${isOpen ? "" : "hidden"}`}
+        className={`lg:border-r-none lg:border-b-none relative h-[38vh] overflow-auto rounded-t-lg border-4 border-t-4 border-solid border-gray-400 lg:h-fit lg:max-h-[70vh] lg:rounded-l-lg ${isOpen ? "" : "hidden"}`}
       >
         <h1 className="sticky top-0 w-full bg-gray-400 px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm">
           TODO: Recent observations of {speciesCodeURL} in {regionCodeURL}

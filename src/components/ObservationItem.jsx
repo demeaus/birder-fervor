@@ -2,6 +2,8 @@ import { LuBird, LuExternalLink, LuMapPin } from "react-icons/lu";
 import { calcObsAge, copyToClipboard } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { getAddressbyCoordinates } from "../services/apiGeoapify";
+import { Link } from "react-router-dom";
+import { EBIRD_CHECKLIST_URL } from "../utils/constants";
 
 function ObervationItem({ obs, onSelectPin }) {
   // distance from user's current/entered locations, if chosen
@@ -59,15 +61,17 @@ function ObervationItem({ obs, onSelectPin }) {
       }}
     >
       <div className="flex items-center justify-between gap-2 rounded border border-solid border-yellow-400 bg-yellow-100 px-3 py-1">
-        <div className="flex items-center justify-start gap-2 " role="link">
-          <LuExternalLink />
-          <span className="text-xs">Last seen: </span>
-          <span className="text-sm">{displayLastSeen}</span>
-        </div>
-        <div className="flex items-center justify-start gap-2">
-          <LuBird />
-          {obs.howMany}
-        </div>
+        <Link to={`${EBIRD_CHECKLIST_URL}/${obs.subId}`}>
+          <div className="flex items-center justify-start gap-2" role="link">
+            <LuExternalLink />
+            <span className="text-xs">Last seen: </span>
+            <span className="text-sm">{displayLastSeen}</span>
+          </div>
+          <div className="flex items-center justify-start gap-2">
+            <LuBird />
+            {obs.howMany}
+          </div>
+        </Link>
       </div>
       <div className="flex justify-stretch gap-2">
         <div
@@ -76,8 +80,8 @@ function ObervationItem({ obs, onSelectPin }) {
           onClick={() => handleClick(address.formatted)}
         >
           <LuMapPin />
-          <div className="flex flex-col ">
-            <span className=" text-sm ">{displayAddressA}</span>
+          <div className="flex flex-col">
+            <span className="text-sm">{displayAddressA}</span>
             {address?.address_line1 && displayAddressB}
           </div>
         </div>

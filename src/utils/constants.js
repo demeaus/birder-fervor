@@ -1,5 +1,6 @@
 export const EBIRD_API_URL = 'https://api.ebird.org/v2/';
 export const GEOAPIFY_API_URL = 'https://api.geoapify.com/v1/geocode/';
+export const EBIRD_CHECKLIST_URL = 'https://ebird.org/checklist/';
 
 // React Select styles
 export const controlStyles = "rounded-full border-2 border-yellow-500 text-sm px-4 py-2 bg-yellow-100 my-1 min-w-64";
