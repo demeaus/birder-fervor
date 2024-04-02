@@ -31,7 +31,7 @@ function Main() {
         <SelectRegion />
         {regionCodeURL && <SelectSpecies />}
       </Controls>
-      <div className="h-screen sm:flex">
+      <div className="h-screen">
         <Map
           observations={observations}
           selectedPin={selectedPin}

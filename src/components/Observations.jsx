@@ -42,22 +42,24 @@ function Observations({ selectedPin, handleSelectPin }) {
   }
 
   return (
-    <div className="fixed bottom-0 z-10 w-full sm:right-0 sm:flex sm:h-3/4 sm:max-w-xs sm:justify-end">
-      <div className="flex justify-center">
+    <div className="fixed bottom-0 z-10 flex w-full flex-col items-center lg:flex-row lg:justify-end">
+      <div
+        className={`mb-2 flex justify-center ${isOpen ? "lg:mb-0 lg:mr-2 " : "lg:fixed lg:top-1/2"}`}
+      >
         <PanelToggle
-          type={`${width >= 640 ? "right" : "down"}`}
+          type={`${width >= 1024 ? "right" : "down"}`}
           onClick={handleToggle}
           isOpen={isOpen}
         />
       </div>
 
       <div
-        className={`h-64 overflow-auto sm:h-full bg-zinc-50${isOpen ? "" : " hidden"}`}
+        className={`relative h-64 overflow-auto rounded lg:h-fit lg:max-h-[70vh] ${isOpen ? "" : "hidden"}`}
       >
-        <h1 className="bg-zinc-200 px-4 pt-3 text-sm">
+        <h1 className="sticky top-0 w-full rounded bg-zinc-200 px-4 py-2 text-sm">
           TODO: Recent observations of {speciesCodeURL} in {regionCodeURL}
         </h1>
-        <ul className="divide-y-4">
+        <ul className="divide-y-8 divide-zinc-300">
           {observations.map((obs) => (
             <ObservationItem
               key={`${obs.obsDt}-${obs.locId}`}
