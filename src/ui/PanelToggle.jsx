@@ -14,7 +14,7 @@ import {
 function PanelToggle({ type, onClick, isOpen }) {
   return (
     <button
-      className="relative z-20 text-3xl text-slate-600 sm:text-4xl"
+      className="relative z-20 text-3xl text-gray-500 sm:text-4xl"
       onClick={onClick}
     >
       {type === "up" && (isOpen ? <LuChevronUp /> : <LuChevronDown />)}

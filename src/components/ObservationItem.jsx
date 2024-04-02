@@ -1,4 +1,4 @@
-import { LuBird, LuTimer, LuMapPin } from "react-icons/lu";
+import { LuBird, LuExternalLink, LuMapPin } from "react-icons/lu";
 import { calcObsAge, copyToClipboard } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { getAddressbyCoordinates } from "../services/apiGeoapify";
@@ -52,15 +52,15 @@ function ObervationItem({ obs, onSelectPin }) {
 
   return (
     <li
-      className="flex max-w-sm flex-col justify-normal gap-2 bg-zinc-200 p-4 shadow-sm"
+      className="flex max-w-sm flex-col justify-normal gap-2 bg-gray-200 p-4 shadow-sm"
       onClick={(e) => {
         onSelectPin({ lat: obs.lat, lng: obs.lng });
         e.stopPropagation();
       }}
     >
-      <div className="flex items-center justify-between gap-2 rounded border border-solid border-zinc-400 bg-zinc-100 px-3 py-1">
-        <div className="flex items-center justify-start gap-2 ">
-          <LuTimer />
+      <div className="flex items-center justify-between gap-2 rounded border border-solid border-yellow-400 bg-yellow-100 px-3 py-1">
+        <div className="flex items-center justify-start gap-2 " role="link">
+          <LuExternalLink />
           <span className="text-xs">Last seen: </span>
           <span className="text-sm">{displayLastSeen}</span>
         </div>
@@ -71,7 +71,7 @@ function ObervationItem({ obs, onSelectPin }) {
       </div>
       <div className="flex justify-stretch gap-2">
         <div
-          className="flex basis-1/2 items-center justify-start gap-2 rounded bg-zinc-300 py-2 pl-3 pr-4"
+          className="flex basis-1/2 items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4"
           role="button"
           onClick={() => handleClick(address.formatted)}
         >
@@ -83,7 +83,7 @@ function ObervationItem({ obs, onSelectPin }) {
         </div>
 
         <div
-          className="flex basis-1/2 items-center justify-start gap-2 rounded bg-zinc-300 py-2 pl-3 pr-4 "
+          className="flex basis-1/2 items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4 "
           role="button"
           onClick={(e) => {
             handleClick(`${obs.lat}, ${obs.lng}`);

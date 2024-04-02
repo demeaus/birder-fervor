@@ -35,7 +35,7 @@ function Observations({ selectedPin, handleSelectPin }) {
   // If there are no observations for the selected species
   if (regionCodeURL && speciesCodeURL && !observations?.length) {
     return (
-      <div className="fixed bottom-0 z-20 w-full bg-zinc-200 px-6 py-3 text-center text-sm">
+      <div className="fixed bottom-0 z-20 w-full bg-gray-300 px-6 py-3 text-center text-sm">
         No observations for the selected species in the last 30 days.
       </div>
     );
@@ -44,7 +44,7 @@ function Observations({ selectedPin, handleSelectPin }) {
   return (
     <div className="fixed bottom-0 z-10 flex w-full flex-col items-center lg:flex-row lg:justify-end">
       <div
-        className={`mb-2 flex justify-center ${isOpen ? "lg:mb-0 lg:mr-2 " : "lg:fixed lg:top-1/2"}`}
+        className={`mb-1 flex justify-center ${isOpen ? "lg:mb-0 lg:mr-1 " : "lg:fixed lg:top-1/2"}`}
       >
         <PanelToggle
           type={`${width >= 1024 ? "right" : "down"}`}
@@ -54,12 +54,12 @@ function Observations({ selectedPin, handleSelectPin }) {
       </div>
 
       <div
-        className={`relative h-64 overflow-auto rounded lg:h-fit lg:max-h-[70vh] ${isOpen ? "" : "hidden"}`}
+        className={`relative h-64 overflow-auto rounded-t-lg border-l-4 border-t-4 border-solid border-gray-400 lg:h-fit lg:max-h-[70vh] lg:rounded-l-lg ${isOpen ? "" : "hidden"}`}
       >
-        <h1 className="sticky top-0 w-full rounded bg-zinc-200 px-4 py-2 text-sm">
+        <h1 className="sticky top-0 w-full bg-gray-400 px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm">
           TODO: Recent observations of {speciesCodeURL} in {regionCodeURL}
         </h1>
-        <ul className="divide-y-8 divide-zinc-300">
+        <ul className="divide-y-4 divide-gray-400">
           {observations.map((obs) => (
             <ObservationItem
               key={`${obs.obsDt}-${obs.locId}`}

@@ -60,7 +60,7 @@ function SelectSpecies() {
   }
 
   return (
-    <div className="max-w-80 sm:w-1/2">
+    <div className="min-w-fit max-w-80 sm:w-1/2">
       <h1>Select species: </h1>
       <Select
         classNames={{

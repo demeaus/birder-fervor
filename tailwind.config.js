@@ -3,7 +3,8 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     fontFamily: {
-      sans: ['Noto Sans Mayan Numerals', 'sans-serif'],
+      sans: ['Reddit Mono', 'sans-serif'],
+      serif: ['Lora', 'serif'],
     },
     extend: {
       height: {
