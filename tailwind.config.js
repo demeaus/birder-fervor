@@ -5,7 +5,11 @@ export default {
     fontFamily: {
       sans: ['Noto Sans Mayan Numerals', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      height: {
+        screen: "100dvh",
+      },
+    },
   },
   plugins: [],
 }

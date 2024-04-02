@@ -60,8 +60,8 @@ function SelectSpecies() {
   }
 
   return (
-    <div className="max-w-96">
-      <h1>Select species</h1>
+    <div className="max-w-80 sm:w-1/2">
+      <h1>Select species: </h1>
       <Select
         classNames={{
           placeholder: () => placeholderStyles,

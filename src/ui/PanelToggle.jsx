@@ -11,16 +11,12 @@ import {
   LuChevronRight,
 } from "react-icons/lu";
 
-const base = "text-3xl z-20 relative text-slate-800";
-
-const styles = {
-  up: base + "",
-  down: base + "",
-};
-
 function PanelToggle({ type, onClick, isOpen }) {
   return (
-    <button className={styles[type]} onClick={onClick}>
+    <button
+      className="relative z-20 text-3xl text-slate-600 sm:text-4xl"
+      onClick={onClick}
+    >
       {type === "up" && (isOpen ? <LuChevronUp /> : <LuChevronDown />)}
       {type === "down" && (isOpen ? <LuChevronDown /> : <LuChevronUp />)}
       {type === "left" && (isOpen ? <LuChevronLeft /> : <LuChevronRight />)}

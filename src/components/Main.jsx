@@ -25,22 +25,24 @@ function Main() {
     }
   }
   return (
-    <>
+    <div>
       <Header />
       <Controls>
         <SelectRegion />
         {regionCodeURL && <SelectSpecies />}
       </Controls>
-      <Map
-        observations={observations}
-        selectedPin={selectedPin}
-        handleSelectPin={handleSelectPin}
-      />
-      <Observations
-        selectedPin={selectedPin}
-        handleSelectPin={handleSelectPin}
-      />
-    </>
+      <div className="h-screen sm:flex">
+        <Map
+          observations={observations}
+          selectedPin={selectedPin}
+          handleSelectPin={handleSelectPin}
+        />
+        <Observations
+          selectedPin={selectedPin}
+          handleSelectPin={handleSelectPin}
+        />
+      </div>
+    </div>
   );
 }
 

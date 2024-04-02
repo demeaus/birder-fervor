@@ -11,7 +11,7 @@ function Controls({ children }) {
   return (
     <div className="absolute z-20 w-full">
       <div
-        className={`bg-zinc-100 px-4 pb-3 pt-2 text-sm${isOpen ? "" : " hidden"}`}
+        className={`bg-zinc-100 px-4 pb-3 pt-2 text-sm sm:justify-stretch sm:gap-4 ${isOpen ? "sm:flex" : "hidden "}`}
       >
         {/* TODO: Search for species by address*/}
         {children}

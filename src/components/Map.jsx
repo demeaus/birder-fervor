@@ -25,6 +25,7 @@ function MapComponent({ observations, selectedPin }) {
 }
 
 function Map({ selectedPin, handleSelectPin }) {
+  // TODO: Fix map height/screen height being greater than the actual screen height
   // TODO: Use user's current positon, or first pin or random hotspot?
   const { observations = [] } = useObservations();
 
@@ -32,7 +33,7 @@ function Map({ selectedPin, handleSelectPin }) {
     <MapContainer
       center={initalPosition}
       zoom={13}
-      className="relative z-0 h-screen w-screen"
+      className="relative z-0 h-full w-full"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

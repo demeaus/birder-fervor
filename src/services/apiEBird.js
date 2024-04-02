@@ -73,7 +73,7 @@ export async function getObservationsBySpecies(regionCode, speciesCode) {
         headers: headers,
     };
     // TODO: Increase number of results or make customizable in production
-    const res = await fetch(`${EBIRD_API_URL}data/obs/${regionCode}/recent/${speciesCode}?maxResults=3`, requestOptions);
+    const res = await fetch(`${EBIRD_API_URL}data/obs/${regionCode}/recent/${speciesCode}?maxResults=6`, requestOptions);
 
     if (!res.ok) {
         throw new Error(
