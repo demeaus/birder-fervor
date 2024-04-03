@@ -44,3 +44,18 @@ export function calcObsAge(dateStr) {
 
     return { days: daysDifference, hours: hoursDifference };
 }
+
+
+const options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: "numeric",
+    minute: "numeric",
+};
+
+export function formatDate(dateStr) {
+    const dateFormat = new Intl.DateTimeFormat('en-US', options);
+    const date = new Date(dateStr)
+    return dateFormat.format(date)
+}

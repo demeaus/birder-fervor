@@ -1,9 +1,10 @@
 import { LuBird, LuExternalLink, LuMapPin } from "react-icons/lu";
-import { calcObsAge, copyToClipboard } from "../utils/helpers";
+import { calcObsAge, copyToClipboard, formatDate } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { getAddressbyCoordinates } from "../services/apiGeoapify";
 import { Link } from "react-router-dom";
 import { EBIRD_CHECKLIST_URL } from "../utils/constants";
+import Dot from "../ui/Dot";
 
 function ObervationItem({ obs, onSelectPin }) {
   // distance from user's current/entered locations, if chosen
@@ -42,12 +43,11 @@ function ObervationItem({ obs, onSelectPin }) {
 
   const displayLastSeen =
     obsAge.days > 0
-      ? `${obsAge.days} ${obsAge.days === 1 ? "day" : "days"}
-      ${
-        obsAge.hours > 0
-          ? ` and ${obsAge.hours} ${obsAge.hours === 1 ? "hour" : "hours"} ago`
-          : ""
-      }`
+      ? `${obsAge.days} ${obsAge.days === 1 ? "day" : "days"}${
+          obsAge.hours > 0
+            ? `, ${obsAge.hours} ${obsAge.hours === 1 ? "hour" : "hours"} ago`
+            : ""
+        }`
       : obsAge.hours > 0
         ? `${obsAge.hours} ${obsAge.hours === 1 ? "hour" : "hours"} ago`
         : "now";
@@ -57,21 +57,35 @@ function ObervationItem({ obs, onSelectPin }) {
       className="flex max-w-sm flex-col justify-normal gap-2 bg-gray-200 p-4 shadow-sm"
       onClick={(e) => {
         onSelectPin({ lat: obs.lat, lng: obs.lng });
-        e.stopPropagation();
+        // e.stopPropagation();
       }}
     >
-      <div className="flex items-center justify-between gap-2 rounded border border-solid border-yellow-400 bg-yellow-100 px-3 py-1">
-        <Link to={`${EBIRD_CHECKLIST_URL}/${obs.subId}`}>
-          <div className="flex items-center justify-start gap-2" role="link">
-            <LuExternalLink />
+      <div className="flex flex-col items-center gap-1 rounded border border-solid border-yellow-400 bg-yellow-100 px-4 py-1">
+        <div className="flex w-full justify-between">
+          <span className="font-semibold">{formatDate(obs.obsDt)}</span>
+          <div className="flex items-center justify-end gap-2 font-semibold">
+            <span className="text-xl">
+              <LuBird />
+            </span>
+            {obs.howMany}
+          </div>
+        </div>
+        <div className="flex w-full justify-between">
+          <div className="flex items-center justify-start gap-2">
             <span className="text-xs">Last seen: </span>
             <span className="text-sm">{displayLastSeen}</span>
           </div>
-          <div className="flex items-center justify-start gap-2">
-            <LuBird />
-            {obs.howMany}
-          </div>
-        </Link>
+          <Link
+            to={`${EBIRD_CHECKLIST_URL}/${obs.subId}`}
+            className="flex items-center justify-end font-semibold text-yellow-800"
+            // className="flex max-w-fit items-center justify-end gap-2 font-semibold text-yellow-800"
+          >
+            <div className="mt-1 flex justify-end gap-1">
+              <LuExternalLink />
+              <span className="text-sm">eBird</span>
+            </div>
+          </Link>
+        </div>
       </div>
       <div className="flex justify-stretch gap-2">
         <div
@@ -79,7 +93,7 @@ function ObervationItem({ obs, onSelectPin }) {
           role="button"
           onClick={() => handleClick(address.formatted)}
         >
-          <LuMapPin />
+          <LuMapPin className="shrink-0" />
           <div className="flex flex-col">
             <span className="text-sm">{displayAddressA}</span>
             {address?.address_line1 && displayAddressB}
@@ -91,7 +105,7 @@ function ObervationItem({ obs, onSelectPin }) {
           role="button"
           onClick={(e) => {
             handleClick(`${obs.lat}, ${obs.lng}`);
-            e.stopPropagation();
+            // e.stopPropagation();
           }}
         >
           <LuMapPin className="shrink-0" />
