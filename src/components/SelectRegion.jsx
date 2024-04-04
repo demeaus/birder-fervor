@@ -123,7 +123,7 @@ function SelectRegion() {
         backspaceRemovesValue={true}
         isClearable={true}
         isLoading={isLoadingAutocomplete}
-        value={selectedRegion || null}
+        value={selectedRegion}
         placeholder="Enter state or province..."
       />
     </div>

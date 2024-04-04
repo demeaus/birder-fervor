@@ -29,6 +29,9 @@ function SelectSpecies() {
     speciesCommonNames = [],
   } = useSpeciesCommonNames(speciesCodes);
 
+  const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
+    useParams();
+
   // Syncs list of species in the selected region with loaded species codes and species common names
   useEffect(() => {
     if (
@@ -78,6 +81,17 @@ function SelectSpecies() {
         isClearable={true}
         isLoading={isLoadingSpecies}
         placeholder="Enter species..."
+        value={
+          speciesCodeURL
+            ? {
+                value: speciesCodeURL,
+                label: speciesCommonNames
+                  .filter((species) => species[0] === speciesCodeURL)
+                  ?.at(0)
+                  ?.at(1),
+              }
+            : regionSpeciesList.value
+        }
       />
     </div>
   );
