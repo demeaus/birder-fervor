@@ -5,7 +5,7 @@ import { getAddressbyCoordinates } from "../services/apiGeoapify";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { EBIRD_CHECKLIST_URL } from "../utils/constants";
 
-function ObervationItem({ obs, onSelectPin }) {
+function ObervationItem({ obs, idx, onSelectPin }) {
   // distance from user's current/entered locations, if chosen
   // starred for user for sorting and export
 
@@ -78,7 +78,9 @@ function ObervationItem({ obs, onSelectPin }) {
     >
       <div className="flex flex-col items-center gap-1 rounded border border-solid border-yellow-400 bg-yellow-100 px-4 py-1">
         <div className="flex w-full justify-between">
-          <span className="font-semibold">{formatDate(obs.obsDt)}</span>
+          <span className="font-semibold">
+            {idx + 1}. {formatDate(obs.obsDt)}
+          </span>
           <div className="flex items-center justify-end gap-2 font-semibold">
             <span className="text-xl">
               <LuBird />

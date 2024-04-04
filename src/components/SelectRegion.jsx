@@ -111,7 +111,7 @@ function SelectRegion() {
   }, [query]);
 
   return (
-    <div>
+    <div className="w-full">
       {/* Select location (regionCodeURL) by state/province */}
       <Select
         classNames={{
