@@ -9,8 +9,6 @@ import { useState } from "react";
 import Header from "../ui/Header";
 
 function Main() {
-  const { regionCode: regionCodeURL } = useParams();
-
   const { isLoading, error, observations = [] } = useObservations();
 
   const [selectedPin, setSelectedPin] = useState(null);
@@ -27,10 +25,7 @@ function Main() {
   return (
     <div>
       <Header />
-      <Controls>
-        <SelectRegion />
-        {regionCodeURL && <SelectSpecies />}
-      </Controls>
+      <Controls />
       <div className="h-screen">
         <Map
           observations={observations}

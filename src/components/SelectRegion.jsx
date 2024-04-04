@@ -104,7 +104,7 @@ function SelectRegion() {
   }, [query]);
 
   return (
-    <div className="min-w-fit max-w-80 sm:w-1/2">
+    <div>
       {/* Select location (regionCodeURL) by state/province */}
       <Select
         classNames={{

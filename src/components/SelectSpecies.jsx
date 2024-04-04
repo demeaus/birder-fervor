@@ -62,7 +62,7 @@ function SelectSpecies() {
   }
 
   return (
-    <div className="min-w-fit max-w-80 sm:w-1/2">
+    <div>
       <Select
         classNames={{
           placeholder: () => placeholderStyles,
