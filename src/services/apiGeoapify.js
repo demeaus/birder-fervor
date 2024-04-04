@@ -1,4 +1,4 @@
-import { GEOAPIFY_API_KEY } from "../../secrets";
+// import { GEOAPIFY_API_KEY } from "../../secrets.env";
 import { GEOAPIFY_API_URL } from "../utils/constants";
 
 /**
@@ -13,7 +13,7 @@ export async function getAddressbyCoordinates({ lat, lon }) {
         headers: headers,
         redirect: 'follow'
     };
-    const res = await fetch(`${GEOAPIFY_API_URL}reverse?lat=${lat}&lon=${lon}&format=json&apiKey=${GEOAPIFY_API_KEY}`, requestOptions);
+    const res = await fetch(`${GEOAPIFY_API_URL}reverse?lat=${lat}&lon=${lon}&format=json&apiKey=${process.env.GEOAPIFY_API_KEY}`, requestOptions);
 
     if (!res.ok) {
         throw new Error(
@@ -36,7 +36,7 @@ export async function getAutocompleteSuggestions(query) {
         headers: headers,
         redirect: 'follow'
     };
-    const res = await fetch(`${GEOAPIFY_API_URL}autocomplete?text=${query}&type=state&format=json&apiKey=${GEOAPIFY_API_KEY}`, requestOptions);
+    const res = await fetch(`${GEOAPIFY_API_URL}autocomplete?text=${query}&type=state&format=json&apiKey=${process.env.GEOAPIFY_API_KEY}`, requestOptions);
 
     if (!res.ok) {
         throw new Error(

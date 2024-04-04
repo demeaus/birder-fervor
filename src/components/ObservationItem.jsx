@@ -35,7 +35,6 @@ function ObervationItem({ obs, onSelectPin }) {
 
   // TODO: Handle localization of address format
   const displayAddressA = address?.address_line1 ?? obs.locName;
-  console.log(address);
   const displayAddressB = address?.address_line1 ? (
     <span className="text-xs">
       <>
