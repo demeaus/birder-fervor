@@ -13,6 +13,10 @@ function Controls({ children }) {
       <div
         className={`rounded-b-lg border-4 border-t-0 border-solid border-gray-400 bg-gray-200 px-4 py-3 text-sm sm:left-0 sm:top-0 sm:min-w-fit sm:items-center sm:justify-center sm:gap-4 sm:px-8 sm:py-4 ${isOpen ? "sm:flex" : "hidden "}`}
       >
+        {/* TODO: Format */}
+        <h1 className="text-xs">
+          Search for recent sightings of a species by region:
+        </h1>
         {/* TODO: Search for species by address*/}
         {children}
       </div>

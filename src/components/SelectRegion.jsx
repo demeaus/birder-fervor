@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRegionCode } from "../utils/helpers";
+import { getRegionCode, getRegionName } from "../utils/helpers";
 import { getAutocompleteSuggestions } from "../services/apiGeoapify";
 import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,16 +17,16 @@ function SelectRegion() {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [isLoadingAutocomplete, setIsLoadingAutocomplete] = useState(false);
-  const [selectedRegionCode, setSelectedRegionCode] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState(null);
   const { regionCode: regionCodeURL } = useParams();
   const navigate = useNavigate();
 
   // Handle clearing or selection of input from dropdown
   function handleChange(e, { action }) {
-    // Clear region and species list if region is cleared
+    // Input was cleared so clear region and species list
     if (action === "clear") {
       // TODO: Display history or recent searches
-      setSelectedRegionCode("");
+      setSelectedRegion(null);
 
       if (regionCodeURL) {
         navigate("/");
@@ -34,6 +34,7 @@ function SelectRegion() {
       return;
     }
 
+    // Region was selected
     // Convert option value to ISO standardized code to get region code for eBird API
     const selectedEntry = e.value;
     let regionCode = getRegionCode(
@@ -43,33 +44,30 @@ function SelectRegion() {
     if (typeof regionCode != "string") {
       regionCode = regionCode[0];
     }
-    setSelectedRegionCode(regionCode);
 
-    // If the first region is selected, move URL
-    // If the selected region is different from the URL, go to the new selected region
+    // select -> URL
+    // If no region has been previously selected, move to URL or
+    // if the selected region is different from the URL, go to the new selected region
     if (!regionCodeURL || regionCodeURL !== regionCode) {
-      navigate(`${regionCode}`);
+      setSelectedRegion({ value: regionCode, label: selectedEntry.formatted });
+      navigate(`/${regionCode}`);
     }
   }
 
   // Handle typing in input of dropdown
   function handleOnInputChange(input) {
     if (input.length > 1) setQuery(input);
-
-    // Reset the URL if there is no selected region and no region being searched
-    if (regionCodeURL && !selectedRegionCode && !input.length) {
-      navigate(`/`);
-    }
   }
 
   // Syncs URL with region selector
+  // URL -> dropdown
   useEffect(() => {
-    // Handle reset of region state
-    if (regionCodeURL && !query) {
-      navigate(`/`);
-      return;
+    if (!suggestions.length && regionCodeURL) {
+      const { name, parent } = getRegionName(regionCodeURL);
+      console.log("converted: ", name, parent);
+      setSelectedRegion({ value: regionCodeURL, label: `${name}, ${parent}` });
     }
-  }, [query, regionCodeURL, navigate]);
+  }, [regionCodeURL, suggestions.length]);
 
   // Fetches list of autocomplete suggestions for search input
   useEffect(() => {
@@ -79,6 +77,7 @@ function SelectRegion() {
         const suggestionsList = await getAutocompleteSuggestions(query);
 
         // Format suggestions for React Select component
+        // TODO: reduce value size
         if (suggestionsList) {
           setSuggestions(
             suggestionsList.map((obj) => ({
@@ -106,7 +105,6 @@ function SelectRegion() {
 
   return (
     <div className="min-w-fit max-w-80 sm:w-1/2">
-      <h1 className="text-xs">Select region:</h1>
       {/* Select location (regionCodeURL) by state/province */}
       <Select
         classNames={{
@@ -125,6 +123,8 @@ function SelectRegion() {
         backspaceRemovesValue={true}
         isClearable={true}
         isLoading={isLoadingAutocomplete}
+        value={selectedRegion || null}
+        placeholder="Enter state or province..."
       />
     </div>
   );
