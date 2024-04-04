@@ -76,7 +76,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
         // e.stopPropagation();
       }}
     >
-      <div className="flex flex-col items-center gap-1 rounded border border-solid border-yellow-400 bg-yellow-100 px-4 py-1">
+      <div className="flex flex-col items-center gap-0.5 rounded border border-solid border-yellow-400 bg-yellow-100 px-4 py-1">
         <div className="flex w-full justify-between">
           <span className="font-semibold">
             {idx + 1}. {formatDate(obs.obsDt)}
