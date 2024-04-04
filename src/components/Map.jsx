@@ -2,6 +2,12 @@ import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { useObservations } from "../hooks/useObservations";
 import { useNavigate, useParams } from "react-router-dom";
+import marker from "../../Assets/icons/Location.svg";
+import { Icon } from "leaflet";
+const icon = new Icon({
+  iconUrl: marker,
+  iconSize: [32, 32],
+});
 
 const initalPosition = { lat: 39.75, lng: -104.95 };
 
@@ -45,7 +51,11 @@ function Map({ selectedPin, handleSelectPin }) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {observations.map((obs) => (
-        <Marker key={`${obs.obsDt}-${obs.locId}`} position={[obs.lat, obs.lng]}>
+        <Marker
+          key={`${obs.obsDt}-${obs.locId}`}
+          position={[obs.lat, obs.lng]}
+          icon={icon}
+        >
           <Popup>
             {obs.obsDt} {obs.locName}
           </Popup>
