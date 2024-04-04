@@ -94,8 +94,22 @@ function SelectSpecies() {
         isClearable={true}
         isLoading={statusSpecies === "pending"}
         placeholder="Enter species..."
+<<<<<<< HEAD
         // TODO: actually set selectedSpecies to something
         value={speciesCode ? selectedSpecies : null}
+=======
+        value={
+          speciesCodeURL
+            ? {
+                value: speciesCodeURL,
+                label: speciesCommonNames
+                  .filter((species) => species[0] === speciesCodeURL)
+                  ?.at(0)
+                  ?.at(1),
+              }
+            : null
+        }
+>>>>>>> 70f8bb5 (Fix URL not determining selected species.)
       />
     </div>
   );
