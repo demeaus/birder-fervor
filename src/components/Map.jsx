@@ -1,11 +1,15 @@
 import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { useObservations } from "../hooks/useObservations";
+import { useNavigate, useParams } from "react-router-dom";
 
 const initalPosition = { lat: 39.75, lng: -104.95 };
 
 function MapComponent({ observations, selectedPin }) {
   const map = useMap();
+  const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
+    useParams();
+  const navigate = useNavigate();
 
   // Sync map view with selected pin
   useEffect(() => {
@@ -16,6 +20,7 @@ function MapComponent({ observations, selectedPin }) {
       // Set view to first pin, if no pin is selected yet
     } else if (observations?.length > 0) {
       map.setView([observations[0].lat, observations[0].lng]);
+      navigate(`/${regionCodeURL}/${speciesCodeURL}/${observations[0].subId}`);
 
       // If there are no observations, default to initial position
     } else {

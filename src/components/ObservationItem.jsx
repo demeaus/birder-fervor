@@ -2,15 +2,17 @@ import { LuBird, LuExternalLink, LuMapPin } from "react-icons/lu";
 import { calcObsAge, copyToClipboard, formatDate } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { getAddressbyCoordinates } from "../services/apiGeoapify";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { EBIRD_CHECKLIST_URL } from "../utils/constants";
-import Dot from "../ui/Dot";
 
 function ObervationItem({ obs, onSelectPin }) {
   // distance from user's current/entered locations, if chosen
   // starred for user for sorting and export
 
   const [address, setAddress] = useState();
+  const navigate = useNavigate();
+  const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
+    useParams();
 
   function handleClick(text) {
     copyToClipboard(text);
@@ -55,7 +57,8 @@ function ObervationItem({ obs, onSelectPin }) {
   return (
     <li
       className="flex max-w-sm flex-col justify-normal gap-2 bg-gray-200 p-4 shadow-sm"
-      onClick={(e) => {
+      onClick={() => {
+        navigate(`/${regionCodeURL}/${speciesCodeURL}/${obs.subId}`);
         onSelectPin({ lat: obs.lat, lng: obs.lng });
         // e.stopPropagation();
       }}
@@ -76,6 +79,7 @@ function ObervationItem({ obs, onSelectPin }) {
             <span className="text-sm">{displayLastSeen}</span>
           </div>
           <Link
+            target="_blank"
             to={`${EBIRD_CHECKLIST_URL}/${obs.subId}`}
             className="flex items-center justify-end font-semibold text-yellow-800"
             // className="flex max-w-fit items-center justify-end gap-2 font-semibold text-yellow-800"

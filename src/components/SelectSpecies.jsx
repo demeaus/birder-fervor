@@ -16,7 +16,6 @@ import {
 function SelectSpecies() {
   const [regionSpeciesList, setRegionSpeciesList] = useState([]);
   const [isLoadingSpecies, setIsLoadingSpecies] = useState(false);
-  const { regionCode: regionCodeURL } = useParams();
   const navigate = useNavigate();
 
   const {
@@ -56,7 +55,7 @@ function SelectSpecies() {
       navigate("..");
       return;
     }
-    navigate(`/${regionCodeURL}/${e.value}`);
+    navigate(`${e.value}`);
   }
 
   return (

@@ -48,7 +48,7 @@ function SelectRegion() {
     // If the first region is selected, move URL
     // If the selected region is different from the URL, go to the new selected region
     if (!regionCodeURL || regionCodeURL !== regionCode) {
-      navigate(`/${regionCode}`);
+      navigate(`${regionCode}`);
     }
   }
 

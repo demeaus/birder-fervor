@@ -64,7 +64,7 @@ export async function getSpeciesCommonNames(speciesCodes = []) {
 }
 
 export async function getObservationsBySpecies(regionCode, speciesCode) {
-    console.log("getObservationsBySpecies")
+    console.log("getObservationsBySpecies", regionCode, speciesCode)
     var headers = new Headers();
     headers.append("X-eBirdApiToken", EBIRD_API_KEY);
 

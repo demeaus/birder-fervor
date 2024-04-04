@@ -22,7 +22,9 @@ function App() {
           <Route path="/" element={<AppLayout />}>
             <Route index element={<Main />} />
             <Route path=":regionCode" element={<Main />}>
-              <Route path=":speciesCode" element={<Main />} />
+              <Route path=":speciesCode" element={<Main />}>
+                <Route path=":checklistCode" element={<Main />} />
+              </Route>
             </Route>
           </Route>
         </Routes>
