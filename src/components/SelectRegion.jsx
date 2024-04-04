@@ -63,11 +63,18 @@ function SelectRegion() {
   // URL -> dropdown
   useEffect(() => {
     if (!suggestions.length && regionCodeURL) {
-      const { name, parent } = getRegionName(regionCodeURL);
-      console.log("converted: ", name, parent);
-      setSelectedRegion({ value: regionCodeURL, label: `${name}, ${parent}` });
+      const result = getRegionName(regionCodeURL);
+      if (result?.name && result?.parent) {
+        console.log("converted: ", result.name, result.parent);
+        setSelectedRegion({
+          value: regionCodeURL,
+          label: `${result.name}, ${result.parent}`,
+        });
+      } else {
+        navigate("/");
+      }
     }
-  }, [regionCodeURL, suggestions.length]);
+  }, [regionCodeURL, suggestions.length, navigate]);
 
   // Fetches list of autocomplete suggestions for search input
   useEffect(() => {

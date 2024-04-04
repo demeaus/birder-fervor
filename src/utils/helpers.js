@@ -27,11 +27,23 @@ export function getRegionCode(parent, name) {
 export function getRegionName(regionCode) {
     // Convert regionCode
     const filteredNames = iso31662.filter((obj) => obj.code === regionCode);
-    const filterParents = iso31661.filter((obj) => obj.alpha2 === filteredNames[0].parent)
-    const name = filteredNames[0].name;
-    const parent = filterParents[0].name;
+    if (!filteredNames.length) {
+        console.error("Invalid ISO31662 code.");
+        return;
+    }
 
-    return { name, parent }
+    const filteredParents = iso31661.filter((obj) => obj.alpha2 === filteredNames[0].parent)
+
+    if (!filteredParents.length) {
+        console.error("Invalid ISO31662 code.");
+        return;
+    }
+
+    const name = filteredNames[0].name;
+    const parent = filteredParents[0].name;
+    const result = { name: name, parent: parent }
+
+    return result
 }
 
 

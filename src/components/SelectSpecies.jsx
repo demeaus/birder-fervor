@@ -32,6 +32,25 @@ function SelectSpecies() {
   const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
     useParams();
 
+  // Syncs speciesCodeURL with dropdown
+  useEffect(() => {
+    // Validate speciesCodeURL
+    function isValidSpeciesCode(speciesCode) {
+      if (
+        speciesCommonNames.filter((species) => species[0] === speciesCode)
+          .length
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    if (speciesCodeURL && !isValidSpeciesCode(speciesCodeURL)) {
+      navigate(`/${regionCodeURL}`);
+    }
+  }, [speciesCodeURL, navigate, speciesCommonNames, regionCodeURL]);
+
   // Syncs list of species in the selected region with loaded species codes and species common names
   useEffect(() => {
     if (
