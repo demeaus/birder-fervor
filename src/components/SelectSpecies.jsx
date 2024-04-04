@@ -39,12 +39,12 @@ function SelectSpecies() {
       if (
         speciesCommonNames.filter((species) => species[0] === speciesCode)
           .length
-      ) {
+      )
         return true;
-      } else {
-        return false;
-      }
+      return false;
     }
+
+    if (!speciesCommonNames.length) return;
 
     if (speciesCodeURL && !isValidSpeciesCode(speciesCodeURL)) {
       navigate(`/${regionCodeURL}`);
@@ -109,7 +109,7 @@ function SelectSpecies() {
                   ?.at(0)
                   ?.at(1),
               }
-            : regionSpeciesList.value
+            : null
         }
       />
     </div>
