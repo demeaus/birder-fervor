@@ -1,6 +1,4 @@
 import DataFrame from "dataframe-js";
-
-// import { EBIRD_API_KEY } from "../../secrets.env";
 import { EBIRD_API_URL } from "../utils/constants";
 
 // TODO: Consider combining functions to get species list and species common names
@@ -12,7 +10,7 @@ import { EBIRD_API_URL } from "../utils/constants";
 export async function getSpeciesCodesByRegion(regionCode) {
     console.log("getSpeciesCodesByRegion", regionCode)
     var headers = new Headers();
-    headers.append("X-eBirdApiToken", process.env.EBIRD_API_KEY);
+    headers.append("X-eBirdApiToken", import.meta.env.VITE_EBIRD_API_KEY);
 
     var requestOptions = {
         method: 'GET',
@@ -36,7 +34,7 @@ export async function getSpeciesCommonNames(speciesCodes = []) {
     const speciesCodeList = speciesCodes.join(",");
 
     var headers = new Headers();
-    headers.append("X-eBirdApiToken", process.env.EBIRD_API_KEY);
+    headers.append("X-eBirdApiToken", import.meta.env.VITE_EBIRD_API_KEY);
 
     var requestOptions = {
         method: 'GET',
@@ -66,7 +64,7 @@ export async function getSpeciesCommonNames(speciesCodes = []) {
 export async function getObservationsBySpecies(regionCode, speciesCode) {
     console.log("getObservationsBySpecies", regionCode, speciesCode)
     var headers = new Headers();
-    headers.append("X-eBirdApiToken", process.env.EBIRD_API_KEY);
+    headers.append("X-eBirdApiToken", import.meta.env.VITE_EBIRD_API_KEY);
 
     var requestOptions = {
         method: 'GET',
