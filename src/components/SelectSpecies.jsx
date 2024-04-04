@@ -81,7 +81,7 @@ function SelectSpecies() {
   }
 
   return (
-    <div>
+    <div className="w-full">
       <Select
         classNames={{
           placeholder: () => placeholderStyles,
