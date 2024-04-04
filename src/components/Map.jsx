@@ -2,12 +2,16 @@ import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { useObservations } from "../hooks/useObservations";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import {
   Link,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
+=======
+import { Link, useNavigate, useParams } from "react-router-dom";
+>>>>>>> feb6731 (Styled popup. Added link to google maps directions.)
 =======
 import { Link, useNavigate, useParams } from "react-router-dom";
 >>>>>>> feb6731 (Styled popup. Added link to google maps directions.)
@@ -94,6 +98,7 @@ function Map({ selectedPin, handleSelectPin }) {
       />
       {observations.map((obs, idx) => (
 <<<<<<< HEAD
+<<<<<<< HEAD
         <ObservationMarker
           key={`${obs.obsDt}-${obs.locId}`}
           obs={obs}
@@ -101,6 +106,8 @@ function Map({ selectedPin, handleSelectPin }) {
           onSelectPin={handleSelectPin}
         />
 =======
+=======
+>>>>>>> feb6731 (Styled popup. Added link to google maps directions.)
         <Marker key={`${obs.obsDt}-${obs.locId}`} position={[obs.lat, obs.lng]}>
           <Popup>
             <div className="flex flex-col">

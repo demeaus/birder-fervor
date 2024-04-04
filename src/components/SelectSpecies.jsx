@@ -30,7 +30,6 @@ function SelectSpecies() {
   useEffect(() => {
     // Validate speciesCodeURL
     function isValidSpeciesCode(speciesCode) {
-<<<<<<< HEAD
       const match = species
         .filter((specie) => specie.speciesCode === speciesCode)
         ?.at(0);
@@ -39,22 +38,6 @@ function SelectSpecies() {
     }
 
     if (!species.length) return;
-=======
-      if (
-        speciesCommonNames.filter((species) => species[0] === speciesCode)
-          .length
-      )
-        return true;
-      return false;
-    }
-
-    if (!speciesCommonNames.length) return;
-
-    if (speciesCodeURL && !isValidSpeciesCode(speciesCodeURL)) {
-      navigate(`/${regionCodeURL}`);
-    }
-  }, [speciesCodeURL, navigate, speciesCommonNames, regionCodeURL]);
->>>>>>> 70f8bb5 (Fix URL not determining selected species.)
 
     const speciesMatch = isValidSpeciesCode(speciesCode);
 
