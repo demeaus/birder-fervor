@@ -2,7 +2,7 @@ import { LuBird, LuExternalLink, LuMapPin } from "react-icons/lu";
 import { calcObsAge, copyToClipboard, formatDate } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { getAddressbyCoordinates } from "../services/apiGeoapify";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { EBIRD_CHECKLIST_URL } from "../utils/constants";
 
 function ObervationItem({ obs, onSelectPin }) {
@@ -35,12 +35,26 @@ function ObervationItem({ obs, onSelectPin }) {
 
   // TODO: Handle localization of address format
   const displayAddressA = address?.address_line1 ?? obs.locName;
+  console.log(address);
   const displayAddressB = address?.address_line1 ? (
-    <span className="text-nowrap text-xs">{`${address?.city ?? address?.county ?? ""}, ${
-      address?.state_code?.toUpperCase() ?? address?.state
-    }${
-      address?.postcode ? " " + address.postcode : ""
-    }, ${address?.country_code.toUpperCase()}`}</span>
+    <span className="text-xs">
+      <>
+        {(address.address_line1.includes(address?.city) ||
+          address.address_line1.includes(address?.county)) &&
+        (address.address_line1.includes(address?.state_code) ||
+          address.address_line1.includes(address?.state))
+          ? ""
+          : `${address?.city ?? address?.county ?? ""}, ${
+              address?.state_code?.toUpperCase() ?? address?.state
+            }`}
+      </>
+
+      <>{`${
+        address?.postcode && !address.address_line1.includes(address?.postcode)
+          ? " " + address.postcode + ", "
+          : ""
+      }${address?.country_code.toUpperCase()}`}</>
+    </span>
   ) : null;
 
   const displayLastSeen =

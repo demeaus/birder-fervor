@@ -54,7 +54,7 @@ function Observations({ selectedPin, handleSelectPin }) {
       </div>
 
       <div
-        className={`lg:border-r-none lg:border-b-none relative h-[38vh] overflow-auto rounded-t-lg border-4 border-t-4 border-solid border-gray-400 lg:h-fit lg:max-h-[70vh] lg:rounded-l-lg ${isOpen ? "" : "hidden"}`}
+        className={`lg:border-r-none lg:border-b-none relative max-h-[38vh] min-h-fit overflow-auto rounded-t-lg border-4 border-t-4 border-solid border-gray-400 lg:h-fit lg:max-h-[70vh] lg:rounded-l-lg ${isOpen ? "" : "hidden"}`}
       >
         {/* <h1 className="sticky top-0 w-full bg-gray-400 px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm">
           TODO: Recent observations of {speciesCodeURL} in {regionCodeURL}

@@ -39,9 +39,8 @@ export function copyToClipboard(text) {
     // Copy the text inside the text field
     navigator.clipboard.writeText(text);
 
-    // Alert the copied text
     // TODO: use tool tip instead of alert
-    // alert("Copied the text: " + text);
+    alert("Copied: " + text);
 }
 
 export function calcObsAge(dateStr) {
