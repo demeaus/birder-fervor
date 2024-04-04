@@ -106,30 +106,28 @@ function ObervationItem({ obs, idx, onSelectPin }) {
           </Link>
         </div>
       </div>
-      <div className="flex justify-stretch gap-2">
-        <div
-          className="flex basis-1/2 items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4"
-          role="button"
-          onClick={() => handleClick(address.formatted)}
-        >
-          <LuMapPin className="shrink-0" />
-          <div className="flex flex-col">
-            <span className="text-sm">{displayAddressA}</span>
-            {address?.address_line1 && displayAddressB}
-          </div>
+      <div
+        className="flex items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4"
+        role="button"
+        onClick={() => handleClick(address.formatted)}
+      >
+        <LuMapPin className="shrink-0" />
+        <div className="flex flex-col">
+          <span className="text-sm">{displayAddressA}</span>
+          {address?.address_line1 && displayAddressB}
         </div>
+      </div>
 
-        <div
-          className="flex basis-1/2 items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4 "
-          role="button"
-          onClick={(e) => {
-            handleClick(`${obs.lat}, ${obs.lng}`);
-            // e.stopPropagation();
-          }}
-        >
-          <LuMapPin className="shrink-0" />
-          <span className="text-sm">{`${obs.lat}, ${obs.lng}`}</span>
-        </div>
+      <div
+        className="flex items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4 "
+        role="button"
+        onClick={(e) => {
+          handleClick(`${obs.lat}, ${obs.lng}`);
+          // e.stopPropagation();
+        }}
+      >
+        <LuMapPin className="shrink-0" />
+        <span className="text-sm">{`${obs.lat}, ${obs.lng}`}</span>
       </div>
     </li>
   );
