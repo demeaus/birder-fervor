@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { useObservations } from "../hooks/useObservations";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -30,6 +30,33 @@ function MapComponent({ observations, selectedPin }) {
   }, [map, observations, selectedPin]);
 }
 
+function ObservationMarker({ obs, idx, handleSelectPin }) {
+  const eventHandlers = {
+    click: () => {
+      handleSelectPin({ lat: obs.lat, lng: obs.lng });
+    },
+  };
+
+  return (
+    <Marker position={[obs.lat, obs.lng]} eventHandlers={eventHandlers}>
+      <Popup>
+        <div className="flex flex-col">
+          <span className="text-sm font-semibold">
+            {idx + 1}. {formatDate(obs.obsDt)}
+          </span>
+          <Link
+            target="_blank"
+            to={`https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${obs.lat},${obs.lng}`}
+            className="font-semibold"
+          >
+            <span className="text-sm">Directions</span>
+          </Link>
+        </div>
+      </Popup>
+    </Marker>
+  );
+}
+
 function Map({ selectedPin, handleSelectPin }) {
   // TODO: Fix map height/screen height being greater than the actual screen height
   // TODO: Use user's current positon, or first pin or random hotspot?
@@ -46,22 +73,12 @@ function Map({ selectedPin, handleSelectPin }) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {observations.map((obs, idx) => (
-        <Marker key={`${obs.obsDt}-${obs.locId}`} position={[obs.lat, obs.lng]}>
-          <Popup>
-            <div className="flex flex-col">
-              <span className="text-sm font-semibold">
-                {idx + 1}. {formatDate(obs.obsDt)}
-              </span>
-              <Link
-                target="_blank"
-                to={`https://www.google.com/maps/dir/?api=1&travelmode=driving&layer=traffic&destination=${obs.lat},${obs.lng}`}
-                className="font-semibold"
-              >
-                <span className="text-sm">Directions</span>
-              </Link>
-            </div>
-          </Popup>
-        </Marker>
+        <ObservationMarker
+          key={`${obs.obsDt}-${obs.locId}`}
+          obs={obs}
+          idx={idx}
+          handleSelectPin={handleSelectPin}
+        />
       ))}
       <MapComponent observations={observations} selectedPin={selectedPin} />
     </MapContainer>
