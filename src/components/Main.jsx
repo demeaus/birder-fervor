@@ -6,7 +6,6 @@ import Controls from "../ui/Controls";
 import Observations from "./Observations";
 import { useObservations } from "../hooks/useObservations";
 import { useState } from "react";
-import Header from "../ui/Header";
 
 function Main() {
   const { isLoading, error, observations = [] } = useObservations();
@@ -23,20 +22,19 @@ function Main() {
     }
   }
   return (
-    <div>
-      <Header />
-      <Controls />
-      <div className="h-screen">
-        <Map
-          observations={observations}
-          selectedPin={selectedPin}
-          handleSelectPin={handleSelectPin}
-        />
+    <div className="h-screen">
+      <div className="flex flex-col items-center lg:static lg:flex-none lg:items-start">
+        <Controls />
         <Observations
           selectedPin={selectedPin}
           handleSelectPin={handleSelectPin}
         />
       </div>
+      <Map
+        observations={observations}
+        selectedPin={selectedPin}
+        handleSelectPin={handleSelectPin}
+      />
     </div>
   );
 }

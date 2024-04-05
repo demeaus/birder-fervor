@@ -13,7 +13,7 @@ function Controls() {
   }
 
   return (
-    <div className="absolute z-20 flex w-full flex-col items-center sm:w-fit">
+    <div className="absolute z-20">
       <div
         className={`flex flex-col items-start gap-1 rounded-b-lg border-4 border-t-0 border-solid border-gray-400 bg-gray-200 px-4 pt-3 text-sm ${isOpen ? "" : "hidden "}`}
       >
@@ -27,7 +27,9 @@ function Controls() {
         </div>
       </div>
 
-      <div className={`mt-1 flex justify-center ${isOpen ? "" : "w-screen"}`}>
+      <div
+        className={`mt-1 flex justify-center ${isOpen ? "" : "mt-10 w-screen"}`}
+      >
         <PanelToggle type="up" onClick={handleToggle} isOpen={isOpen} />
       </div>
     </div>
