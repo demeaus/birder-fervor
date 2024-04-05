@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fc26aa68-91a2-49d4-a035-e8f95834cf7e/deploy-status)](https://app.netlify.com/sites/birder-fervor/deploys)
+
 # Birder Fervor
 
 Birder Fervor is a progressive web app (in progress) that was inspired by getting lost using older birding tools while looking for an Eastern Screech Owl with my bird photographer mother. The aim of this app is to aid bird photographers in finding recent observations of birds by improving and adding features that current birder tools like Bird Dash (https://www.birddash.net/us/) and the eBird app have and do not have.
