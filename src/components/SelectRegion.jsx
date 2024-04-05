@@ -62,7 +62,7 @@ function SelectRegion() {
   // Syncs URL with region selector
   // URL -> dropdown
   useEffect(() => {
-    if (!suggestions.length && regionCodeURL) {
+    if (!suggestions.length && regionCodeURL && !selectedRegion) {
       const result = getRegionName(regionCodeURL);
       if (result?.name && result?.parent) {
         console.log("converted: ", result.name, result.parent);

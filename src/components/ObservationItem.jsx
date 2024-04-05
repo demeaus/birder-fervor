@@ -13,12 +13,17 @@ function ObervationItem({ obs, idx, onSelectPin }) {
   const navigate = useNavigate();
   const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
     useParams();
+  const obsAge = calcObsAge(obs.obsDt);
 
-  function handleClick(text) {
+  function handleCopy(text) {
     copyToClipboard(text);
   }
 
-  const obsAge = calcObsAge(obs.obsDt);
+  function handleClick() {
+    navigate(`/${regionCodeURL}/${speciesCodeURL}/${obs.subId}`);
+    onSelectPin({ idx: idx, lat: obs.lat, lng: obs.lng });
+    // e.stopPropagation();
+  }
 
   // TODO: getAddressByCoordinates is responsible for many API calls
   useEffect(() => {
@@ -69,12 +74,8 @@ function ObervationItem({ obs, idx, onSelectPin }) {
 
   return (
     <li
-      className="flex max-w-sm flex-col justify-normal gap-2 bg-gray-200 p-4 shadow-sm"
-      onClick={() => {
-        navigate(`/${regionCodeURL}/${speciesCodeURL}/${obs.subId}`);
-        onSelectPin({ lat: obs.lat, lng: obs.lng });
-        // e.stopPropagation();
-      }}
+      className="flex max-w-sm flex-col justify-normal gap-2 bg-gray-200 p-4"
+      onClick={handleClick}
     >
       <div className="flex flex-col items-center gap-0.5 rounded border border-solid border-yellow-400 bg-yellow-100 px-4 py-1">
         <div className="flex w-full justify-between">
@@ -109,7 +110,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
       <div
         className="flex items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4"
         role="button"
-        onClick={() => handleClick(address.formatted)}
+        onClick={() => handleCopy(address.formatted)}
       >
         <LuMapPin className="shrink-0" />
         <div className="flex flex-col">
@@ -122,7 +123,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
         className="flex items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4 "
         role="button"
         onClick={(e) => {
-          handleClick(`${obs.lat}, ${obs.lng}`);
+          handleCopy(`${obs.lat}, ${obs.lng}`);
           // e.stopPropagation();
         }}
       >

@@ -11,7 +11,6 @@ function Observations({ selectedPin, handleSelectPin }) {
   const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
     useParams();
   const { height, width } = useWindowDimensions();
-
   const [isOpen, setIsOpen] = useState(true);
 
   function handleToggle() {

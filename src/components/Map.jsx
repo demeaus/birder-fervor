@@ -30,10 +30,10 @@ function MapComponent({ observations, selectedPin }) {
   }, [map, observations, selectedPin]);
 }
 
-function ObservationMarker({ obs, idx, handleSelectPin }) {
+function ObservationMarker({ obs, idx, onSelectPin }) {
   const eventHandlers = {
     click: () => {
-      handleSelectPin({ lat: obs.lat, lng: obs.lng });
+      onSelectPin({ idx: idx, lat: obs.lat, lng: obs.lng });
     },
   };
 
@@ -77,7 +77,7 @@ function Map({ selectedPin, handleSelectPin }) {
           key={`${obs.obsDt}-${obs.locId}`}
           obs={obs}
           idx={idx}
-          handleSelectPin={handleSelectPin}
+          onSelectPin={handleSelectPin}
         />
       ))}
       <MapComponent observations={observations} selectedPin={selectedPin} />
