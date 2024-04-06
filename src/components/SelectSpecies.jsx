@@ -2,7 +2,7 @@ import Select from "react-select";
 import { useSpeciesCodes } from "../hooks/useSpeciesCodes";
 import { useSpeciesCommonNames } from "../hooks/useSpeciesCommonNames";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import {
   controlStyles,
@@ -11,26 +11,32 @@ import {
   placeholderStyles,
   indicatorStyles,
 } from "../utils/constants";
+import { useGetSpeciesCodesFunction } from "../hooks/useGetSpeciesCodesFunction";
 
 // TODO: group by species group
 function SelectSpecies() {
   const [regionSpeciesList, setRegionSpeciesList] = useState([]);
   const [isLoadingSpecies, setIsLoadingSpecies] = useState(false);
   const navigate = useNavigate();
+  const { layer, speciesCode: speciesCodeURL } = useParams();
+  const [searchParams] = useSearchParams();
+  const lat = searchParams.get("lat");
+  const lng = searchParams.get("lng");
+
+  const res = useGetSpeciesCodesFunction(layer, lat, lng);
+  console.log(res);
 
   const {
     status: statusSpeciesCodes,
     error: errorSpeciesCodes,
     speciesCodes = [],
-  } = useSpeciesCodes();
+  } = useSpeciesCodes(res);
+
   const {
     status: statusSpeciesCommonNames,
     error: errorSpeciesCommonNames,
     speciesCommonNames = [],
   } = useSpeciesCommonNames(speciesCodes);
-
-  const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
-    useParams();
 
   // Syncs speciesCodeURL with dropdown
   useEffect(() => {
@@ -47,9 +53,10 @@ function SelectSpecies() {
     if (!speciesCommonNames.length) return;
 
     if (speciesCodeURL && !isValidSpeciesCode(speciesCodeURL)) {
-      navigate(`/${regionCodeURL}`);
+      navigate("..");
+      // navigate(`/${layer}?lat=${lat}&lng=${lng}`);
     }
-  }, [speciesCodeURL, navigate, speciesCommonNames, regionCodeURL]);
+  }, [speciesCodeURL, navigate, speciesCommonNames]);
 
   // Syncs list of species in the selected region with loaded species codes and species common names
   useEffect(() => {
