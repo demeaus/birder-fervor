@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import SelectSpecies from "../components/SelectSpecies";
 
 function Controls() {
-  const { regionCode: regionCodeURL } = useParams();
+  const { layer } = useParams();
   const [isOpen, setIsOpen] = useState(true);
 
   function handleToggle() {
@@ -23,7 +23,7 @@ function Controls() {
         <div className="flex w-full max-w-sm flex-col items-start gap-1 pb-3 sm:left-0 sm:top-0 sm:min-w-fit sm:max-w-screen-lg sm:flex-row sm:items-center sm:justify-center sm:gap-4 sm:px-4">
           {/* TODO: Search for species by address*/}
           <SelectRegion />
-          {regionCodeURL && <SelectSpecies />}
+          {layer && <SelectSpecies />}
         </div>
       </div>
 

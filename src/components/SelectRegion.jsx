@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRegionCode, getRegionName } from "../utils/helpers";
-import { getAutocompleteSuggestions } from "../services/apiGeoapify";
+import { getAutocompleteSuggestions } from "../services/apiRadar";
 import Select from "react-select";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -18,7 +17,7 @@ function SelectRegion() {
   const [suggestions, setSuggestions] = useState([]);
   const [isLoadingAutocomplete, setIsLoadingAutocomplete] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const { regionCode: regionCodeURL } = useParams();
+  const { layer } = useParams();
   const navigate = useNavigate();
 
   // Handle clearing or selection of input from dropdown
@@ -28,30 +27,26 @@ function SelectRegion() {
       // TODO: Display history or recent searches
       setSelectedRegion(null);
 
-      if (regionCodeURL) {
+      if (layer) {
         navigate("/");
       }
       return;
     }
 
     // Region was selected
-    // Convert option value to ISO standardized code to get region code for eBird API
-    const selectedEntry = e.value;
-    let regionCode = getRegionCode(
-      selectedEntry?.country_code,
-      selectedEntry?.state,
+    const selected = e.value;
+    console.log(selected);
+    setSelectedRegion({
+      value: {
+        layer: selected.layer,
+        lat: selected.latitude,
+        lng: selected.longitude,
+      },
+      label: selected.formattedAddress,
+    });
+    navigate(
+      `/${selected.layer}?lat=${selected.latitude}&lng=${selected.longitude}`,
     );
-    if (typeof regionCode != "string") {
-      regionCode = regionCode[0];
-    }
-
-    // select -> URL
-    // If no region has been previously selected, move to URL or
-    // if the selected region is different from the URL, go to the new selected region
-    if (!regionCodeURL || regionCodeURL !== regionCode) {
-      setSelectedRegion({ value: regionCode, label: selectedEntry.formatted });
-      navigate(`/${regionCode}`);
-    }
   }
 
   // Handle typing in input of dropdown
@@ -59,22 +54,22 @@ function SelectRegion() {
     if (input.length > 1) setQuery(input);
   }
 
-  // Syncs URL with region selector
-  // URL -> dropdown
-  useEffect(() => {
-    if (!suggestions.length && regionCodeURL && !selectedRegion) {
-      const result = getRegionName(regionCodeURL);
-      if (result?.name && result?.parent) {
-        console.log("converted: ", result.name, result.parent);
-        setSelectedRegion({
-          value: regionCodeURL,
-          label: `${result.name}, ${result.parent}`,
-        });
-      } else {
-        navigate("/");
-      }
-    }
-  }, [regionCodeURL, suggestions.length, navigate]);
+  // // Syncs URL with region selector
+  // // URL -> dropdown
+  // useEffect(() => {
+  //   if (!suggestions.length && layer && !selectedRegion) {
+  //     const result = getRegionName(layer);
+  //     if (result?.name && result?.parent) {
+  //       console.log("converted: ", result.name, result.parent);
+  //       setSelectedRegion({
+  //         value: layer,
+  //         label: `${result.name}, ${result.parent}`,
+  //       });
+  //     } else {
+  //       navigate("/");
+  //     }
+  //   }
+  // }, [layer, suggestions.length, navigate]);
 
   // Fetches list of autocomplete suggestions for search input
   useEffect(() => {
@@ -84,12 +79,11 @@ function SelectRegion() {
         const suggestionsList = await getAutocompleteSuggestions(query);
 
         // Format suggestions for React Select component
-        // TODO: reduce value size
         if (suggestionsList) {
           setSuggestions(
             suggestionsList.map((obj) => ({
               value: obj,
-              label: obj.formatted,
+              label: `${obj.countryFlag} ${obj.formattedAddress}`,
             })),
           );
         }
@@ -112,7 +106,7 @@ function SelectRegion() {
 
   return (
     <div className="w-full">
-      {/* Select location (regionCodeURL) by state/province */}
+      {/* Select location (layer) by state/province */}
       <Select
         classNames={{
           placeholder: () => placeholderStyles,

@@ -1,36 +1,54 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import Main from "./components/Main";
+import Error from "./ui/Error";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 60 * 1000,
-      // staleTime: 0,
-    },
+const router = createBrowserRouter([
+  {
+    element: <AppLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/",
+        element: <Main />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/:layer",
+        element: <Main />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/:layer/:speciesCode",
+        element: <Main />,
+        errorElement: <Error />,
+      },
+      {
+        path: "/:layer/:speciesCode/:checklistCode",
+        element: <Main />,
+        errorElement: <Error />,
+      },
+      // {
+      //   path: ":/regionCode",
+      //   element: <Main />,
+      //   errorElement: <Error />,
+      // },
+      // {
+      //   path: "/:regionCode/:speciesCode",
+      //   element: <Main />,
+      //   errorElement: <Error />,
+      // },
+      // {
+      //   path: "/:regionCode/:speciesCode/:checklistCode",
+      //   element: <Main />,
+      //   errorElement: <Error />,
+      // },
+    ],
   },
-});
+]);
 
 function App() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<AppLayout />}>
-            <Route index element={<Main />} />
-            <Route path=":regionCode" element={<Main />}>
-              <Route path=":speciesCode" element={<Main />}>
-                <Route path=":checklistCode" element={<Main />} />
-              </Route>
-            </Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

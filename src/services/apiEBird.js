@@ -29,6 +29,33 @@ export async function getSpeciesCodesByRegion(regionCode) {
     return speciesCodes;
 }
 
+/**
+ * Retrieves species in a region
+ */
+export async function getSpeciesCodesByAddress({ lat, lng, radius }) {
+    console.log("TODO: getSpeciesCodesByAddress", lat, lng, radius)
+    var headers = new Headers();
+    headers.append("X-eBirdApiToken", import.meta.env.VITE_EBIRD_API_KEY);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: headers,
+        redirect: 'follow'
+    };
+    // const res = await fetch(`${EBIRD_API_URL}product/spplist/${regionCode}`, requestOptions);
+
+    // if (!res.ok) {
+    //     throw new Error(
+    //         `Something went wrong while attempting to fetch species in region code ${regionCode}.`
+    //     );
+    // }
+
+    // const speciesCodes = await res.json();
+    // return speciesCodes;
+}
+
+
+
 export async function getSpeciesCommonNames(speciesCodes = []) {
     console.log("getSpeciesCommonNames", speciesCodes.length)
     const speciesCodeList = speciesCodes.join(",");
