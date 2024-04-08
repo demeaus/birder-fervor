@@ -1,9 +1,6 @@
 import DataFrame from "dataframe-js";
 import { EBIRD_API_URL } from "../utils/constants";
 
-// TODO: Consider combining functions to get species list and species common names
-// TODO: Consider optimizing dataframe usage and getting list of speciesCodes from two queries
-
 /**
  * Retrieves species in a region
  */

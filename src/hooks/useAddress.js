@@ -1,5 +1,5 @@
 /**
- * useSpeciesCodes.js
+ * Converts coordinates into address
  */
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useSearchParams } from "react-router-dom";
