@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getObservationsBySpecies } from "../services/apiEBird";
+import { getSpeciesObservationsByRegion } from "../services/apiEBird";
 
 export function useObservations() {
   const { speciesCode: speciesCodeURL, regionCode: regionCodeURL } =
@@ -9,7 +9,11 @@ export function useObservations() {
     isLoading,
     data: observations,
     error,
-  } = useQuery({ queryKey: ["observations", regionCodeURL, speciesCodeURL], queryFn: () => getObservationsBySpecies(regionCodeURL, speciesCodeURL), enabled: !!(regionCodeURL && speciesCodeURL) });
+  } = useQuery({
+    queryKey: ["observations", regionCodeURL, speciesCodeURL],
+    queryFn: () => getSpeciesObservationsByRegion(regionCodeURL, speciesCodeURL),
+    enabled: !!(regionCodeURL && speciesCodeURL)
+  });
 
   return { isLoading, error, observations };
 }

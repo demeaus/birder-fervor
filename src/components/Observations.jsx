@@ -20,11 +20,6 @@ function Observations({ selectedPin, handleSelectPin }) {
   // If there is no selected region or species, then no observations are to be shown
   if (!regionCodeURL || !speciesCodeURL) {
     return;
-    // (
-    //   <div className="fixed bottom-0 z-20 w-full bg-zinc-200 px-6 py-3 text-center text-sm">
-    //     Search away!
-    //   </div>
-    // );
   }
 
   if (isLoading) {

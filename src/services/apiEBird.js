@@ -85,8 +85,8 @@ export async function getSpeciesCommonNames(speciesCodes = []) {
     return df.select('SPECIES_CODE', 'COMMON_NAME').toArray();
 }
 
-export async function getObservationsBySpecies(regionCode, speciesCode) {
-    console.log("getObservationsBySpecies", regionCode, speciesCode)
+export async function getSpeciesObservationsByRegion(regionCode, speciesCode) {
+    console.log("getSpeciesObservationsByRegion", regionCode, speciesCode)
     var headers = new Headers();
     headers.append("X-eBirdApiToken", import.meta.env.VITE_EBIRD_API_KEY);
 
@@ -100,6 +100,27 @@ export async function getObservationsBySpecies(regionCode, speciesCode) {
     if (!res.ok) {
         throw new Error(
             `Something went wrong while attempting to fetch recent observations for speciesCode: ${speciesCode} in regionCode: ${regionCode}.`
+        );
+    }
+    const observations = await res.json();
+    return observations;
+}
+
+export async function getSpeciesObservationsByAddress({ lat, lng, radius }, speciesCode) {
+    console.log("getSpeciesObservationsByAddress", lat, lng, radius, speciesCode)
+    var headers = new Headers();
+    headers.append("X-eBirdApiToken", import.meta.env.VITE_EBIRD_API_KEY);
+
+    var requestOptions = {
+        method: 'GET',
+        headers: headers,
+    };
+    // TODO: Increase number of results or make customizable in production
+    const res = await fetch(`${EBIRD_API_URL}data/obs/geo/recent/${speciesCode}&lat=${lat}&lng=${lng}&dist=${radius}&maxResults=6`, requestOptions);
+
+    if (!res.ok) {
+        throw new Error(
+            `Something went wrong while attempting to fetch recent observations for speciesCode: ${speciesCode} in near ${lat}, ${lng}.`
         );
     }
     const observations = await res.json();
