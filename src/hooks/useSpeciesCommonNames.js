@@ -12,7 +12,7 @@ export function useSpeciesCommonNames(speciesCodes) {
     status,
     data: speciesCommonNames,
     error,
-  } = useQuery({ queryKey: ["speciesCommonNames", { layer, lat, lng }], queryFn: () => getSpeciesCommonNames(speciesCodes), enabled: !!speciesCodes?.length });
+  } = useQuery({ queryKey: ["speciesCommonNames", { layer, lat, lng }], queryFn: () => getSpeciesCommonNames(speciesCodes), enabled: !!(speciesCodes?.length) });
 
   return { status, error, speciesCommonNames };
 }

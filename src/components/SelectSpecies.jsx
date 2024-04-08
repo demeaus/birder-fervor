@@ -19,18 +19,12 @@ function SelectSpecies() {
   const [isLoadingSpecies, setIsLoadingSpecies] = useState(false);
   const navigate = useNavigate();
   const { layer, speciesCode: speciesCodeURL } = useParams();
-  const [searchParams] = useSearchParams();
-  const lat = searchParams.get("lat");
-  const lng = searchParams.get("lng");
-
-  const res = useGetSpeciesCodesFunction(layer, lat, lng);
-  console.log(res);
 
   const {
     status: statusSpeciesCodes,
     error: errorSpeciesCodes,
     speciesCodes = [],
-  } = useSpeciesCodes(res);
+  } = useSpeciesCodes();
 
   const {
     status: statusSpeciesCommonNames,
