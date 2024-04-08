@@ -52,7 +52,7 @@ export async function getAutocompleteSuggestions(query) {
     }
 
     const data = await res.json();
-    console.log(data)
+    // console.log(data)
     const suggestions = data.addresses
     return suggestions;
 }

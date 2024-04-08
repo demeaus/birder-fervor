@@ -35,7 +35,7 @@ function SelectRegion() {
 
     // Region was selected
     const selected = e.value;
-    console.log(selected);
+    // console.log(selected);
     setSelectedRegion({
       value: {
         layer: selected.layer,

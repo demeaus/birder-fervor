@@ -1,3 +1,7 @@
+/**
+ * useGetSpeciesCodesFunction.js
+ */
+
 import { useEffect, useState } from "react";
 import { getSpeciesCodesByAddress, getSpeciesCodesByRegion } from "../services/apiEBird";
 import { getAddressbyCoordinates } from "../services/apiRadar";
@@ -18,18 +22,18 @@ export function useGetSpeciesCodesFunction() {
                 if (layer === 'state') {
                     const { stateCode, countryCode } = await getAddressbyCoordinates(layer, lat, lng);
                     setParams(`${countryCode}-${stateCode}`)
-                    setSpeciesCodesFunction(getSpeciesCodesByRegion);
+                    setSpeciesCodesFunction(() => getSpeciesCodesByRegion);
                     //   return { params: `${countryCode}-${stateCode}`, speciesCodesFunction: getSpeciesCodesByRegion };
                 } else if (layer === 'country') {
                     const { countryCode } = await getAddressbyCoordinates(layer, lat, lng);
                     setParams(countryCode);
-                    setSpeciesCodesFunction(getSpeciesCodesByRegion);
+                    setSpeciesCodesFunction(() => getSpeciesCodesByRegion);
                     //   return { params: countryCode, speciesCodesFunction: getSpeciesCodesByRegion };
                 } else {
                     //TODO: make radius variable
                     const radius = 25;
                     setParams({ lat, lng, radius });
-                    setSpeciesCodesFunction(getSpeciesCodesByAddress);
+                    setSpeciesCodesFunction(() => getSpeciesCodesByAddress);
                     //   return { params: { lat, lng, radius }, speciesCodesFunction: getSpeciesCodesByAddress };
                 }
             }
@@ -37,6 +41,7 @@ export function useGetSpeciesCodesFunction() {
         }
         , [layer, lat, lng]
     )
+    console.log(params, speciesCodesFunction)
     return { params, speciesCodesFunction }
 
 }

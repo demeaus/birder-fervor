@@ -30,7 +30,7 @@ export async function getSpeciesCodesByRegion(regionCode) {
 }
 
 /**
- * Retrieves species in a region
+ * Retrieves species near an address
  */
 export async function getSpeciesCodesByAddress({ lat, lng, radius }) {
     console.log("TODO: getSpeciesCodesByAddress", lat, lng, radius)
