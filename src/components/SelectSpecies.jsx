@@ -20,8 +20,8 @@ function SelectSpecies() {
   const lng = searchParams.get("lng");
 
   const {
-    status: statusSpeciesCodes,
-    error: errorSpeciesCodes,
+    status: statusSpecies,
+    error: errorSpecies,
     species = [],
   } = useSpecies();
 
@@ -54,7 +54,7 @@ function SelectSpecies() {
       return;
     }
     navigate(`/${layer}/${e.value.speciesCode}`);
-    setSearchParams({ lat: lat, lng: lng });
+    setSearchParams({ lat: lat, lng: lng }, { replace: true });
   }
 
   return (
@@ -78,7 +78,7 @@ function SelectSpecies() {
         unstyled={true}
         backspaceRemovesValue={true}
         isClearable={true}
-        isLoading={statusSpeciesCodes === "pending"}
+        isLoading={statusSpecies === "pending"}
         placeholder="Enter species..."
         // value={
         //   speciesCodeURL

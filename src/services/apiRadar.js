@@ -24,6 +24,7 @@ export async function getAddressbyCoordinates(layer, lat, lng) {
 
     // Return the closest match
     const location = data.addresses[0];
+    // console.log(location)
     return location;
 }
 
