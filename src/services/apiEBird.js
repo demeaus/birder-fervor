@@ -7,8 +7,8 @@ import { EBIRD_API_URL } from "../utils/constants";
 /**
  * Retrieves species in a region
  */
-export async function getSpeciesCodesByRegion(regionCode) {
-    console.log("getSpeciesCodesByRegion", regionCode)
+export async function getRecentSpeciesByRegion(regionCode) {
+    console.log("getRecentSpeciesByRegion", regionCode)
     var headers = new Headers();
     headers.append("X-eBirdApiToken", import.meta.env.VITE_EBIRD_API_KEY);
 
@@ -17,7 +17,7 @@ export async function getSpeciesCodesByRegion(regionCode) {
         headers: headers,
         redirect: 'follow'
     };
-    const res = await fetch(`${EBIRD_API_URL}product/spplist/${regionCode}`, requestOptions);
+    const res = await fetch(`${EBIRD_API_URL}data/obs/${regionCode}/recent`, requestOptions);
 
     if (!res.ok) {
         throw new Error(
@@ -25,15 +25,15 @@ export async function getSpeciesCodesByRegion(regionCode) {
         );
     }
 
-    const speciesCodes = await res.json();
-    return speciesCodes;
+    const observations = await res.json();
+    return observations;
 }
 
 /**
  * Retrieves species near an address
  */
-export async function getSpeciesCodesByAddress({ lat, lng, radius }) {
-    console.log("TODO: getSpeciesCodesByAddress", lat, lng, radius)
+export async function getRecentSpeciesByAddress({ lat, lng, radius }) {
+    console.log("getRecentSpeciesByAddress", lat, lng, radius)
     var headers = new Headers();
     headers.append("X-eBirdApiToken", import.meta.env.VITE_EBIRD_API_KEY);
 
@@ -42,16 +42,16 @@ export async function getSpeciesCodesByAddress({ lat, lng, radius }) {
         headers: headers,
         redirect: 'follow'
     };
-    // const res = await fetch(`${EBIRD_API_URL}product/spplist/${regionCode}`, requestOptions);
+    const res = await fetch(`${EBIRD_API_URL}data/obs/geo/recent?lat=${lat}&lng=${lng}&dist=${radius}`, requestOptions);
 
-    // if (!res.ok) {
-    //     throw new Error(
-    //         `Something went wrong while attempting to fetch species in region code ${regionCode}.`
-    //     );
-    // }
+    if (!res.ok) {
+        throw new Error(
+            `Something went wrong while attempting to fetch species near ${lat}, ${lng}.`
+        );
+    }
 
-    // const speciesCodes = await res.json();
-    // return speciesCodes;
+    const observations = await res.json();
+    return observations;
 }
 
 
