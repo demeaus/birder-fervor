@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAutocompleteSuggestions } from "../services/apiRadar";
 import Select from "react-select";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 import {
   controlStyles,
@@ -17,8 +17,9 @@ function SelectRegion() {
   const [suggestions, setSuggestions] = useState([]);
   const [isLoadingAutocomplete, setIsLoadingAutocomplete] = useState(false);
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const { layer } = useParams();
   const navigate = useNavigate();
+  const { layer } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Handle clearing or selection of input from dropdown
   function handleChange(e, { action }) {
@@ -44,14 +45,13 @@ function SelectRegion() {
       },
       label: selected.formattedAddress,
     });
-    navigate(
-      `/${selected.layer}?lat=${selected.latitude}&lng=${selected.longitude}`,
-    );
+    navigate(`/${selected.layer}`);
+    setSearchParams({ lat: selected.latitude, lng: selected.longitude });
   }
 
   // Handle typing in input of dropdown
   function handleOnInputChange(input) {
-    if (input.length > 1) setQuery(input);
+    if (input.length > 1 && query !== input) setQuery(input);
   }
 
   // // Syncs URL with region selector

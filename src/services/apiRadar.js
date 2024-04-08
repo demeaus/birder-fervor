@@ -3,9 +3,8 @@ import { RADAR_API_URL } from "../utils/constants";
 /**
  * Retrieves address for given GPS coordinates (reverse geocoding)
  */
-// TODO: How to hide apiKey?
 export async function getAddressbyCoordinates(layer, lat, lng) {
-    console.log("getAddressbyCoordinates")
+    console.log("getAddressbyCoordinates", layer, lat, lng)
     var headers = new Headers();
     headers.append("Authorization", import.meta.env.VITE_RADAR_API_KEY);
     var requestOptions = {

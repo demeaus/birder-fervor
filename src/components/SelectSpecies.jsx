@@ -1,6 +1,5 @@
 import Select from "react-select";
-import { useSpeciesCodes } from "../hooks/useSpeciesCodes";
-import { useSpeciesCommonNames } from "../hooks/useSpeciesCommonNames";
+import { useSpecies } from "../hooks/useSpecies";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
@@ -11,64 +10,40 @@ import {
   placeholderStyles,
   indicatorStyles,
 } from "../utils/constants";
-import { useGetSpeciesCodesFunction } from "../hooks/useGetSpeciesCodesFunction";
 
 // TODO: group by species group
 function SelectSpecies() {
-  const [regionSpeciesList, setRegionSpeciesList] = useState([]);
-  const [isLoadingSpecies, setIsLoadingSpecies] = useState(false);
   const navigate = useNavigate();
   const { layer, speciesCode: speciesCodeURL } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const lat = searchParams.get("lat");
+  const lng = searchParams.get("lng");
 
   const {
     status: statusSpeciesCodes,
     error: errorSpeciesCodes,
-    speciesCodes = [],
-  } = useSpeciesCodes();
-
-  const {
-    status: statusSpeciesCommonNames,
-    error: errorSpeciesCommonNames,
-    speciesCommonNames = [],
-  } = useSpeciesCommonNames(speciesCodes);
+    species = [],
+  } = useSpecies();
 
   // Syncs speciesCodeURL with dropdown
-  useEffect(() => {
-    // Validate speciesCodeURL
-    function isValidSpeciesCode(speciesCode) {
-      if (
-        speciesCommonNames.filter((species) => species[0] === speciesCode)
-          .length
-      )
-        return true;
-      return false;
-    }
+  // useEffect(() => {
+  //   // Validate speciesCodeURL
+  //   function isValidSpeciesCode(speciesCode) {
+  //     if (
+  //       speciesCommonNames.filter((species) => species[0] === speciesCode)
+  //         .length
+  //     )
+  //       return true;
+  //     return false;
+  //   }
 
-    if (!speciesCommonNames.length) return;
+  //   if (!speciesCommonNames.length) return;
 
-    if (speciesCodeURL && !isValidSpeciesCode(speciesCodeURL)) {
-      navigate("..");
-      // navigate(`/${layer}?lat=${lat}&lng=${lng}`);
-    }
-  }, [speciesCodeURL, navigate, speciesCommonNames]);
-
-  // Syncs list of species in the selected region with loaded species codes and species common names
-  useEffect(() => {
-    if (
-      statusSpeciesCodes === "pending" ||
-      statusSpeciesCommonNames === "pending"
-    ) {
-      setIsLoadingSpecies(true);
-    } else {
-      setIsLoadingSpecies(false);
-    }
-
-    if (statusSpeciesCommonNames === "success") {
-      setRegionSpeciesList(
-        speciesCommonNames.map((obj) => ({ value: obj[0], label: obj[1] })),
-      );
-    }
-  }, [speciesCommonNames, statusSpeciesCommonNames, statusSpeciesCodes]);
+  //   if (speciesCodeURL && !isValidSpeciesCode(speciesCodeURL)) {
+  //     navigate("..");
+  //     // navigate(`/${layer}?lat=${lat}&lng=${lng}`);
+  //   }
+  // }, [speciesCodeURL, navigate, speciesCommonNames]);
 
   // TODO: Clear selected species when region is cleared or changed
   function handleChange(e, { action }) {
@@ -78,7 +53,8 @@ function SelectSpecies() {
       navigate("..");
       return;
     }
-    navigate(`${e.value}`);
+    navigate(`/${layer}/${e.value.speciesCode}`);
+    setSearchParams({ lat: lat, lng: lng });
   }
 
   return (
@@ -94,24 +70,27 @@ function SelectSpecies() {
           clearIndicator: () => indicatorStyles,
         }}
         className="select"
-        options={regionSpeciesList}
+        options={species.map((species) => ({
+          value: species,
+          label: species.comName,
+        }))}
         onChange={handleChange}
         unstyled={true}
         backspaceRemovesValue={true}
         isClearable={true}
-        isLoading={isLoadingSpecies}
+        isLoading={statusSpeciesCodes === "pending"}
         placeholder="Enter species..."
-        value={
-          speciesCodeURL
-            ? {
-                value: speciesCodeURL,
-                label: speciesCommonNames
-                  .filter((species) => species[0] === speciesCodeURL)
-                  ?.at(0)
-                  ?.at(1),
-              }
-            : null
-        }
+        // value={
+        //   speciesCodeURL
+        //     ? {
+        //         value: speciesCodeURL,
+        //         label: speciesCommonNames
+        //           .filter((species) => species[0] === speciesCodeURL)
+        //           ?.at(0)
+        //           ?.at(1),
+        //       }
+        //     : null
+        // }
       />
     </div>
   );
