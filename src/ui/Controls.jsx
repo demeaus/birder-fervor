@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PanelToggle from "./PanelToggle";
-import SelectRegion from "../components/SelectRegion";
+import SelectLocation from "../components/SelectLocation";
 import { useParams } from "react-router-dom";
 import SelectSpecies from "../components/SelectSpecies";
 
@@ -21,8 +21,7 @@ function Controls() {
           Search for recent sightings by region and species:
         </h1>
         <div className="flex w-full max-w-sm flex-col items-start gap-1 pb-3 sm:left-0 sm:top-0 sm:min-w-fit sm:max-w-screen-lg sm:flex-row sm:items-center sm:justify-center sm:gap-4 sm:px-4">
-          {/* TODO: Search for species by address*/}
-          <SelectRegion />
+          <SelectLocation />
           {layer && <SelectSpecies />}
         </div>
       </div>

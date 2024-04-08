@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import SelectRegion from "./SelectRegion";
+import SelectLocation from "./SelectLocation";
 import SelectSpecies from "./SelectSpecies";
 import Map from "./Map";
 import Controls from "../ui/Controls";
