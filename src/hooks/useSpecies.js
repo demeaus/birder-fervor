@@ -25,6 +25,7 @@ export function useSpecies() {
   } else {
     //TODO: make radius variable
     const radius = 25;
+    // setSearchParams((params) => {{...params, radius: 25 }});
     params = { lat, lng, radius };
     speciesFunction = getRecentSpeciesByAddress;
   }

@@ -1,7 +1,6 @@
 import { LuBird, LuExternalLink, LuMapPin } from "react-icons/lu";
 import { calcObsAge, copyToClipboard, formatDate } from "../utils/helpers";
 import { useEffect, useState } from "react";
-import { getAddressbyCoordinates } from "../services/apiGeoapify";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { EBIRD_CHECKLIST_URL } from "../utils/constants";
 
@@ -25,18 +24,18 @@ function ObervationItem({ obs, idx, onSelectPin }) {
     // e.stopPropagation();
   }
 
-  // TODO: getAddressByCoordinates is responsible for many API calls
-  useEffect(() => {
-    async function fetchAddress() {
-      const addressFromCoordinates = await getAddressbyCoordinates({
-        lat: obs.lat,
-        lon: obs.lng,
-      });
-      if (addressFromCoordinates) setAddress(addressFromCoordinates);
-    }
+  // // TODO: getAddressByCoordinates is responsible for many API calls
+  // useEffect(() => {
+  //   async function fetchAddress() {
+  //     const addressFromCoordinates = await getAddressbyCoordinates({
+  //       lat: obs.lat,
+  //       lon: obs.lng,
+  //     });
+  //     if (addressFromCoordinates) setAddress(addressFromCoordinates);
+  //   }
 
-    fetchAddress();
-  }, [obs.lat, obs.lng]);
+  //   fetchAddress();
+  // }, [obs.lat, obs.lng]);
 
   // TODO: Handle localization of address format
   const displayAddressA = address?.address_line1 ?? obs.locName;

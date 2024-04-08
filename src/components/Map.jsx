@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { useObservations } from "../hooks/useObservations";
 import { Link, useNavigate, useParams } from "react-router-dom";
