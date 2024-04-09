@@ -2,33 +2,38 @@
  * useSpeciesCodes.js
  */
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useSearchParams } from "react-router-dom";
 import { getRecentSpeciesByAddress, getRecentSpeciesByRegion } from "../services/apiEBird";
-import { useAddress } from "./useAddress";
+import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export function useSpecies() {
-  const { layer } = useParams();
+  const [params, setParams] = useState();
+  const [speciesFunction, setSpeciesFunction] = useState();
   const [searchParams] = useSearchParams();
   const lat = searchParams.get("lat");
   const lng = searchParams.get("lng");
-  const { isLoading, error: errorAddress, address = {} } = useAddress();
+  const radius = searchParams.get("radius");
+  const code = searchParams.get("code");
 
-  let params, speciesFunction;
-  if (layer === 'state') {
-    params = `${address?.countryCode}-${address?.stateCode}`;
-    speciesFunction = getRecentSpeciesByRegion;
+  useEffect(() => {
+    try {
+      if (!code && !radius) {
+        throw new Error("Invalid URL: Missing code and radius query parameters.");
+      } else if (code && radius) {
+        throw new Error("Invalid URL: Cannot have both code and radius query parameters.");
+      }
 
-  } else if (layer === 'country') {
-    params = address?.countryCode;
-    speciesFunction = getRecentSpeciesByRegion;
-
-  } else {
-    //TODO: make radius variable
-    const radius = 25;
-    // setSearchParams((params) => {{...params, radius: 25 }});
-    params = { lat, lng, radius };
-    speciesFunction = getRecentSpeciesByAddress;
-  }
+      if (code) {
+        setParams(code);
+        setSpeciesFunction(() => getRecentSpeciesByRegion);
+      } else if (radius) {
+        setParams({ lat, lng, radius });
+        setSpeciesFunction(() => getRecentSpeciesByAddress);
+      }
+    } catch (e) {
+      console.error(e.message)
+    }
+  }, [lat, lng, radius, code, searchParams])
 
   const {
     status,
@@ -37,7 +42,8 @@ export function useSpecies() {
   } = useQuery({
     queryKey: ["species", params],
     queryFn: () => speciesFunction(params),
-    enabled: !!(params && speciesFunction && address?.countryCode)
+    // enabled: false
+    enabled: !!(params && speciesFunction)
   });
 
   return { status, error, species };

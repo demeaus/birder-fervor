@@ -27,7 +27,7 @@ function SelectSpecies() {
     species = [],
   } = useSpecies();
 
-  // Syncs speciesCodeURL with dropdown
+  // // Syncs speciesCodeURL with dropdown
   // useEffect(() => {
   //   // Validate speciesCodeURL
   //   function isValidSpeciesCode(speciesCode) {
@@ -55,8 +55,10 @@ function SelectSpecies() {
       navigate("..");
       return;
     }
+
+    // Handle selected species
     navigate(`/${layer}/${e.value.speciesCode}`);
-    setSearchParams({ lat: lat, lng: lng }, { replace: true });
+    // setSearchParams({ lat: lat, lng: lng }, { replace: true });
   }
 
   return (

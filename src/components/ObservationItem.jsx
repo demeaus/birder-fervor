@@ -3,6 +3,7 @@ import { calcObsAge, copyToClipboard, formatDate } from "../utils/helpers";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { EBIRD_CHECKLIST_URL } from "../utils/constants";
+// import { getAddressbyCoordinates } from "../services/apiGeoapify";
 
 function ObervationItem({ obs, idx, onSelectPin }) {
   // distance from user's current/entered locations, if chosen
