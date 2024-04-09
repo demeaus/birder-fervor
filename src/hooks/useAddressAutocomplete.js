@@ -18,7 +18,6 @@ export function useAddressAutocomplete(query) {
 
                 // Format suggestions for React Select component
                 if (suggestionsList) {
-                    console.log(suggestionsList);
                     setSuggestions(
                         suggestionsList.map((obj) => ({
                             value: obj,

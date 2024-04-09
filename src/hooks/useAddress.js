@@ -2,14 +2,12 @@
  * Converts coordinates into address
  */
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useSearchParams } from "react-router-dom";
 import { getAddressbyCoordinates } from "../services/apiRadar";
 
-export function useAddress() {
-    const { layer } = useParams();
-    const [searchParams] = useSearchParams();
-    const lat = searchParams.get("lat");
-    const lng = searchParams.get("lng");
+export function useAddress(data) {
+    const layer = data?.layer;
+    const lat = data?.lat;
+    const lng = data?.lng;
 
     const {
         isLoading,

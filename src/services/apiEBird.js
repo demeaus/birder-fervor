@@ -23,6 +23,7 @@ export async function getRecentSpeciesByRegion(regionCode) {
     }
 
     const observations = await res.json();
+    console.log(observations)
     return observations;
 }
 
@@ -48,6 +49,7 @@ export async function getRecentSpeciesByAddress({ lat, lng, radius }) {
     }
 
     const observations = await res.json();
+    console.log(observations)
     return observations;
 }
 

@@ -3,10 +3,13 @@ import Controls from "../ui/Controls";
 import Observations from "./Observations";
 import { useObservations } from "../hooks/useObservations";
 import { useState } from "react";
+import SelectLocation from "./SelectLocation";
+import SelectSpecies from "./SelectSpecies";
+import { useParams } from "react-router-dom";
 
 function Main() {
+  const { layer } = useParams();
   const { isLoading, error, observations = [] } = useObservations();
-
   const [selectedPin, setSelectedPin] = useState(null);
 
   function handleSelectPin(pin) {
@@ -21,7 +24,10 @@ function Main() {
   return (
     <div className="h-screen">
       <div className="flex flex-col items-center lg:static lg:flex-none lg:items-start">
-        <Controls />
+        <Controls>
+          <SelectLocation />
+          {layer && <SelectSpecies />}
+        </Controls>
         <Observations
           selectedPin={selectedPin}
           handleSelectPin={handleSelectPin}

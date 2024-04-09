@@ -11,44 +11,90 @@ import {
 import { useAddress } from "../hooks/useAddress";
 import { useAddressAutocomplete } from "../hooks/useAddressAutocomplete";
 
+function getParams(address) {
+  let code, radius;
+  if (!address?.layer) return;
+  try {
+    if (address.layer === "state") {
+      if (!(address?.countryCode || address?.stateCode)) {
+        throw new Error("Missing country code or state code for this state.");
+      }
+      code = `${address?.countryCode}-${address?.stateCode}`;
+    } else if (address.layer === "country") {
+      if (!address?.countryCode) {
+        throw new Error("Missing country code for this country.");
+      }
+      code = address?.countryCode;
+    } else {
+      //TODO: make radius variable
+      radius = 25;
+      if (!(address?.latitude || address?.longitude || radius)) {
+        throw new Error("Missing information to search by address.");
+      }
+    }
+    return { code, radius };
+  } catch (e) {
+    console.error(e.message);
+  }
+}
+
 /**
  * User can select a location to populate list of species recently observed near the location or in the region
  */
 function SelectLocation() {
   const navigate = useNavigate();
   const { layer } = useParams();
-  const [setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState(null);
-  const { isLoading: isLoadingAddress, error, address = {} } = useAddress();
+  const {
+    isLoading: isLoadingAddress,
+    error,
+    address,
+  } = useAddress(selectedRegion?.value);
+
   const {
     isLoading: isLoadingSuggestions,
     error: errorAutocomplete,
     suggestions,
   } = useAddressAutocomplete(query);
 
-  // Syncs URL with region selector dropdown
+  // Syncs address with URL
   useEffect(() => {
-    if (!suggestions.length && !selectedRegion && address?.formattedAddress) {
-      setSelectedRegion({
-        value: {
-          layer: address?.layer,
-          lat: address.latitude,
-          lng: address.longitude,
-        },
-        label: `${address.countryFlag} ${address.formattedAddress}`,
-      });
-    }
-  }, [
-    address?.countryFlag,
-    address?.formattedAddress,
-    address?.latitude,
-    address?.longitude,
-    address?.layer,
-    selectedRegion,
-    suggestions.length,
-    navigate,
-  ]);
+    if (!selectedRegion || !address?.latitude) return;
+
+    const { code, radius } = getParams(address);
+
+    navigate(`/${address.layer}`);
+    searchParams.set("lat", address.latitude);
+    searchParams.set("lng", address.longitude);
+    searchParams.set("radius", radius || "");
+    searchParams.set("code", code || "");
+    setSearchParams(searchParams);
+  }, [selectedRegion, address, searchParams, setSearchParams, navigate]);
+
+  // // Syncs URL with region selector dropdown
+  // useEffect(() => {
+  //   if (!suggestions.length && !selectedRegion && address?.formattedAddress) {
+  //     setSelectedRegion({
+  //       value: {
+  //         layer: address?.layer,
+  //         lat: address.latitude,
+  //         lng: address.longitude,
+  //       },
+  //       label: `${address.countryFlag} ${address.formattedAddress}`,
+  //     });
+  //   }
+  // }, [
+  //   address?.countryFlag,
+  //   address?.formattedAddress,
+  //   address?.latitude,
+  //   address?.longitude,
+  //   address?.layer,
+  //   selectedRegion,
+  //   suggestions.length,
+  //   navigate,
+  // ]);
 
   // Handle typing in input of dropdown
   function handleOnInputChange(input) {
@@ -71,6 +117,7 @@ function SelectLocation() {
     // Option was selected
     const selected = e.value;
     console.log(selected);
+
     setSelectedRegion({
       value: {
         layer: selected.layer,
@@ -79,11 +126,6 @@ function SelectLocation() {
       },
       label: `${selected.countryFlag} ${selected.formattedAddress}`,
     });
-    navigate(`/${selected.layer}`);
-    setSearchParams(
-      { lat: selected.latitude, lng: selected.longitude },
-      { replace: true },
-    );
   }
 
   return (
