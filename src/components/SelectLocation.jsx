@@ -59,7 +59,7 @@ function SelectLocation() {
     suggestions,
   } = useAddressAutocomplete(query);
 
-  // Syncs address with URL
+  // address object -> URL
   useEffect(() => {
     if (!selectedRegion || !address?.latitude) return;
 
@@ -73,28 +73,28 @@ function SelectLocation() {
     setSearchParams(searchParams);
   }, [selectedRegion, address, searchParams, setSearchParams, navigate]);
 
-  // // Syncs URL with region selector dropdown
-  // useEffect(() => {
-  //   if (!suggestions.length && !selectedRegion && address?.formattedAddress) {
-  //     setSelectedRegion({
-  //       value: {
-  //         layer: address?.layer,
-  //         lat: address.latitude,
-  //         lng: address.longitude,
-  //       },
-  //       label: `${address.countryFlag} ${address.formattedAddress}`,
-  //     });
-  //   }
-  // }, [
-  //   address?.countryFlag,
-  //   address?.formattedAddress,
-  //   address?.latitude,
-  //   address?.longitude,
-  //   address?.layer,
-  //   selectedRegion,
-  //   suggestions.length,
-  //   navigate,
-  // ]);
+  // address object -> dropdown
+  useEffect(() => {
+    if (!suggestions.length && !selectedRegion && address?.layer) {
+      setSelectedRegion({
+        value: {
+          layer: address.layer,
+          lat: address.latitude,
+          lng: address.longitude,
+        },
+        label: `${address.countryFlag} ${address.formattedAddress}`,
+      });
+    }
+  }, [
+    address?.countryFlag,
+    address?.formattedAddress,
+    address?.latitude,
+    address?.longitude,
+    address?.layer,
+    selectedRegion,
+    suggestions.length,
+    navigate,
+  ]);
 
   // Handle typing in input of dropdown
   function handleOnInputChange(input) {

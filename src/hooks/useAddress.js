@@ -3,11 +3,23 @@
  */
 import { useQuery } from "@tanstack/react-query";
 import { getAddressbyCoordinates } from "../services/apiRadar";
+import { useParams, useSearchParams } from "react-router-dom";
 
 export function useAddress(data) {
-    const layer = data?.layer;
-    const lat = data?.lat;
-    const lng = data?.lng;
+    const { layer: layerURL } = useParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // If layer, lat, lng is not provided, useAddress defaults to URL values
+    let layer, lat, lng;
+    if (data?.layer) {
+        layer = data?.layer;
+        lat = data?.lat;
+        lng = data?.lng;
+    } else {
+        layer = layerURL;
+        lat = searchParams.get('lat');
+        lng = searchParams.get('lng');
+    }
 
     const {
         isLoading,
