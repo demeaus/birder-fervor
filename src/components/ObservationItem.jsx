@@ -32,27 +32,14 @@ function ObervationItem({ obs, idx, onSelectPin }) {
 
   function handleClick() {
     navigate(`/${layer}/${speciesCode}/${obs.subId}`);
+    // setSearchParams(searchParams);
     setSearchParams(searchParams, { replace: true });
     onSelectPin({ idx: idx, lat: obs.lat, lng: obs.lng });
     // e.stopPropagation();
   }
 
-  // // TODO: getAddressByCoordinates is responsible for many API calls
-  // useEffect(() => {
-  //   async function fetchAddress() {
-  //     const addressFromCoordinates = await getAddressbyCoordinates({
-  //       lat: obs.lat,
-  //       lon: obs.lng,
-  //     });
-  //     if (addressFromCoordinates) setAddress(addressFromCoordinates);
-  //   }
-
-  //   fetchAddress();
-  // }, [obs.lat, obs.lng]);
-
   // TODO: Handle localization of address format
 
-  // const displayAddressA = address?.addressLabel ?? "no label";
   const displayAddressA = address?.addressLabel ?? obs.locName;
   const displayAddressB = address?.addressLabel ? (
     <span className="text-xs">
