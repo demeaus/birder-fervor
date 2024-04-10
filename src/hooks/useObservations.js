@@ -33,7 +33,6 @@ export function useObservations() {
     }
   }, [lat, lng, radius, code, speciesCode])
 
-  console.log(params, speciesCode)
   const {
     isLoading,
     data: observations,

@@ -80,11 +80,11 @@ function SelectLocation() {
     const { code, radius } = getParams(address, setSelectedRegion);
 
     console.log("navigating");
-    navigate(`/${address.layer}`);
     searchParams.set("lat", address.latitude);
     searchParams.set("lng", address.longitude);
     searchParams.set("radius", radius || "");
     searchParams.set("code", code || "");
+    navigate(`/${address.layer}`);
     setSearchParams(searchParams);
   }, [selectedRegion, address, searchParams, setSearchParams, navigate]);
 

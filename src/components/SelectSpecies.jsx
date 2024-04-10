@@ -28,25 +28,32 @@ function SelectSpecies() {
     species = [],
   } = useSpecies();
 
-  // // Syncs speciesCodeURL with dropdown
-  // useEffect(() => {
-  //   // Validate speciesCodeURL
-  //   function isValidSpeciesCode(speciesCode) {
-  //     if (
-  //       speciesCommonNames.filter((species) => species[0] === speciesCode)
-  //         .length
-  //     )
-  //       return true;
-  //     return false;
-  //   }
+  // URL -> dropdown
+  useEffect(() => {
+    // Validate speciesCodeURL
+    function isValidSpeciesCode(speciesCode) {
+      const match = species
+        .filter((specie) => specie.speciesCode === speciesCode)
+        ?.at(0);
+      if (match) return match;
+      return false;
+    }
 
-  //   if (!speciesCommonNames.length) return;
+    if (!species.length) return;
 
-  //   if (speciesCodeURL && !isValidSpeciesCode(speciesCodeURL)) {
-  //     navigate("..");
-  //     // navigate(`/${layer}?lat=${lat}&lng=${lng}`);
-  //   }
-  // }, [speciesCodeURL, navigate, speciesCommonNames]);
+    const speciesMatch = isValidSpeciesCode(speciesCode);
+
+    // If there is an invalid species code in the URL, remove it, otherwise sync the dropdown with the species code
+    if (speciesCode && !speciesMatch) {
+      navigate(`/${layer}`);
+      setSearchParams(searchParams);
+    } else {
+      setSelectedSpecies({
+        value: speciesMatch,
+        label: speciesMatch.comName,
+      });
+    }
+  }, [speciesCode, navigate, layer, species, searchParams, setSearchParams]);
 
   // TODO: Clear selected species when region is cleared or changed
   function handleChange(e, { action }) {
@@ -57,16 +64,6 @@ function SelectSpecies() {
       setSearchParams(searchParams, { replace: true });
       return;
     }
-
-    // Handle selected species
-    // setSelectedSpecies({
-    //   value: {
-    //     layer: selected.layer,
-    //     lat: selected.latitude,
-    //     lng: selected.longitude,
-    //   },
-    //   label: `${selected.countryFlag} ${selected.formattedAddress}`,
-    // });
 
     console.log(searchParams);
     navigate(`/${layer}/${e.value.speciesCode}`);
