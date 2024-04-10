@@ -8,8 +8,7 @@ import useWindowDimensions from "../hooks/useWindowDimensions";
 
 function Observations({ selectedPin, handleSelectPin }) {
   const { isLoading, error, observations } = useObservations();
-  const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
-    useParams();
+  const { layer, speciesCode } = useParams();
   const { height, width } = useWindowDimensions();
   const [isOpen, setIsOpen] = useState(true);
 
@@ -18,7 +17,7 @@ function Observations({ selectedPin, handleSelectPin }) {
   }
 
   // If there is no selected region or species, then no observations are to be shown
-  if (!regionCodeURL || !speciesCodeURL) {
+  if (!layer || !speciesCode) {
     return;
   }
 
@@ -27,7 +26,7 @@ function Observations({ selectedPin, handleSelectPin }) {
   }
 
   // If there are no observations for the selected species
-  if (regionCodeURL && speciesCodeURL && !observations?.length) {
+  if (layer && speciesCode && !observations?.length) {
     return (
       <div className="fixed bottom-0 z-20 w-full bg-gray-300 px-6 py-3 text-center text-sm">
         No observations for the selected species in the last 30 days.
