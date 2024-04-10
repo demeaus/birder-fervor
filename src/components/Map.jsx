@@ -1,15 +1,20 @@
 import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { useObservations } from "../hooks/useObservations";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { formatDate } from "../utils/helpers";
 
 const initalPosition = { lat: 39.75, lng: -104.95 };
 
 function MapComponent({ observations, selectedPin }) {
   const map = useMap();
-  const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
-    useParams();
+  const { layer, speciesCode } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
   // Sync map view with selected pin
@@ -21,13 +26,24 @@ function MapComponent({ observations, selectedPin }) {
       // Set view to first pin, if no pin is selected yet
     } else if (observations?.length > 0) {
       map.setView([observations[0].lat, observations[0].lng]);
-      // navigate(`/${regionCodeURL}/${speciesCodeURL}/${observations[0].subId}`);
+      navigate(`/${layer}/${speciesCode}/${observations[0].subId}`);
+      // setSearchParams(searchParams);
+      setSearchParams(searchParams, { replace: true });
 
       // If there are no observations, default to initial position
     } else {
       map.setView([initalPosition.lat, initalPosition.lng]);
     }
-  }, [map, observations, selectedPin]);
+  }, [
+    map,
+    observations,
+    selectedPin,
+    layer,
+    navigate,
+    speciesCode,
+    searchParams,
+    setSearchParams,
+  ]);
 }
 
 function ObservationMarker({ obs, idx, onSelectPin }) {

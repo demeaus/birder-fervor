@@ -47,6 +47,7 @@ function SelectSpecies() {
     if (speciesCode && !speciesMatch) {
       navigate(`/${layer}`);
       setSearchParams(searchParams);
+      // setSearchParams(searchParams, { replace: true });
     } else {
       setSelectedSpecies({
         value: speciesMatch,
@@ -61,13 +62,15 @@ function SelectSpecies() {
     // TODO: handle differently for if just the selected species is cleared
     if (action === "clear") {
       navigate(`/${layer}`);
-      setSearchParams(searchParams, { replace: true });
+      setSearchParams(searchParams);
+      // setSearchParams(searchParams, { replace: true });
       return;
     }
 
     console.log(searchParams);
     navigate(`/${layer}/${e.value.speciesCode}`);
-    setSearchParams(searchParams, { replace: true });
+    setSearchParams(searchParams);
+    // setSearchParams(searchParams, { replace: true });
   }
 
   return (

@@ -85,7 +85,7 @@ function SelectLocation() {
     searchParams.set("radius", radius || "");
     searchParams.set("code", code || "");
     navigate(`/${address.layer}`);
-    setSearchParams(searchParams);
+    setSearchParams(searchParams, { replace: true });
   }, [selectedRegion, address, searchParams, setSearchParams, navigate]);
 
   // address object -> dropdown
@@ -144,6 +144,7 @@ function SelectLocation() {
     // If the selected location changed and there is a selected species, the species list should be reset and the currently selected species is invalid
     if (speciesCode) {
       navigate(`/${layer}`);
+      setSearchParams(searchParams);
     }
   }
 
