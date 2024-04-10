@@ -118,7 +118,7 @@ export async function getSpeciesObservationsByAddress({ lat, lng, radius }, spec
         headers: headers,
     };
     // TODO: Increase number of results or make customizable in production
-    const res = await fetch(`${EBIRD_API_URL}data/obs/geo/recent/${speciesCode}&lat=${lat}&lng=${lng}&dist=${radius}&maxResults=6`, requestOptions);
+    const res = await fetch(`${EBIRD_API_URL}data/obs/geo/recent/${speciesCode}?lat=${lat}&lng=${lng}&dist=${radius}&maxResults=6`, requestOptions);
 
     if (!res.ok) {
         throw new Error(

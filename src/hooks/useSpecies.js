@@ -17,9 +17,8 @@ export function useSpecies() {
 
   useEffect(() => {
     try {
-      if (!code && !radius) {
-        throw new Error("Invalid URL: Missing code and radius query parameters.");
-      } else if (code && radius) {
+      if (!code && !radius) return;
+      if (code && radius) {
         throw new Error("Invalid URL: Cannot have both code and radius query parameters.");
       }
 

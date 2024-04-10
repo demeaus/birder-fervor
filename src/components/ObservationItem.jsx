@@ -20,7 +20,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
   }
 
   function handleClick() {
-    navigate(`/${regionCodeURL}/${speciesCodeURL}/${obs.subId}`);
+    // navigate(`/${regionCodeURL}/${speciesCodeURL}/${obs.subId}`);
     onSelectPin({ idx: idx, lat: obs.lat, lng: obs.lng });
     // e.stopPropagation();
   }

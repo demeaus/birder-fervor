@@ -21,7 +21,7 @@ function MapComponent({ observations, selectedPin }) {
       // Set view to first pin, if no pin is selected yet
     } else if (observations?.length > 0) {
       map.setView([observations[0].lat, observations[0].lng]);
-      navigate(`/${regionCodeURL}/${speciesCodeURL}/${observations[0].subId}`);
+      // navigate(`/${regionCodeURL}/${speciesCodeURL}/${observations[0].subId}`);
 
       // If there are no observations, default to initial position
     } else {

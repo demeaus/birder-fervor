@@ -11,7 +11,7 @@ import {
 import { useAddress } from "../hooks/useAddress";
 import { useAddressAutocomplete } from "../hooks/useAddressAutocomplete";
 
-function getParams(address) {
+function getParams(address, setSelectedRegion) {
   let code, radius;
   if (!address?.layer) return;
   try {
@@ -32,6 +32,12 @@ function getParams(address) {
         throw new Error("Missing information to search by address.");
       }
     }
+    setSelectedRegion((obj) => {
+      const updatedSelectedRegion = { ...obj };
+      updatedSelectedRegion.value.lat = address.latitude;
+      updatedSelectedRegion.value.lng = address.longitude;
+      return updatedSelectedRegion;
+    });
     return { code, radius };
   } catch (e) {
     console.error(e.message);
@@ -43,7 +49,7 @@ function getParams(address) {
  */
 function SelectLocation() {
   const navigate = useNavigate();
-  const { layer } = useParams();
+  const { layer, speciesCode } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState(null);
@@ -63,8 +69,17 @@ function SelectLocation() {
   useEffect(() => {
     if (!selectedRegion || !address?.latitude) return;
 
-    const { code, radius } = getParams(address);
+    // Only sync address object with URL if the URL does not match the selectedRegion and address object
+    console.log(selectedRegion.value.lat, address.latitude);
+    if (
+      selectedRegion.value.lat === address.latitude &&
+      selectedRegion.value.lng === address.longitude
+    )
+      return;
 
+    const { code, radius } = getParams(address, setSelectedRegion);
+
+    console.log("navigating");
     navigate(`/${address.layer}`);
     searchParams.set("lat", address.latitude);
     searchParams.set("lng", address.longitude);
@@ -93,7 +108,6 @@ function SelectLocation() {
     address?.layer,
     selectedRegion,
     suggestions.length,
-    navigate,
   ]);
 
   // Handle typing in input of dropdown
@@ -126,6 +140,11 @@ function SelectLocation() {
       },
       label: `${selected.countryFlag} ${selected.formattedAddress}`,
     });
+
+    // If the selected location changed and there is a selected species, the species list should be reset and the currently selected species is invalid
+    if (speciesCode) {
+      navigate(`/${layer}`);
+    }
   }
 
   return (

@@ -16,8 +16,9 @@ import {
 // TODO: group by species group
 function SelectSpecies() {
   const navigate = useNavigate();
-  const { layer, speciesCode: speciesCodeURL } = useParams();
+  const { layer, speciesCode } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedSpecies, setSelectedSpecies] = useState();
   const lat = searchParams.get("lat");
   const lng = searchParams.get("lng");
 
@@ -52,13 +53,24 @@ function SelectSpecies() {
     // Clear region and species list if region is cleared
     // TODO: handle differently for if just the selected species is cleared
     if (action === "clear") {
-      navigate("..");
+      navigate(`/${layer}`);
+      setSearchParams(searchParams, { replace: true });
       return;
     }
 
     // Handle selected species
+    // setSelectedSpecies({
+    //   value: {
+    //     layer: selected.layer,
+    //     lat: selected.latitude,
+    //     lng: selected.longitude,
+    //   },
+    //   label: `${selected.countryFlag} ${selected.formattedAddress}`,
+    // });
+
+    console.log(searchParams);
     navigate(`/${layer}/${e.value.speciesCode}`);
-    // setSearchParams({ lat: lat, lng: lng }, { replace: true });
+    setSearchParams(searchParams, { replace: true });
   }
 
   return (
@@ -84,17 +96,8 @@ function SelectSpecies() {
         isClearable={true}
         isLoading={statusSpecies === "pending"}
         placeholder="Enter species..."
-        // value={
-        //   speciesCodeURL
-        //     ? {
-        //         value: speciesCodeURL,
-        //         label: speciesCommonNames
-        //           .filter((species) => species[0] === speciesCodeURL)
-        //           ?.at(0)
-        //           ?.at(1),
-        //       }
-        //     : null
-        // }
+        // TODO: actually set selectedSpecies to something
+        value={speciesCode ? selectedSpecies : null}
       />
     </div>
   );
