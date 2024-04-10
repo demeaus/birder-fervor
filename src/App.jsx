@@ -28,21 +28,6 @@ const router = createBrowserRouter([
         element: <Main />,
         errorElement: <Error />,
       },
-      // {
-      //   path: ":/regionCode",
-      //   element: <Main />,
-      //   errorElement: <Error />,
-      // },
-      // {
-      //   path: "/:regionCode/:speciesCode",
-      //   element: <Main />,
-      //   errorElement: <Error />,
-      // },
-      // {
-      //   path: "/:regionCode/:speciesCode/:checklistCode",
-      //   element: <Main />,
-      //   errorElement: <Error />,
-      // },
     ],
   },
 ]);
