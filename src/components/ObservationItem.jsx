@@ -1,18 +1,29 @@
 import { LuBird, LuExternalLink, LuMapPin } from "react-icons/lu";
 import { calcObsAge, copyToClipboard, formatDate } from "../utils/helpers";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { EBIRD_CHECKLIST_URL } from "../utils/constants";
+import { useAddress } from "../hooks/useAddress";
 // import { getAddressbyCoordinates } from "../services/apiGeoapify";
 
 function ObervationItem({ obs, idx, onSelectPin }) {
   // distance from user's current/entered locations, if chosen
   // starred for user for sorting and export
 
-  const [address, setAddress] = useState();
+  // const [address, setAddress] = useState();
   const navigate = useNavigate();
-  const { regionCode: regionCodeURL, speciesCode: speciesCodeURL } =
-    useParams();
+  const { layer, speciesCode } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { address } = useAddress({
+    lat: obs.lat,
+    lng: obs.lng,
+    layer: "fine",
+  });
   const obsAge = calcObsAge(obs.obsDt);
 
   function handleCopy(text) {
@@ -20,7 +31,8 @@ function ObervationItem({ obs, idx, onSelectPin }) {
   }
 
   function handleClick() {
-    // navigate(`/${regionCodeURL}/${speciesCodeURL}/${obs.subId}`);
+    navigate(`/${layer}/${speciesCode}/${obs.subId}`);
+    setSearchParams(searchParams, { replace: true });
     onSelectPin({ idx: idx, lat: obs.lat, lng: obs.lng });
     // e.stopPropagation();
   }
@@ -39,25 +51,22 @@ function ObervationItem({ obs, idx, onSelectPin }) {
   // }, [obs.lat, obs.lng]);
 
   // TODO: Handle localization of address format
-  const displayAddressA = address?.address_line1 ?? obs.locName;
-  const displayAddressB = address?.address_line1 ? (
+
+  // const displayAddressA = address?.addressLabel ?? "no label";
+  const displayAddressA = address?.addressLabel ?? obs.locName;
+  const displayAddressB = address?.addressLabel ? (
     <span className="text-xs">
       <>
-        {(address.address_line1.includes(address?.city) ||
-          address.address_line1.includes(address?.county)) &&
-        (address.address_line1.includes(address?.state_code) ||
-          address.address_line1.includes(address?.state))
+        {(address.addressLabel.includes(address?.city) ||
+          address.addressLabel.includes(address?.county)) &&
+        (address.addressLabel.includes(address?.stateCode) ||
+          address.addressLabel.includes(address?.state))
           ? ""
           : `${address?.city ?? address?.county ?? ""}, ${
-              address?.state_code?.toUpperCase() ?? address?.state
+              address?.stateCode?.toUpperCase() ?? address?.state
             }`}
+        , {`${address?.countryCode.toUpperCase()}`}
       </>
-
-      <>{`${
-        address?.postcode && !address.address_line1.includes(address?.postcode)
-          ? " " + address.postcode + ", "
-          : ""
-      }${address?.country_code.toUpperCase()}`}</>
     </span>
   ) : null;
 
@@ -115,7 +124,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
         <LuMapPin className="shrink-0" />
         <div className="flex flex-col">
           <span className="text-sm">{displayAddressA}</span>
-          {address?.address_line1 && displayAddressB}
+          {address?.addressLabel && displayAddressB}
         </div>
       </div>
 
