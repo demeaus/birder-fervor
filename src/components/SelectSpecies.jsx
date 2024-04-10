@@ -19,8 +19,6 @@ function SelectSpecies() {
   const { layer, speciesCode } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selectedSpecies, setSelectedSpecies] = useState();
-  const lat = searchParams.get("lat");
-  const lng = searchParams.get("lng");
 
   const {
     status: statusSpecies,

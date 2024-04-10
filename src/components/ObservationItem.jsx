@@ -20,9 +20,9 @@ function ObervationItem({ obs, idx, onSelectPin }) {
   const { layer, speciesCode } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const { address } = useAddress({
+    layer: "fine",
     lat: obs.lat,
     lng: obs.lng,
-    layer: "fine",
   });
   const obsAge = calcObsAge(obs.obsDt);
 

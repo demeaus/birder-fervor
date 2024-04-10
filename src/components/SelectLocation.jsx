@@ -8,41 +8,8 @@ import {
   placeholderStyles,
   indicatorStyles,
 } from "../utils/constants";
-import { useAddress } from "../hooks/useAddress";
 import { useAddressAutocomplete } from "../hooks/useAddressAutocomplete";
-
-function getParams(address, setSelectedRegion) {
-  let code, radius;
-  if (!address?.layer) return;
-  try {
-    if (address.layer === "state") {
-      if (!(address?.countryCode || address?.stateCode)) {
-        throw new Error("Missing country code or state code for this state.");
-      }
-      code = `${address?.countryCode}-${address?.stateCode}`;
-    } else if (address.layer === "country") {
-      if (!address?.countryCode) {
-        throw new Error("Missing country code for this country.");
-      }
-      code = address?.countryCode;
-    } else {
-      //TODO: make radius variable
-      radius = 25;
-      if (!(address?.latitude || address?.longitude || radius)) {
-        throw new Error("Missing information to search by address.");
-      }
-    }
-    setSelectedRegion((obj) => {
-      const updatedSelectedRegion = { ...obj };
-      updatedSelectedRegion.value.lat = address.latitude;
-      updatedSelectedRegion.value.lng = address.longitude;
-      return updatedSelectedRegion;
-    });
-    return { code, radius };
-  } catch (e) {
-    console.error(e.message);
-  }
-}
+import { useLocationContext } from "../context/LocationContext";
 
 /**
  * User can select a location to populate list of species recently observed near the location or in the region
@@ -52,12 +19,20 @@ function SelectLocation() {
   const { layer, speciesCode } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState(null);
-  const {
-    isLoading: isLoadingAddress,
-    error,
-    address,
-  } = useAddress(selectedRegion?.value);
+  const { searchLocation, handleLocationSelect } = useLocationContext();
+  // For initial selected region, attempt to get it from searchLocation, which attempts to get it from the URL
+  const [selectedRegion, setSelectedRegion] = useState(
+    searchLocation
+      ? {
+          value: {
+            layer: searchLocation.layer,
+            lat: searchLocation.latitude,
+            lng: searchLocation.longitude,
+          },
+          label: `${searchLocation.countryFlag} ${searchLocation.formattedAddress}`,
+        }
+      : null,
+  );
 
   const {
     isLoading: isLoadingSuggestions,
@@ -65,47 +40,24 @@ function SelectLocation() {
     suggestions,
   } = useAddressAutocomplete(query);
 
-  // address object -> URL
+  // location object -> dropdown
   useEffect(() => {
-    if (!selectedRegion || !address?.latitude) return;
-
-    // Only sync address object with URL if the URL does not match the selectedRegion and address object
-    console.log(selectedRegion.value.lat, address.latitude);
-    if (
-      selectedRegion.value.lat === address.latitude &&
-      selectedRegion.value.lng === address.longitude
-    )
-      return;
-
-    const { code, radius } = getParams(address, setSelectedRegion);
-
-    console.log("navigating");
-    searchParams.set("lat", address.latitude);
-    searchParams.set("lng", address.longitude);
-    searchParams.set("radius", radius || "");
-    searchParams.set("code", code || "");
-    navigate(`/${address.layer}`);
-    setSearchParams(searchParams, { replace: true });
-  }, [selectedRegion, address, searchParams, setSearchParams, navigate]);
-
-  // address object -> dropdown
-  useEffect(() => {
-    if (!suggestions.length && !selectedRegion && address?.layer) {
+    if (!suggestions.length && !selectedRegion && searchLocation?.layer) {
       setSelectedRegion({
         value: {
-          layer: address.layer,
-          lat: address.latitude,
-          lng: address.longitude,
+          layer: searchLocation.layer,
+          lat: searchLocation.latitude,
+          lng: searchLocation.longitude,
         },
-        label: `${address.countryFlag} ${address.formattedAddress}`,
+        label: `${searchLocation.countryFlag} ${searchLocation.formattedAddress}`,
       });
     }
   }, [
-    address?.countryFlag,
-    address?.formattedAddress,
-    address?.latitude,
-    address?.longitude,
-    address?.layer,
+    searchLocation?.countryFlag,
+    searchLocation?.formattedAddress,
+    searchLocation?.latitude,
+    searchLocation?.longitude,
+    searchLocation?.layer,
     selectedRegion,
     suggestions.length,
   ]);
@@ -129,17 +81,17 @@ function SelectLocation() {
     }
 
     // Option was selected
-    const selected = e.value;
-    console.log(selected);
-
-    setSelectedRegion({
+    const selected = {
       value: {
-        layer: selected.layer,
-        lat: selected.latitude,
-        lng: selected.longitude,
+        layer: e.value.layer,
+        lat: e.value.latitude,
+        lng: e.value.longitude,
       },
-      label: `${selected.countryFlag} ${selected.formattedAddress}`,
-    });
+      label: `${e.value.countryFlag} ${e.value.formattedAddress}`,
+    };
+    console.log(selected);
+    setSelectedRegion(selected);
+    handleLocationSelect(selected.value);
 
     // If the selected location changed and there is a selected species, the species list should be reset and the currently selected species is invalid
     if (speciesCode) {
@@ -166,7 +118,7 @@ function SelectLocation() {
         unstyled={true}
         backspaceRemovesValue={true}
         isClearable={true}
-        isLoading={isLoadingSuggestions || isLoadingAddress}
+        isLoading={isLoadingSuggestions}
         value={selectedRegion}
         placeholder="Enter location..."
       />
