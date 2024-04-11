@@ -74,31 +74,30 @@ function ObervationItem({ obs, idx, onSelectPin }) {
       onClick={handleClick}
     >
       <div className="flex flex-col items-center gap-0.5 rounded border-2 border-solid border-yellow-500 bg-yellow-100 px-4 py-1">
-        <div className="flex w-full justify-between">
-          <span className="font-semibold">
+        <div className="flex w-full justify-between gap-6">
+          <span className="text-nowrap text-sm font-semibold lg:text-base">
             {idx + 1}. {formatDate(obs.obsDt)}
           </span>
-          <div className="flex items-center justify-end gap-2 font-semibold">
-            <span className="text-xl">
+          <div className="flex items-center justify-end gap-2 text-sm font-semibold lg:text-lg">
+            <span className="text-lg">
               <LuBird />
             </span>
             {obs.howMany}
           </div>
         </div>
         <div className="flex w-full justify-between">
-          <div className="flex items-center justify-start gap-2">
-            <span className="text-xs">Last seen: </span>
-            <span className="text-sm">{displayLastSeen}</span>
+          <div className="flex items-center justify-start gap-2 text-xs">
+            <span className="">Last seen: </span>
+            <span className="">{displayLastSeen}</span>
           </div>
           <Link
             target="_blank"
             to={`${EBIRD_CHECKLIST_URL}/${obs.subId}`}
-            className="flex items-center justify-end font-semibold text-yellow-800"
-            // className="flex max-w-fit items-center justify-end gap-2 font-semibold text-yellow-800"
+            className="flex items-center justify-end text-sm font-semibold text-yellow-800"
           >
-            <div className="mt-1 flex justify-end gap-1">
+            <div className="mt-1 flex items-center justify-end gap-1">
               <LuExternalLink />
-              <span className="text-sm">eBird</span>
+              <span className="text-xs lg:text-base">eBird</span>
             </div>
           </Link>
         </div>
@@ -124,7 +123,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
         }}
       >
         <LuMapPin className="shrink-0" />
-        <span className="text-sm">{`${obs.lat}, ${obs.lng}`}</span>
+        <span className="text-xs lg:text-sm">{`${obs.lat}, ${obs.lng}`}</span>
       </div>
     </li>
   );
