@@ -19,7 +19,8 @@ function SelectLocation() {
   const { layer, speciesCode } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState("");
-  const { searchLocation, handleLocationSelect } = useLocationContext();
+  const { searchLocation, handleLocationSelect, handleLocationClear } =
+    useLocationContext();
   // For initial selected region, attempt to get it from searchLocation, which attempts to get it from the URL
   const [selectedRegion, setSelectedRegion] = useState(
     searchLocation
@@ -73,6 +74,7 @@ function SelectLocation() {
     if (action === "clear") {
       // TODO: Display history or recent searches
       setSelectedRegion(null);
+      handleLocationClear();
 
       if (layer) {
         navigate("/");

@@ -72,8 +72,15 @@ function LocationProvider({ children }) {
     setSearchLocation(location);
   }
 
+  function handleLocationClear() {
+    setSelectedValue(null);
+    setSearchLocation(null);
+  }
+
   return (
-    <LocationContext.Provider value={{ searchLocation, handleLocationSelect }}>
+    <LocationContext.Provider
+      value={{ searchLocation, handleLocationSelect, handleLocationClear }}
+    >
       {children}
     </LocationContext.Provider>
   );
