@@ -7,6 +7,7 @@ import {
   optionStyles,
   placeholderStyles,
   indicatorStyles,
+  menuListStyles,
 } from "../utils/constants";
 import { useAddressAutocomplete } from "../hooks/useAddressAutocomplete";
 import { useLocationContext } from "../context/LocationContext";
@@ -109,6 +110,7 @@ function SelectLocation() {
           placeholder: () => placeholderStyles,
           control: () => controlStyles,
           menu: () => menuStyles,
+          menuList: () => menuListStyles,
           option: () => optionStyles,
           dropdownIndicator: () => indicatorStyles,
           loadingIndicator: () => indicatorStyles,

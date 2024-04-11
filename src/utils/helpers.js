@@ -81,3 +81,53 @@ export function formatDate(dateStr) {
     const date = new Date(dateStr)
     return dateFormat.format(date)
 }
+
+export function buildDisplayAddress(address) {
+    const addressLabel = address?.addressLabel;
+    const placeLabel = address?.placeLabel;
+
+    function buildLine2(address) {
+        const addressLabel = address?.addressLabel;
+
+        if (!addressLabel) return;
+
+        const part1 =
+            address?.city && !addressLabel.includes(address.city)
+                ? address.city
+                : address?.county && !addressLabel.includes(address.county)
+                    ? address.county
+                    : null;
+
+        const part2 =
+            (address?.stateCode?.toUpperCase() ?? address?.state) +
+            (address?.postalCode ? ` ${address?.postalCode}` : "") +
+            " " +
+            address?.countryCode.toUpperCase();
+
+        return part1 + ", " + part2;
+    }
+    const line1 = addressLabel ?? placeLabel ?? "";
+
+    const line2 = addressLabel
+        ? buildLine2(address)
+        : placeLabel
+            ? address.formattedAddress
+            : null;
+
+    if (!address) return;
+
+    return [line1, line2]
+}
+
+export function buildDisplayLastSeen(age) {
+    const displayLastSeen =
+        age.days > 0
+            ? `${age.days} ${age.days === 1 ? "day" : "days"}${age.hours > 0
+                ? `, ${age.hours} ${age.hours === 1 ? "hour" : "hours"} ago`
+                : ""
+            }`
+            : age.hours > 0
+                ? `${age.hours} ${age.hours === 1 ? "hour" : "hours"} ago`
+                : "now";
+    return displayLastSeen
+}
