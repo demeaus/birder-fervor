@@ -16,4 +16,13 @@
   }
 }
 
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  @apply border-2 border-solid border-gray-400 bg-gray-100;
+}
+
+.leaflet-popup-content-wrapper > * {
+  @apply w-40 text-nowrap text-center font-sans;
+}
+
 @tailwind utilities;

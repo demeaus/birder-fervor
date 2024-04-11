@@ -28,7 +28,7 @@ function Observations({ selectedPin, handleSelectPin }) {
   // If there are no observations for the selected species
   if (layer && speciesCode && !observations?.length) {
     return (
-      <div className="fixed bottom-0 z-20 w-full bg-gray-300 px-6 py-3 text-center text-sm">
+      <div className="fixed bottom-0 z-20 w-full bg-gray-700 px-6 py-3 text-center text-sm">
         No observations for the selected species in the last 30 days.
       </div>
     );
@@ -48,7 +48,7 @@ function Observations({ selectedPin, handleSelectPin }) {
         </div>
 
         <div
-          className={`lg:border-r-none lg:border-b-none relative max-h-[33vh] min-h-fit overflow-auto rounded-t-lg border-4 border-t-4 border-solid border-gray-400 lg:max-h-[80vh] lg:rounded-l-lg ${isOpen ? "" : "hidden"}`}
+          className={`lg:border-r-none lg:border-b-none relative max-h-[33vh] min-h-fit overflow-auto rounded-t-lg border-2 border-t-2 border-solid border-gray-400 lg:max-h-[80vh] lg:rounded-l-lg ${isOpen ? "" : "hidden"}`}
         >
           {/* <h1 className="sticky top-0 w-full bg-gray-400 px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm">
           TODO: Recent observations of {speciesCodeURL} in {regionCodeURL}

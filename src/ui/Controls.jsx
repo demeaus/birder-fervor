@@ -11,7 +11,7 @@ function Controls({ children }) {
   return (
     <div className="absolute z-20">
       <div
-        className={`flex flex-col items-start gap-1 rounded-b-lg border-4 border-t-0 border-solid border-gray-400 bg-gray-200 px-4 pt-3 text-sm ${isOpen ? "" : "hidden "}`}
+        className={`flex flex-col items-start gap-1 rounded-b-lg border-2 border-t-0 border-solid border-gray-400 bg-gray-700 px-4 pt-3 text-sm text-yellow-50 ${isOpen ? "" : "hidden "}`}
       >
         <h1 className="px-4 text-xs">
           Search for recent sightings by region and species:

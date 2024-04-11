@@ -70,10 +70,10 @@ function ObervationItem({ obs, idx, onSelectPin }) {
 
   return (
     <li
-      className="flex max-w-sm flex-col justify-normal gap-2 bg-gray-200 p-4"
+      className="flex max-w-sm flex-col justify-normal gap-2 bg-gray-700 p-4"
       onClick={handleClick}
     >
-      <div className="flex flex-col items-center gap-0.5 rounded border border-solid border-yellow-400 bg-yellow-100 px-4 py-1">
+      <div className="flex flex-col items-center gap-0.5 rounded border-2 border-solid border-yellow-500 bg-yellow-100 px-4 py-1">
         <div className="flex w-full justify-between">
           <span className="font-semibold">
             {idx + 1}. {formatDate(obs.obsDt)}
@@ -104,7 +104,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
         </div>
       </div>
       <div
-        className="flex items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4"
+        className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
         role="button"
         onClick={() => handleCopy(address.formatted)}
       >
@@ -116,7 +116,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
       </div>
 
       <div
-        className="flex items-center justify-start gap-2 rounded bg-gray-50 py-2 pl-3 pr-4 "
+        className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4 "
         role="button"
         onClick={(e) => {
           handleCopy(`${obs.lat}, ${obs.lng}`);
