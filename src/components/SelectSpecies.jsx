@@ -96,6 +96,10 @@ function SelectSpecies() {
         placeholder="Enter species..."
         // TODO: actually set selectedSpecies to something
         value={speciesCode ? selectedSpecies : null}
+        maxMenuHeight={160}
+        noOptionsMessage={() =>
+          "No obervations of this species in the last 30 days."
+        }
       />
     </div>
   );

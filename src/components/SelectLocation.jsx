@@ -123,6 +123,8 @@ function SelectLocation() {
         isLoading={isLoadingSuggestions}
         value={selectedRegion}
         placeholder="Enter location..."
+        maxMenuHeight={160}
+        noOptionsMessage={() => "No matching location found."}
       />
     </div>
   );

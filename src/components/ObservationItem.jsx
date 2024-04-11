@@ -105,7 +105,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
       <div
         className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
         role="button"
-        onClick={() => handleCopy(address.formatted)}
+        onClick={() => handleCopy(address.formattedAddress)}
       >
         <LuMapPin className="shrink-0" />
         <div className="flex flex-col">
