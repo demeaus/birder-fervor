@@ -28,7 +28,7 @@ function Observations({ selectedPin, handleSelectPin }) {
   // If there are no observations for the selected species
   if (layer && speciesCode && !observations?.length) {
     return (
-      <div className="fixed bottom-0 z-20 w-full bg-gray-700 px-6 py-3 text-center text-sm">
+      <div className="fixed bottom-0 z-20 w-full bg-gray-700 px-6 py-3 text-center text-sm text-yellow-50">
         No observations for the selected species in the last 30 days.
       </div>
     );
@@ -38,7 +38,7 @@ function Observations({ selectedPin, handleSelectPin }) {
     <div className="fixed bottom-0 z-10 lg:right-0">
       <div className="flex flex-col lg:flex-row">
         <div
-          className={`mb-1 flex justify-center lg:mb-0 lg:mr-1 ${isOpen ? "" : "mb-10 lg:fixed lg:right-10 lg:top-1/2"}`}
+          className={`flex justify-center lg:mr-1 ${isOpen ? "mb-1 lg:mb-0" : "mb-10 lg:fixed lg:right-10 lg:top-1/2"}`}
         >
           <PanelToggle
             type={`${width >= 1024 ? "right" : "down"}`}
@@ -48,7 +48,7 @@ function Observations({ selectedPin, handleSelectPin }) {
         </div>
 
         <div
-          className={`lg:border-r-none lg:border-b-none relative max-h-[33vh] min-h-fit min-w-fit overflow-auto rounded-t-lg border-2 border-t-2 border-solid border-gray-400 lg:max-h-[80vh] lg:rounded-l-lg ${isOpen ? "" : "hidden"}`}
+          className={`lg:border-r-none lg:border-b-none relative max-h-[33vh] min-h-fit min-w-fit overflow-auto rounded-t-lg border-2 border-t-2 border-solid border-gray-400 bg-gray-400 bg-gray-700 lg:max-h-[80vh] lg:rounded-l-lg ${isOpen ? "" : "hidden"}`}
         >
           {/* <h1 className="sticky top-0 w-full bg-gray-400 px-2 py-1 text-xs md:px-4 md:py-2 md:text-sm">
           TODO: Recent observations of {speciesCodeURL} in {regionCodeURL}
