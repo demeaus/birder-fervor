@@ -90,7 +90,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
         role="button"
         onClick={() =>
           handleCopy(
-            addressLines.at(0) && addressLines.at(1)
+            addressLines?.at(0) && addressLines?.at(1)
               ? `${addressLines[0]}, ${addressLines[1]}`
               : address.formattedAddress,
           )
@@ -98,9 +98,9 @@ function ObervationItem({ obs, idx, onSelectPin }) {
       >
         <LuMapPin className="shrink-0" />
         <div className="flex flex-col">
-          <span className="text-sm">{addressLines[0] ?? obs.locName}</span>
+          <span className="text-sm">{addressLines?.at(0) ?? obs.locName}</span>
           <span className="text-xs">
-            {addressLines[0] ? addressLines[1] : null}
+            {addressLines?.at(0) ? addressLines?.at(1) : null}
           </span>
           {/* )} */}
         </div>
