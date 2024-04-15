@@ -85,26 +85,30 @@ function ObervationItem({ obs, idx, onSelectPin }) {
           </Link>
         </div>
       </div>
-      <div
-        className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
-        role="button"
-        onClick={() =>
-          handleCopy(
-            addressLines?.at(0) && addressLines?.at(1)
-              ? `${addressLines[0]}, ${addressLines[1]}`
-              : address.formattedAddress,
-          )
-        }
-      >
-        <LuMapPin className="shrink-0" />
-        <div className="flex flex-col">
-          <span className="text-sm">{addressLines?.at(0) ?? obs.locName}</span>
-          <span className="text-xs">
-            {addressLines?.at(0) ? addressLines?.at(1) : null}
-          </span>
-          {/* )} */}
+      {address && (
+        <div
+          className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
+          role="button"
+          onClick={() => {
+            console.log(address);
+            handleCopy(
+              addressLines?.at(0) && addressLines?.at(1)
+                ? `${addressLines[0]}, ${addressLines[1]}`
+                : address.formattedAddress,
+            );
+          }}
+        >
+          <LuMapPin className="shrink-0" />
+          <div className="flex flex-col">
+            <span className="text-sm">
+              {addressLines?.at(0) ?? obs.locName}
+            </span>
+            <span className="text-xs">
+              {addressLines?.at(0) ? addressLines?.at(1) : null}
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       <div
         className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4 "
