@@ -56,3 +56,30 @@ export async function getAutocompleteSuggestions(query) {
     const suggestions = data.addresses
     return suggestions;
 }
+
+/**
+ * Gets autocomplete suggestions for given location query
+ */
+export async function getIPLocation() {
+    console.log("getIPLocation")
+    var headers = new Headers();
+    headers.append("Authorization", import.meta.env.VITE_RADAR_API_KEY);
+    var requestOptions = {
+        method: 'GET',
+        headers: headers,
+        redirect: 'follow'
+    };
+    const res = await fetch(`${RADAR_API_URL}geocode/ip`, requestOptions);
+
+    if (!res.ok) {
+        throw new Error(
+            `Something went wrong while attempting to get the requesting IP's location.`
+        );
+    }
+
+    const data = await res.json();
+    // console.log(data)
+    const location = data.address
+    console.log(location)
+    return location;
+}
