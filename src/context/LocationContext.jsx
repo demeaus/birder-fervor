@@ -1,10 +1,13 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useAddress } from "../hooks/useAddress";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useIPLocation } from "../hooks/useIPLocation";
 
 const LocationContext = createContext();
 
 function LocationProvider({ children }) {
+  const { location: userLocation } = useIPLocation();
+  console.log(userLocation);
   const navigate = useNavigate();
   const { layer } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -79,7 +82,12 @@ function LocationProvider({ children }) {
 
   return (
     <LocationContext.Provider
-      value={{ searchLocation, handleLocationSelect, handleLocationClear }}
+      value={{
+        searchLocation,
+        handleLocationSelect,
+        handleLocationClear,
+        userLocation,
+      }}
     >
       {children}
     </LocationContext.Provider>
