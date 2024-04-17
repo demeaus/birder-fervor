@@ -3,18 +3,16 @@
  */
 import { useQuery } from "@tanstack/react-query";
 import { getIPLocation } from "../services/apiRadar";
-import { useRef } from "react";
 
 export function useIPLocation() {
-    const ref = useRef((Date.now() + Math.random()).toString(36));
-
     const {
         isLoading,
         data: location,
         error,
     } = useQuery({
-        queryKey: ["user", ref.current],
+        queryKey: ["user"],
         queryFn: getIPLocation,
+        staleTime: 60 * 1000 * 5,
     });
 
     return { isLoading, error, location };

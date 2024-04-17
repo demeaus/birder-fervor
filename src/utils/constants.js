@@ -1,6 +1,5 @@
 export const EBIRD_API_URL = 'https://api.ebird.org/v2/';
 export const EBIRD_CHECKLIST_URL = 'https://ebird.org/checklist/';
-
 export const RADAR_API_URL = 'https://api.radar.io/v1/';
 
 // React Select styles

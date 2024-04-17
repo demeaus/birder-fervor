@@ -58,7 +58,7 @@ export async function getAutocompleteSuggestions(query) {
 }
 
 /**
- * Gets autocomplete suggestions for given location query
+ * Gets location based on IP address of browser
  */
 export async function getIPLocation() {
     console.log("getIPLocation")
@@ -78,7 +78,6 @@ export async function getIPLocation() {
     }
 
     const data = await res.json();
-    // console.log(data)
     const location = data.address
     console.log(location)
     return location;

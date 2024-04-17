@@ -82,7 +82,12 @@ function LocationProvider({ children }) {
 
   return (
     <LocationContext.Provider
-      value={{ searchLocation, handleLocationSelect, handleLocationClear }}
+      value={{
+        searchLocation,
+        handleLocationSelect,
+        handleLocationClear,
+        userLocation,
+      }}
     >
       {children}
     </LocationContext.Provider>

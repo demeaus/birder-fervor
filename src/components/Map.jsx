@@ -8,10 +8,9 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { formatDate } from "../utils/helpers";
+import { useIPLocation } from "../hooks/useIPLocation";
 
-const initalPosition = { lat: 39.75, lng: -104.95 };
-
-function MapComponent({ observations, selectedPin }) {
+function MapComponent({ observations, selectedPin, initialPosition }) {
   const map = useMap();
   const { layer, speciesCode } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,9 +31,11 @@ function MapComponent({ observations, selectedPin }) {
 
       // If there are no observations, default to initial position
     } else {
-      map.setView([initalPosition.lat, initalPosition.lng]);
+      map.setView([initialPosition.lat, initialPosition.lng]);
     }
   }, [
+    initialPosition.lat,
+    initialPosition.lng,
     map,
     observations,
     selectedPin,
@@ -77,10 +78,16 @@ function Map({ selectedPin, handleSelectPin }) {
   // TODO: Fix map height/screen height being greater than the actual screen height
   // TODO: Use user's current positon, or first pin or random hotspot?
   const { observations = [] } = useObservations();
+  const { location = {} } = useIPLocation();
+  const initialPosition = {
+    lat: location.latitude || 39.75,
+    lng: location.longitude || -104.95,
+  };
+  console.log(initialPosition);
 
   return (
     <MapContainer
-      center={initalPosition}
+      center={initialPosition}
       zoom={13}
       className="relative z-0 h-full w-full"
     >
@@ -96,7 +103,11 @@ function Map({ selectedPin, handleSelectPin }) {
           onSelectPin={handleSelectPin}
         />
       ))}
-      <MapComponent observations={observations} selectedPin={selectedPin} />
+      <MapComponent
+        observations={observations}
+        selectedPin={selectedPin}
+        initialPosition={initialPosition}
+      />
     </MapContainer>
   );
 }
