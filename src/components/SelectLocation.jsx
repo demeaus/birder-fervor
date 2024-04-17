@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  useNavigate,
+  useParams,
+  useSearchParams,
+  useLocation,
+} from "react-router-dom";
 import {
   controlStyles,
   menuStyles,
@@ -17,6 +22,7 @@ import { useLocationContext } from "../context/LocationContext";
  */
 function SelectLocation() {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const { layer, speciesCode } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState("");
@@ -54,7 +60,13 @@ function SelectLocation() {
         label: `${searchLocation.countryFlag} ${searchLocation.formattedAddress}`,
       });
     }
+
+    if (state?.clear && !searchLocation?.layer && selectedRegion) {
+      setSelectedRegion(null);
+      state.clear = false;
+    }
   }, [
+    state,
     searchLocation?.countryFlag,
     searchLocation?.formattedAddress,
     searchLocation?.latitude,
@@ -92,7 +104,6 @@ function SelectLocation() {
       },
       label: `${e.value.countryFlag} ${e.value.formattedAddress}`,
     };
-    console.log(selected);
     setSelectedRegion(selected);
     handleLocationSelect(selected.value);
 

@@ -79,6 +79,5 @@ export async function getIPLocation() {
 
     const data = await res.json();
     const location = data.address
-    console.log(location)
     return location;
 }

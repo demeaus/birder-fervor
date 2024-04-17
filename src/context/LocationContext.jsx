@@ -7,7 +7,6 @@ const LocationContext = createContext();
 
 function LocationProvider({ children }) {
   const { location: userLocation } = useIPLocation();
-  console.log(userLocation);
   const navigate = useNavigate();
   const { layer } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,12 +30,11 @@ function LocationProvider({ children }) {
     if (!searchLocation) return;
     const { code, radius } = getParams(searchLocation);
 
-    console.log("navigating");
     searchParams.set("lat", searchLocation.latitude);
     searchParams.set("lng", searchLocation.longitude);
     searchParams.set("radius", radius || "");
     searchParams.set("code", code || "");
-    navigate(`/${searchLocation.layer}`);
+    navigate(`/${searchLocation.layer}`, { state: { clear: false } });
     setSearchParams(searchParams, { replace: true });
   }, [searchLocation, searchParams, setSearchParams, navigate]);
 

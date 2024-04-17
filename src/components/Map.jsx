@@ -83,7 +83,6 @@ function Map({ selectedPin, handleSelectPin }) {
     lat: location.latitude || 39.75,
     lng: location.longitude || -104.95,
   };
-  console.log(initialPosition);
 
   return (
     <MapContainer
