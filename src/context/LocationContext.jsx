@@ -1,12 +1,22 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import { useAddress } from "../hooks/useAddress";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useIPLocation } from "../hooks/useIPLocation";
+import { userLocated } from "../features/controls/controlSlice";
 
 const LocationContext = createContext();
 
 function LocationProvider({ children }) {
+  const dispatch = useDispatch();
   const { location: userLocation } = useIPLocation();
+
+  useEffect(() => {
+    if (!userLocation) return;
+    dispatch(userLocated(userLocation));
+  }, [dispatch, userLocation]);
+
   const navigate = useNavigate();
   const { layer } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();

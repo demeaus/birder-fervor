@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import ObservationItem from "./ObservationItem";
-import { useObservations } from "../hooks/useObservations";
-import Loader from "../ui/Loader";
-import PanelToggle from "../ui/PanelToggle";
+import { useObservations } from "../../hooks/useObservations";
+import Loader from "../../ui/Loader";
+import PanelToggle from "../../ui/PanelToggle";
 import { useState } from "react";
-import useWindowDimensions from "../hooks/useWindowDimensions";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 function Observations({ selectedPin, handleSelectPin }) {
   const { isLoading, error, observations } = useObservations();

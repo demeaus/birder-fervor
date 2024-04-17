@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
-import { useObservations } from "../hooks/useObservations";
+import { useSelector, useDispatch } from "react-redux";
+import { useObservations } from "../../hooks/useObservations";
 import {
   Link,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { formatDate } from "../utils/helpers";
-import { useIPLocation } from "../hooks/useIPLocation";
+import { formatDate } from "../../utils/helpers";
+import { useIPLocation } from "../../hooks/useIPLocation";
 
 function MapComponent({ observations, selectedPin, initialPosition }) {
   const map = useMap();
@@ -78,10 +79,12 @@ function Map({ selectedPin, handleSelectPin }) {
   // TODO: Fix map height/screen height being greater than the actual screen height
   // TODO: Use user's current positon, or first pin or random hotspot?
   const { observations = [] } = useObservations();
-  const { location = {} } = useIPLocation();
+  // const { location = {} } = useIPLocation();
+  const userLocation = useSelector((state) => state.control.userLocation);
+
   const initialPosition = {
-    lat: location.latitude || 39.75,
-    lng: location.longitude || -104.95,
+    lat: userLocation.latitude || 50,
+    lng: userLocation.longitude || -100,
   };
 
   return (

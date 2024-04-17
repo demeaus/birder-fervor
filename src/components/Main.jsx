@@ -1,10 +1,10 @@
-import Map from "./Map";
+import Map from "../features/observation/Map";
 import Controls from "../ui/Controls";
-import Observations from "./Observations";
+import Observations from "../features/observation/Observations";
 import { useObservations } from "../hooks/useObservations";
 import { useState } from "react";
-import SelectLocation from "./SelectLocation";
-import SelectSpecies from "./SelectSpecies";
+import SelectLocation from "../features/controls/SelectLocation";
+import SelectSpecies from "../features/controls/SelectSpecies";
 import { useParams } from "react-router-dom";
 
 function Main() {

@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { useSpecies } from "../hooks/useSpecies";
+import { useSpecies } from "../../hooks/useSpecies";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
@@ -8,7 +8,7 @@ import {
   optionStyles,
   placeholderStyles,
   indicatorStyles,
-} from "../utils/constants";
+} from "../../utils/constants";
 
 /**
  * User can select a species to view observations of that species near the location or in the region

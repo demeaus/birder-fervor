@@ -5,15 +5,15 @@ import {
   calcObsAge,
   copyToClipboard,
   formatDate,
-} from "../utils/helpers";
+} from "../../utils/helpers";
 import {
   Link,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { EBIRD_CHECKLIST_URL } from "../utils/constants";
-import { useAddress } from "../hooks/useAddress";
+import { EBIRD_CHECKLIST_URL } from "../../utils/constants";
+import { useAddress } from "../../hooks/useAddress";
 import { useEffect, useState } from "react";
 
 function ObervationItem({ obs, idx, onSelectPin }) {

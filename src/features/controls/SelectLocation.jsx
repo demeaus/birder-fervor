@@ -13,9 +13,9 @@ import {
   placeholderStyles,
   indicatorStyles,
   menuListStyles,
-} from "../utils/constants";
-import { useAddressAutocomplete } from "../hooks/useAddressAutocomplete";
-import { useLocationContext } from "../context/LocationContext";
+} from "../../utils/constants";
+import { useAddressAutocomplete } from "../../hooks/useAddressAutocomplete";
+import { useLocationContext } from "../../context/LocationContext";
 
 /**
  * User can select a location to populate list of species recently observed near the location or in the region
