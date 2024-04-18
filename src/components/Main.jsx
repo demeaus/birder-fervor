@@ -1,16 +1,27 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Map from "../features/observation/Map";
 import Controls from "../ui/Controls";
 import Observations from "../features/observation/Observations";
 import { useObservations } from "../hooks/useObservations";
-import { useState } from "react";
 import SelectLocation from "../features/controls/SelectLocation";
 import SelectSpecies from "../features/controls/SelectSpecies";
-import { useParams } from "react-router-dom";
+import { useIPLocation } from "../hooks/useIPLocation";
+import { userLocated } from "../features/controls/controlSlice";
 
 function Main() {
   const { layer } = useParams();
   const { isLoading, error, observations = [] } = useObservations();
   const [selectedPin, setSelectedPin] = useState(null);
+
+  const dispatch = useDispatch();
+  const { location: userLocation } = useIPLocation();
+
+  useEffect(() => {
+    if (!userLocation) return;
+    dispatch(userLocated(userLocation));
+  }, [dispatch, userLocation]);
 
   function handleSelectPin(pin) {
     if (!selectedPin) {

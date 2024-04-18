@@ -3,26 +3,19 @@ import { createSlice } from '@reduxjs/toolkit'
 export const controlSlice = createSlice({
     name: 'control',
     initialState: {
-        userLocation: {},
-        selectedLocation: {},
+        userLocation: { lat: 20, lng: 90 },
+        selectedLocation: null, //selected location object, selected location for dropdown is derived from this
     },
     reducers: {
         userLocated(state, action) {
-            state.userLocation = action.payload;
+            state.userLocation.lat = action.payload.latitude;
+            state.userLocation.lng = action.payload.longitude;
         },
         locationSelected(state, action) {
-            const loc = action.payload
-            state.selectedLocation = {
-                value: {
-                    layer: loc.layer,
-                    lat: loc.latitude,
-                    lng: loc.longitude,
-                },
-                label: `${loc.countryFlag} ${loc.formattedAddress}`
-            };
+            state.selectedLocation = action.payload;
         },
         locationCleared(state) {
-            state.selectedLocation = {};
+            state.selectedLocation = null;
         },
     }
 })

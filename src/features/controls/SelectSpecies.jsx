@@ -43,6 +43,7 @@ function SelectSpecies() {
 
     // If there is an invalid species code in the URL, remove it, otherwise sync the dropdown with the species code
     if (speciesCode && !speciesMatch) {
+      console.log("mismatch");
       navigate(`/${layer}`);
       setSearchParams(searchParams);
       // setSearchParams(searchParams, { replace: true });
