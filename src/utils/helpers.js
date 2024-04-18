@@ -1,52 +1,3 @@
-import { iso31661, iso31662 } from "iso-3166";
-import { closestMatch } from "closest-match";
-
-// Filter ISO 3166-2 subdivision codes by parent/country and name/state/province
-export function getRegionCode(parent, name) {
-    const sanitizedParent = parent.toUpperCase();
-    const sanitizedName = name.toUpperCase();
-
-    // Get array of region objects by country/parent
-    const filteredRegions = iso31662.filter(
-        (obj) => obj.parent.toUpperCase() === sanitizedParent
-    )
-
-    // Get list of name/subdivisions, uppercase
-    const subdivisions = filteredRegions.map((obj) => obj.name.toUpperCase())
-
-    // Get closest matching subdivision
-    const closestName = closestMatch(sanitizedName, subdivisions)
-    // console.log("closest: ", closestName)
-
-    // Get regionCode by closest matching name/state/province from filteredRegions
-
-    const regionCode = filteredRegions.filter((obj) => obj.name.toUpperCase() === closestName)[0].code
-    return regionCode
-}
-
-export function getRegionName(regionCode) {
-    // Convert regionCode
-    const filteredNames = iso31662.filter((obj) => obj.code === regionCode);
-    if (!filteredNames.length) {
-        console.error("Invalid ISO31662 code.");
-        return;
-    }
-
-    const filteredParents = iso31661.filter((obj) => obj.alpha2 === filteredNames[0].parent)
-
-    if (!filteredParents.length) {
-        console.error("Invalid ISO31662 code.");
-        return;
-    }
-
-    const name = filteredNames[0].name;
-    const parent = filteredParents[0].name;
-    const result = { name: name, parent: parent }
-
-    return result
-}
-
-
 export function copyToClipboard(text) {
     // Copy the text inside the text field
     navigator.clipboard.writeText(text);
@@ -130,4 +81,33 @@ export function buildDisplayLastSeen(age) {
                 ? `${age.hours} ${age.hours === 1 ? "hour" : "hours"} ago`
                 : "now";
     return displayLastSeen
+}
+
+// Derive URL parameters for eBird API calls from URL
+export function getParams(location) {
+    let code, radius;
+    if (!location?.layer) return;
+    try {
+        if (location.layer === "state") {
+            if (!(location?.countryCode || location?.stateCode)) {
+                throw new Error("Missing country code or state code for this state.");
+            }
+            code = `${location?.countryCode}-${location?.stateCode}`;
+        } else if (location.layer === "country") {
+            if (!location?.countryCode) {
+                throw new Error("Missing country code for this country.");
+            }
+            code = location?.countryCode;
+        } else {
+            //TODO: make radius variable
+            radius = 25;
+            if (!(location?.latitude || location?.longitude || radius)) {
+                throw new Error("Missing information to search by address.");
+            }
+        }
+
+        return { code, radius };
+    } catch (e) {
+        console.error(e.message);
+    }
 }

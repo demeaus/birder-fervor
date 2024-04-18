@@ -4,7 +4,8 @@ export const controlSlice = createSlice({
     name: 'control',
     initialState: {
         userLocation: { lat: 20, lng: 90 },
-        selectedLocation: null, //selected location object, selected location for dropdown is derived from this
+        // selected location object, selected location for dropdown is derived from this
+        selectedLocation: null,
     },
     reducers: {
         userLocated(state, action) {

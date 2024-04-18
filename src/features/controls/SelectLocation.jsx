@@ -15,38 +15,10 @@ import {
   indicatorStyles,
   menuListStyles,
 } from "../../utils/constants";
+import { getParams } from "../../utils/helpers";
 import { useAddressAutocomplete } from "../../hooks/useAddressAutocomplete";
-import { locationCleared, locationSelected } from "./controlSlice";
 import { useAddress } from "../../hooks/useAddress";
-
-// Derive URL parameters for eBird API calls from URL
-function getParams(location) {
-  let code, radius;
-  if (!location?.layer) return;
-  try {
-    if (location.layer === "state") {
-      if (!(location?.countryCode || location?.stateCode)) {
-        throw new Error("Missing country code or state code for this state.");
-      }
-      code = `${location?.countryCode}-${location?.stateCode}`;
-    } else if (location.layer === "country") {
-      if (!location?.countryCode) {
-        throw new Error("Missing country code for this country.");
-      }
-      code = location?.countryCode;
-    } else {
-      //TODO: make radius variable
-      radius = 25;
-      if (!(location?.latitude || location?.longitude || radius)) {
-        throw new Error("Missing information to search by address.");
-      }
-    }
-
-    return { code, radius };
-  } catch (e) {
-    console.error(e.message);
-  }
-}
+import { locationCleared, locationSelected } from "./controlSlice";
 
 /**
  * User can select a location to populate list of species recently observed near the location or in the region
@@ -56,13 +28,13 @@ function SelectLocation() {
   const selectedLocation = useSelector(
     (state) => state.control.selectedLocation,
   );
+
   const navigate = useNavigate();
   const { state } = useLocation();
   const { layer, speciesCode } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const lat = searchParams.get("lat");
   const lng = searchParams.get("lng");
-  const [query, setQuery] = useState("");
   const { address } = useAddress(
     selectedLocation
       ? {
@@ -72,6 +44,7 @@ function SelectLocation() {
         }
       : { layer, lat, lng },
   );
+  const [query, setQuery] = useState("");
 
   console.log("selectedLocation", selectedLocation);
 
