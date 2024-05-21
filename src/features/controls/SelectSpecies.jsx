@@ -99,7 +99,7 @@ function SelectSpecies() {
         value={speciesCode ? selectedSpecies : null}
         maxMenuHeight={160}
         noOptionsMessage={() =>
-          "No obervations of this species in the last 30 days."
+          "No observations of this species in the last 30 days."
         }
       />
     </div>

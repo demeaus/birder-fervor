@@ -15,6 +15,7 @@ import {
 import { EBIRD_CHECKLIST_URL } from "../../utils/constants";
 import { useAddress } from "../../hooks/useAddress";
 import { useEffect, useState } from "react";
+import Tooltip from "../../ui/Tooltip";
 
 function ObervationItem({ obs, idx, onSelectPin }) {
   // TODO: distance from user's current/entered locations, if chosen
@@ -87,7 +88,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
       </div>
       {address && (
         <div
-          className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
+          className="has-tooltip relative flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
           role="button"
           onClick={() => {
             console.log(address);
@@ -106,12 +107,13 @@ function ObervationItem({ obs, idx, onSelectPin }) {
             <span className="text-xs">
               {addressLines?.at(0) ? addressLines?.at(1) : null}
             </span>
+            <Tooltip>Click to copy</Tooltip>
           </div>
         </div>
       )}
 
       <div
-        className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4 "
+        className="has-tooltip relative flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
         role="button"
         onClick={(e) => {
           handleCopy(`${obs.lat}, ${obs.lng}`);
@@ -119,7 +121,8 @@ function ObervationItem({ obs, idx, onSelectPin }) {
         }}
       >
         <LuMapPin className="shrink-0" />
-        <span className="text-xs lg:text-sm">{`${obs.lat}, ${obs.lng}`}</span>
+        <span className="text-nowrap text-xs lg:text-sm">{`${obs.lat}, ${obs.lng}`}</span>
+        <Tooltip>Click to copy</Tooltip>
       </div>
     </li>
   );
