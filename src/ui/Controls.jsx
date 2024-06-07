@@ -16,7 +16,7 @@ function Controls({ children }) {
         <h1 className="px-4 text-xs lg:text-sm ">
           Search for recent sightings by region and species:
         </h1>
-        <div className="flex w-full max-w-sm flex-col items-start gap-1 px-4 pb-3 sm:left-0 sm:top-0 sm:min-w-fit sm:max-w-screen-lg sm:flex-row sm:items-center sm:justify-center sm:gap-4">
+        <div className="flex w-full max-w-sm flex-col items-start gap-1 px-4 pb-3 sm:left-0 sm:top-0 sm:min-w-fit sm:max-w-screen-lg sm:flex-row sm:items-end sm:justify-center sm:gap-4">
           {children}
         </div>
       </div>

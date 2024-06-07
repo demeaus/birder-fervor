@@ -5,16 +5,17 @@ import {
   calcObsAge,
   copyToClipboard,
   formatDate,
-} from "../utils/helpers";
+} from "../../utils/helpers";
 import {
   Link,
   useNavigate,
   useParams,
   useSearchParams,
 } from "react-router-dom";
-import { EBIRD_CHECKLIST_URL } from "../utils/constants";
-import { useAddress } from "../hooks/useAddress";
+import { EBIRD_CHECKLIST_URL } from "../../utils/constants";
+import { useAddress } from "../../hooks/useAddress";
 import { useEffect, useState } from "react";
+import Tooltip from "../../ui/Tooltip";
 
 function ObervationItem({ obs, idx, onSelectPin }) {
   // TODO: distance from user's current/entered locations, if chosen
@@ -58,7 +59,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
     >
       <div className="flex flex-col items-center gap-0.5 rounded border-2 border-solid border-yellow-500 bg-yellow-100 px-4 py-1">
         <div className="flex w-full justify-between gap-6">
-          <span className="text-nowrap text-sm font-semibold lg:text-base">
+          <span className="text-nowrap text-sm font-semibold tracking-tight lg:text-base">
             {idx + 1}. {formatDate(obs.obsDt)}
           </span>
           <div className="flex items-center justify-end gap-2 text-sm font-semibold lg:text-lg">
@@ -68,7 +69,7 @@ function ObervationItem({ obs, idx, onSelectPin }) {
             {obs.howMany}
           </div>
         </div>
-        <div className="flex w-full justify-between">
+        <div className="flex w-full flex-col items-start">
           <div className="flex items-center justify-start gap-2 text-xs">
             <span className="">Last seen: </span>
             <span className="">{displayLastSeen}</span>
@@ -80,14 +81,14 @@ function ObervationItem({ obs, idx, onSelectPin }) {
           >
             <div className="mt-1 flex items-center justify-end gap-1">
               <LuExternalLink />
-              <span className="text-xs lg:text-base">eBird</span>
+              <span className="text-xs lg:text-base">eBird Checklist</span>
             </div>
           </Link>
         </div>
       </div>
       {address && (
         <div
-          className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
+          className="has-tooltip relative flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
           role="button"
           onClick={() => {
             console.log(address);
@@ -106,12 +107,13 @@ function ObervationItem({ obs, idx, onSelectPin }) {
             <span className="text-xs">
               {addressLines?.at(0) ? addressLines?.at(1) : null}
             </span>
+            <Tooltip>Click to copy</Tooltip>
           </div>
         </div>
       )}
 
       <div
-        className="flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4 "
+        className="has-tooltip relative flex items-center justify-start gap-2 rounded border-2 border-solid border-gray-400 bg-gray-200 py-2 pl-3 pr-4"
         role="button"
         onClick={(e) => {
           handleCopy(`${obs.lat}, ${obs.lng}`);
@@ -119,7 +121,8 @@ function ObervationItem({ obs, idx, onSelectPin }) {
         }}
       >
         <LuMapPin className="shrink-0" />
-        <span className="text-xs lg:text-sm">{`${obs.lat}, ${obs.lng}`}</span>
+        <span className="text-nowrap text-xs lg:text-sm">{`${obs.lat}, ${obs.lng}`}</span>
+        <Tooltip>Click to copy</Tooltip>
       </div>
     </li>
   );

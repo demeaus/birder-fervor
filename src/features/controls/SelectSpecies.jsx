@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { useSpecies } from "../hooks/useSpecies";
+import { useSpecies } from "../../hooks/useSpecies";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
@@ -8,7 +8,7 @@ import {
   optionStyles,
   placeholderStyles,
   indicatorStyles,
-} from "../utils/constants";
+} from "../../utils/constants";
 
 /**
  * User can select a species to view observations of that species near the location or in the region
@@ -43,6 +43,7 @@ function SelectSpecies() {
 
     // If there is an invalid species code in the URL, remove it, otherwise sync the dropdown with the species code
     if (speciesCode && !speciesMatch) {
+      console.log("mismatch");
       navigate(`/${layer}`);
       setSearchParams(searchParams);
       // setSearchParams(searchParams, { replace: true });
@@ -98,7 +99,7 @@ function SelectSpecies() {
         value={speciesCode ? selectedSpecies : null}
         maxMenuHeight={160}
         noOptionsMessage={() =>
-          "No obervations of this species in the last 30 days."
+          "No observations of this species in the last 30 days."
         }
       />
     </div>

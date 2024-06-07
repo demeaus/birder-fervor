@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import ObservationItem from "./ObservationItem";
-import { useObservations } from "../hooks/useObservations";
-import Loader from "../ui/Loader";
-import PanelToggle from "../ui/PanelToggle";
+import { useObservations } from "../../hooks/useObservations";
+import Loader from "../../ui/Loader";
+import PanelToggle from "../../ui/PanelToggle";
 import { useState } from "react";
-import useWindowDimensions from "../hooks/useWindowDimensions";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 function Observations({ selectedPin, handleSelectPin }) {
   const { isLoading, error, observations } = useObservations();
@@ -35,7 +35,7 @@ function Observations({ selectedPin, handleSelectPin }) {
   }
 
   return (
-    <div className="fixed bottom-0 z-10 lg:right-0">
+    <div className="fixed bottom-0 z-10 lg:right-0 lg:top-52">
       <div className="flex flex-col lg:flex-row">
         <div
           className={`flex justify-center lg:mr-1 ${isOpen ? "mb-1 lg:mb-0" : "mb-10 lg:fixed lg:right-10 lg:top-1/2"}`}

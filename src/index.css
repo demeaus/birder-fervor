@@ -2,6 +2,7 @@
 @tailwind components;
 
 @layer components {
+  /* Loader */
   /* https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje */
   .loader {
     width: 45px;
@@ -16,6 +17,7 @@
   }
 }
 
+/* Leaflet styling */
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip {
   @apply border-2 border-solid border-gray-400 bg-gray-100;
@@ -23,6 +25,15 @@
 
 .leaflet-popup-content-wrapper > * {
   @apply w-40 text-nowrap text-center font-sans;
+}
+
+/* Tooltip styling */
+.tooltip {
+  @apply hidden;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply z-50 flex text-nowrap rounded-md bg-black px-2 py-1 text-xs text-white;
 }
 
 @tailwind utilities;
