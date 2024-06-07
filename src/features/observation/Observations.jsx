@@ -35,7 +35,7 @@ function Observations({ selectedPin, handleSelectPin }) {
   }
 
   return (
-    <div className="fixed bottom-0 z-10 lg:right-0">
+    <div className="fixed bottom-0 z-10 lg:right-0 lg:top-52">
       <div className="flex flex-col lg:flex-row">
         <div
           className={`mb-1 flex justify-center lg:mb-0 lg:mr-1 ${isOpen ? "" : "mb-10 lg:fixed lg:right-10 lg:top-1/2"}`}

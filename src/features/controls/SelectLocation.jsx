@@ -13,7 +13,6 @@ import {
   optionStyles,
   placeholderStyles,
   indicatorStyles,
-  menuListStyles,
 } from "../../utils/constants";
 import { getParams } from "../../utils/helpers";
 import { useAddressAutocomplete } from "../../hooks/useAddressAutocomplete";
@@ -138,7 +137,6 @@ function SelectLocation() {
           placeholder: () => placeholderStyles,
           control: () => controlStyles,
           menu: () => menuStyles,
-          menuList: () => menuListStyles,
           option: () => optionStyles,
           dropdownIndicator: () => indicatorStyles,
           loadingIndicator: () => indicatorStyles,
